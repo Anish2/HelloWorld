@@ -1,0 +1,11 @@
+Externally Observable Behavior:
+My Critter will do nothing until an actor who is equal to another actor target(which is passed in by the constructor)
+is within a radius of two spaces. Once such an actor is within a radius of two spaces, my critter will kill the actor 
+and move to the killed actors location.
+It will then wait for another victim that is equal to target to come within a two space radius,
+and repeat it's previous actions.
+
+Methods I will override:
+getMoveLocations() will return an empty Arraylist if the target is not within the killing radius,
+else it will return the target to kill's location in an Arraylist.
+

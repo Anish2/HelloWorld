@@ -1,0 +1,7 @@
+1) My bug hunts down and eats rocks in a 2x2 area. It also hunts down rock bugs, and prioritizing those over normal rocks, even if in the middle of hunting down a rock.
+If there are no rocks in the two by two area, the bug turns.
+When you run my tester, you should look for the antirock bug to hunt down rocks.
+
+2)I chose to add the method getRocks because i wanted to make my code easier to understand and i also feel that i may want to reuse that specific bit of code in a later project.
+Also, making that method will make it easy for my bug to be extended and made to hunt down other types of objects besides for rocks and antirock bugs. I also overode move as i did not want
+my bug to lay down flowers. 
