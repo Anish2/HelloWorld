@@ -2,6 +2,8 @@ package funWithGrid;
 
 import java.util.ArrayList;
 
+import javax.swing.text.BadLocationException;
+
 import info.gridworld.grid.BoundedGrid;
 import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
@@ -14,7 +16,7 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 	private int wave = 1; // The current wave
 	private int lives = 10; // Decide on starting lives
 	private ArrayList<Monster> toBeDeployed; // The monsters that are waiting to be deployed
-	private ArrayList<Monster> inGrid; // The monsters that are already in the grid 
+	//private ArrayList<Monster> inGrid; // The monsters that are already in the grid 
 	public BoundedGrid<TowerDefenseObject> grid; //The grid
 	int size = 20; // Size of the grid
 
@@ -28,11 +30,24 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 	{
 		return false;
 	}
+	
+	public void step()
+	{
+		Location end = new Location(size-1,size-1);
+		TowerDefenseObject monster = grid.get(end);
+		if(!(monster instanceof Monster))
+		{
+			throw new BadLocationException("Something that is not a monster was at the monster end point in the world",);
+		}
+		if(grid.get(end) !=null)
+		{
+			
+		}
+	}
 
 	public TowerDefenseBoard()
 	{
 		toBeDeployed = new ArrayList<Monster>();
-		inGrid = new ArrayList<Monster>();
 		grid  = new BoundedGrid<TowerDefenseObject>(size, size);
 		super.setMessage("Gold :" + gold + " Lives : " + lives + "Wave :" + wave + "\n" + "Current Tower Type :" + currentTowerToBuild.getClass() + " To Change This Tower Type, Press b for basic tower, s for splash tower, and l for long range tower" );
 	}
