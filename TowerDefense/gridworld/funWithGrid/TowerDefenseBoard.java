@@ -34,14 +34,10 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 	public void step()
 	{
 		Location end = new Location(size-1,size-1);
-		TowerDefenseObject monster = grid.get(end);
-		if(!(monster instanceof Monster))
+		TowerDefenseObject monster = (Monster)grid.get(end);
+		if(monster !=null)
 		{
-			throw new BadLocationException("Something that is not a monster was at the monster end point in the world",);
-		}
-		if(grid.get(end) !=null)
-		{
-			
+			monster.
 		}
 	}
 
