@@ -1,20 +1,16 @@
 package funWithGrid;
 
+import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
 
 public class Monster extends TowerDefenseObject
 {
-	Location loc;
 	int killGold;
+	int health;
 	
-	public Monster(Location location, int gold) 
+	public Monster(int gold, int health) 
 	{
-		loc = location;
 		killGold = gold;
-	}
-	
-	public void removeSelfFromGrid()//Needs implementation
-	{
-		
+		this.health = health;
 	}
 }
