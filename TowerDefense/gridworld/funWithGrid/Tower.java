@@ -6,6 +6,11 @@ public class Tower extends TowerDefenseObject
 	private int level = 1; //What level is the tower at
 	private int sellGold; // Do we want them to be able to sell towers, or is that too much
 	
+	public Tower()
+	{
+		damage = 0;
+	}
+	
 	public int getDamage()
 	{
 		return damage;

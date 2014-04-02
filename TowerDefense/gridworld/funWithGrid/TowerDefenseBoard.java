@@ -11,7 +11,7 @@ import info.gridworld.world.World;
 
 public class TowerDefenseBoard extends World<TowerDefenseObject>
 {
-	private Tower currentTowerToBuild; //Set this to a default once i make a basic tower
+	private Tower currentTowerToBuild = new Tower(); //Set this to a default once i make a basic tower
 	private int gold = 200;// Decide on starting gold
 	private int wave = 1; // The current wave
 	private int lives = 10; // Decide on starting lives
@@ -33,19 +33,21 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 	
 	public void step()
 	{
-		Location end = new Location(size-1,size-1);
+		/*Location end = new Location(size-1,size-1);
 		TowerDefenseObject monster = (Monster)grid.get(end);
 		if(monster !=null)
 		{
 			monster.
-		}
+		}*/
 	}
 
 	public TowerDefenseBoard()
 	{
 		toBeDeployed = new ArrayList<Monster>();
 		grid  = new BoundedGrid<TowerDefenseObject>(size, size);
-		super.setMessage("Gold :" + gold + " Lives : " + lives + "Wave :" + wave + "\n" + "Current Tower Type :" + currentTowerToBuild.getClass() + " To Change This Tower Type, Press b for basic tower, s for splash tower, and l for long range tower" );
+		super.setMessage("Gold :" + gold + " Lives : " + lives + "Wave :" + wave +
+				"\n" + "Current Tower Type :" + currentTowerToBuild.getClass() + 
+				" To Change This Tower Type, Press b for basic tower, s for splash tower, and l for long range tower" );
 	}
 	
 	public void generateRandomField() // Needs testing
