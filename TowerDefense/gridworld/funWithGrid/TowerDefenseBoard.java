@@ -130,7 +130,7 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 				if(!monsterPath.contains(loc))
 				{
 					TowerTile tile = new TowerTile();
-					tile.putSelfInGrid(grid,loc);
+					tile.putSelfInGrid(grid,loc);//
 				}
 				 
 			 }
