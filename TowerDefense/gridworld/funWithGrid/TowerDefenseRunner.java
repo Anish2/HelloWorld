@@ -7,5 +7,6 @@ public class TowerDefenseRunner
 		TowerDefenseBoard t = new TowerDefenseBoard();
 		
 		t.show();
+		t.generateRandomField();
 	}
 }

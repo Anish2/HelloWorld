@@ -119,20 +119,24 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 				 loc = rightLoc;
 			 }
 			 
-			 for(int x = 0; x < size; x++)
+		 }
+
+		 for(int x = 0; x < size; x++)
+		 {
+			 for(int y =0; y < size; y++)
 			 {
-				 for(int y =0; y < size; y++)
-				 {
-					loc = new Location(x,y);
-					if(!monsterPath.contains(loc))
-					{
-						TowerTile tile = new TowerTile();
-						tile.putSelfInGrid(grid,loc);
-					}
-					 
-				 }
+			
+				loc = new Location(x,y);
+				if(!monsterPath.contains(loc))
+				{
+					TowerTile tile = new TowerTile();
+					tile.putSelfInGrid(grid,loc);
+				}
+				 
 			 }
 		 }
-		
+		 
+		 grid.get(new Location(size-1,size-1)).removeSelfFromGrid();
+		 
 	}
 }

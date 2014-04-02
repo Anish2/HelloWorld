@@ -19,8 +19,8 @@ public class TowerDefenseObject
 
 	public void removeSelfFromGrid()
 	{
-		grid = null;
 		grid.remove(loc);
+		grid = null;
 		loc = null;
 	}
 	
