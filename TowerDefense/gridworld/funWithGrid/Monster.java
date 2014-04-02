@@ -13,4 +13,16 @@ public class Monster extends TowerDefenseObject
 		killGold = gold;
 		this.health = health;
 	}
+	
+	public void damage(int amt)
+	{
+		health -= amt;
+	}
+	
+	public boolean isDead() {
+		return health <= 0;
+	}
+	
+	
+	
 }
