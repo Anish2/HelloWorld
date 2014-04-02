@@ -9,13 +9,12 @@ public class TowerDefenseRunner
 		TowerDefenseBoard t = new TowerDefenseBoard();
 		
 		t.show();
-<<<<<<< HEAD
 		
 		Tower tow = new Tower();
 		tow.putSelfInGrid(t.getGrid(), new Location(4,5));
 		
-=======
-		t.generateRandomField();
->>>>>>> branch 'master' of https://github.com/poidude7/HelloWorld.git
+
+		//t.generateRandomField();
+
 	}
 }
