@@ -12,5 +12,6 @@ public class TowerDefenseRunner
 		
 		Tower tow = new Tower();
 		tow.putSelfInGrid(t.getGrid(), new Location(4,5));
+		
 	}
 }
