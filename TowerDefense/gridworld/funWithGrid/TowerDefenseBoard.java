@@ -87,6 +87,7 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 
 	public void generateRandomField() // Needs testing
 	{
+<<<<<<< HEAD
 		ArrayList<Location> monsterPath = new ArrayList<Location>();
 		Location loc = new Location(0,0);
 		while(loc.getCol() != size - 1 || loc.getRow() != size - 1)
@@ -134,5 +135,58 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 			}
 		}
 
+=======
+		 ArrayList<Location> monsterPath = new ArrayList<Location>();
+		 Location loc = new Location(0,0);
+		 while(loc.getCol() != size - 1 || loc.getRow() != size - 1)
+		 {
+			 monsterPath.add(loc);
+			 int rand = (int)(Math.random() * 2);
+			 Location downLoc = new Location(loc.getRow() + 1, loc.getCol());
+			 Location rightLoc = new Location(loc.getRow(), loc.getCol() + 1);
+			 
+			 if(!grid.isValid(rightLoc) && !grid.isValid(downLoc))
+			 {
+				 throw new IndexOutOfBoundsException("You are getting two invalid locations");
+			 }
+			 
+			 if(rand == 0)
+			 {
+				 loc = downLoc;
+			 }
+			 else
+			 {
+				 loc = rightLoc;
+			 }
+			 
+			 if(!grid.isValid(rightLoc))
+			 {
+				 loc = downLoc;
+			 }
+			 if(!grid.isValid(downLoc))
+			 {
+				 loc = rightLoc;
+			 }
+			 
+		 }
+
+		 for(int x = 0; x < size; x++)
+		 {
+			 for(int y =0; y < size; y++)
+			 {
+			
+				loc = new Location(x,y);
+				if(!monsterPath.contains(loc))
+				{
+					TowerTile tile = new TowerTile();
+					tile.putSelfInGrid(grid,loc);//
+				}
+				 
+			 }
+		 }
+		 
+		 grid.get(new Location(size-1,size-1)).removeSelfFromGrid();
+		 
+>>>>>>> branch 'master' of https://github.com/poidude7/HelloWorld.git
 	}
 }
