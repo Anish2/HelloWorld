@@ -11,44 +11,79 @@ import info.gridworld.world.World;
 
 public class TowerDefenseBoard extends World<TowerDefenseObject>
 {
-	private Tower currentTowerToBuild = new Tower(); //Set this to a default once i make a basic tower
+	//private Tower currentTowerToBuild = new Tower(); //Set this to a default once i make a basic tower
 	private int gold = 200;// Decide on starting gold
 	private int wave = 1; // The current wave
 	private int lives = 10; // Decide on starting lives
 	private ArrayList<Monster> toBeDeployed; // The monsters that are waiting to be deployed
 	//private ArrayList<Monster> inGrid; // The monsters that are already in the grid 
-	public BoundedGrid<TowerDefenseObject> grid; //The grid
-	int size = 20; // Size of the grid
+	private BoundedGrid<TowerDefenseObject> grid; //The grid
+	private final int size = 20; // Size of the grid
+	private final int towercost = 100; // Cost to build a tower
+
 
 	public boolean keyPressed(String description, Location loc)
 	{
 		System.out.println(description);
 		return false;
 	}
+	
 
-	public boolean locationClicked(Location loc)
-	{
-		return false;
-	}
+		public boolean locationClicked(Location loc)
+		{
+			TowerDefenseObject object = grid.get(loc);
+			if(object == null)
+			{
+				return true;
+			}
+			if(object instanceof Tower)
+			{
+				int levelupcost = 50;
+				if(gold > levelupcost)
+				{
+					gold-= levelupcost;
+					((Tower) object).levelUp();
+				}
+			}
+			if(object instanceof TowerTile)
+			{
+				if(gold > towercost)
+				{
+					gold= gold - towercost;
+					object.removeSelfFromGrid();
+					Tower tower = new Tower();
+					tower.putSelfInGrid(grid, loc);
+				}
+			}
+			updateMessage();
+			return true;
+		}
+
+	
 	
 	public void step()
 	{
-		/*Location end = new Location(size-1,size-1);
+		Location end = new Location(size-1,size-1);
 		TowerDefenseObject monster = (Monster)grid.get(end);
 		if(monster !=null)
 		{
-			monster.
-		}*/
+			monster.removeSelfFromGrid();
+			lives--;
+		}
+		updateMessage();
 	}
+	
+	public void updateMessage()
+	{
+		super.setMessage("Gold :" + gold + " Lives : " + lives + "Wave :" + wave + "\n" + "Current Tower Type : Basic"  );
+	}
+
 
 	public TowerDefenseBoard()
 	{
 		toBeDeployed = new ArrayList<Monster>();
 		grid  = new BoundedGrid<TowerDefenseObject>(size, size);
-		super.setMessage("Gold :" + gold + " Lives : " + lives + "Wave :" + wave +
-				"\n" + "Current Tower Type :" + currentTowerToBuild.getClass() + 
-				" To Change This Tower Type, Press b for basic tower, s for splash tower, and l for long range tower" );
-	}
+		updateMessage();	}
 	
 	public void generateRandomField() // Needs testing
 	{

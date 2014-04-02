@@ -8,6 +8,7 @@ public class TowerDefenseObject
 	private Location loc;
 	private Grid<TowerDefenseObject> grid;
 	
+	
 	public Location getLoc() {
 		return loc;
 	}

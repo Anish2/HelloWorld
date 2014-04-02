@@ -23,6 +23,4 @@ public class Monster extends TowerDefenseObject
 		return health <= 0;
 	}
 	
-	
-	
 }

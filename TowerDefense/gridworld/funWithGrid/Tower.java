@@ -1,14 +1,21 @@
 package funWithGrid;
 
+import info.gridworld.grid.Grid;
+import info.gridworld.grid.Location;
+
 public class Tower extends TowerDefenseObject
 {
 	private int damage;
-	private int level = 1; //What level is the tower at
 	private int sellGold; // Do we want them to be able to sell towers, or is that too much
 	
 	public Tower()
 	{
-		damage = 0;
+		damage = 10;
+	}
+	
+	public void levelUp()
+	{
+		damage+=5;
 	}
 	
 	public int getDamage()
@@ -19,16 +26,6 @@ public class Tower extends TowerDefenseObject
 	public void setDamage(int damage) 
 	{
 		this.damage = damage;
-	}
-	
-	public int getLevel() 
-	{
-		return level;
-	}
-	
-	public void setLevel(int level) 
-	{
-		this.level = level;
 	}
 	
 	public int getSellGold()
