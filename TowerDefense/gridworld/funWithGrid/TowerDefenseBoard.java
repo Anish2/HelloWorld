@@ -75,7 +75,7 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 
 	public void updateMessage()
 	{
-		super.setMessage("Gold :" + gold + " Lives : " + lives + "Wave :" + wave + "\n" + "Current Tower Type : Basic"  );
+		super.setMessage("Gold : " + gold + "  Lives :  " + lives + "  Wave : " + wave + "\n" + "Current Tower Type : Basic"  );
 	}
 
 
