@@ -31,7 +31,7 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 
 	public boolean locationClicked(Location loc)
 	{
-		TowerDefenseObject object = grid.get(loc);
+		TowerDefenseObject object = getGrid().get(loc);
 		if(object == null)
 		{
 			return true;
@@ -52,7 +52,7 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 				gold= gold - towercost;
 				object.removeSelfFromGrid();
 				Tower tower = new Tower();
-				tower.putSelfInGrid(grid, loc);
+				tower.putSelfInGrid(getGrid(), loc);
 			}
 		}
 		updateMessage();
@@ -64,7 +64,7 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 	public void step()
 	{
 		Location end = new Location(size-1,size-1);
-		TowerDefenseObject monster = (Monster)grid.get(end);
+		TowerDefenseObject monster = (Monster)getGrid().get(end);
 		if(monster !=null)
 		{
 			monster.removeSelfFromGrid();
@@ -82,10 +82,11 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 	public TowerDefenseBoard()
 	{
 		toBeDeployed = new ArrayList<Monster>();
-		grid  = new BoundedGrid<TowerDefenseObject>(size, size);
+		grid  = new BoundedGrid<TowerDefenseObject>(size, size);//How do I initialize the grid of the world
+		setGrid(grid);
 		updateMessage();	}
 
-	public void generateRandomField() // Needs testing
+	public void generateRandomField() //It works Now
 	{
 
 		 ArrayList<Location> monsterPath = new ArrayList<Location>();
@@ -97,7 +98,7 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 			 Location downLoc = new Location(loc.getRow() + 1, loc.getCol());
 			 Location rightLoc = new Location(loc.getRow(), loc.getCol() + 1);
 			 
-			 if(!grid.isValid(rightLoc) && !grid.isValid(downLoc))
+			 if(!getGrid().isValid(rightLoc) && !getGrid().isValid(downLoc))
 			 {
 				 throw new IndexOutOfBoundsException("You are getting two invalid locations");
 			 }
@@ -111,11 +112,11 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 				 loc = rightLoc;
 			 }
 			 
-			 if(!grid.isValid(rightLoc))
+			 if(!getGrid().isValid(rightLoc))
 			 {
 				 loc = downLoc;
 			 }
-			 if(!grid.isValid(downLoc))
+			 if(!getGrid().isValid(downLoc))
 			 {
 				 loc = rightLoc;
 			 }
@@ -131,13 +132,13 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 				if(!monsterPath.contains(loc))
 				{
 					TowerTile tile = new TowerTile();
-					tile.putSelfInGrid(grid,loc);//
+					tile.putSelfInGrid(getGrid(),loc);//
 				}
 				 
 			 }
 		 }
 		 
-		 grid.get(new Location(size-1,size-1)).removeSelfFromGrid();
+		 getGrid().get(new Location(size-1,size-1)).removeSelfFromGrid();
 		 
 
 	}
