@@ -12,6 +12,7 @@ import info.gridworld.world.World;
 public class TowerDefenseBoard extends World<TowerDefenseObject>
 {
 	//private Tower currentTowerToBuild = new Tower(); //Set this to a default once i make a basic tower
+	private Location endLoc;
 	private int gold = 200;// Decide on starting gold
 	private int wave = 1; // The current wave
 	private int lives = 10; // Decide on starting lives
@@ -91,7 +92,8 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 
 		 ArrayList<Location> monsterPath = new ArrayList<Location>();
 		 Location loc = new Location(0,0);
-		 while(loc.getCol() != size - 1 || loc.getRow() != size - 1)
+		 
+		 while(loc.getCol() != size - 1 && loc.getRow() != size - 1)
 		 {
 			 monsterPath.add(loc);
 			 int rand = (int)(Math.random() * 2);
@@ -138,7 +140,7 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 			 }
 		 }
 		 
-		 getGrid().get(new Location(size-1,size-1)).removeSelfFromGrid();
+		 //getGrid().get(new Location(size-1,size-1)).removeSelfFromGrid();
 		 
 
 	}
