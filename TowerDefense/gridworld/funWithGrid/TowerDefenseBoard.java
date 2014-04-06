@@ -12,7 +12,6 @@ import info.gridworld.world.World;
 public class TowerDefenseBoard extends World<TowerDefenseObject>
 {
 	//private Tower currentTowerToBuild = new Tower(); //Set this to a default once i make a basic tower
-	private Location endLoc;
 	private int gold = 200;// Decide on starting gold
 	private int wave = 1; // The current wave
 	private int lives = 10; // Decide on starting lives
@@ -25,8 +24,17 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 
 	public boolean keyPressed(String description, Location loc)
 	{
-		System.out.println(description);
+		if(description == "Q")
+		{
+			nextWave();
+			return true;
+		}
 		return false;
+	}
+	
+	public void nextWave()//Can you program this Anish to make a random wave be added to toBeDeployed?
+	{
+		
 	}
 
 
@@ -72,11 +80,27 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 			lives--;
 		}
 		updateMessage();
+		if(toBeDeployed.size() != 0)
+		{
+			Monster toSpawn = toBeDeployed.get(0);
+			toSpawn.putSelfInGrid(getGrid(), new Location(0,0));
+			toBeDeployed.remove(0);
+		}
+		
+		ArrayList<Location> locs = getGrid().getOccupiedLocations();
+		for(int x = 0; x < locs.size(); x++)
+		{
+			TowerDefenseObject o = getGrid().get(locs.get(x));
+			if(o!=null)
+			{
+				o.act();
+			}
+		}
 	}
 
 	public void updateMessage()
 	{
-		super.setMessage("Gold : " + gold + "  Lives :  " + lives + "  Wave : " + wave + "\n" + "Current Tower Type : Basic"  );
+		super.setMessage("Gold : " + gold + "  Lives :  " + lives + "  Wave : " + wave + "\n" + "Current Tower Type : Basic" +  "   Press q to send the next wave"  );
 	}
 
 

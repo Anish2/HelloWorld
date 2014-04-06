@@ -30,4 +30,9 @@ public class TowerDefenseObject
 		grid = gr;
 		grid.put(loc, this);
 	}
+	
+	public void act()
+	{
+		
+	}
 }

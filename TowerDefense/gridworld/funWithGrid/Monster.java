@@ -17,10 +17,18 @@ public class Monster extends TowerDefenseObject
 	public void damage(int amt)
 	{
 		health -= amt;
+		if(health < 0)
+		{
+			removeSelfFromGrid();
+		}
 	}
 	
 	public boolean isDead() {
 		return health <= 0;
 	}
 	
+	public void act()
+	{
+		
+	}
 }

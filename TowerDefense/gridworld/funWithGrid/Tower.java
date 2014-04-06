@@ -1,5 +1,10 @@
 package funWithGrid;
 
+import java.awt.Color;
+import java.util.ArrayList;
+
+import info.gridworld.actor.Actor;
+import info.gridworld.actor.Rock;
 import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
 
@@ -36,6 +41,30 @@ public class Tower extends TowerDefenseObject
 	public void setSellGold(int sellGold) 
 	{
 		this.sellGold = sellGold;
+	}
+	
+	public void act()
+	{
+		
+		int halfDistance = 2;
+		int row = getLoc().getRow();
+		int col = getLoc().getCol();
+		ArrayList<Monster> monsters = new ArrayList<Monster>();
+		
+		for(int x = row - halfDistance; x<= halfDistance + row; x++)
+		{
+			for(int y = col - halfDistance; y<= halfDistance + col; y++)
+			{
+				Location loc = new Location(x,y);
+				if(getGrid().get(loc) instanceof Monster)
+				{
+					monsters.add((Monster) getGrid().get(loc));
+				}
+			}
+		}
+		
+		int rand = (int)(Math.random() * monsters.size());
+		monsters.get(rand).damage(damage);
 	}
 	
 	
