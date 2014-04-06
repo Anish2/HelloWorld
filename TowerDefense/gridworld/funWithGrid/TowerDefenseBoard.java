@@ -93,7 +93,7 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 		 ArrayList<Location> monsterPath = new ArrayList<Location>();
 		 Location loc = new Location(0,0);
 		 
-		 while(loc.getCol() != size - 1 && loc.getRow() != size - 1)
+		 while(loc.getCol() != size -1 || loc.getRow() != size -1 )
 		 {
 			 monsterPath.add(loc);
 			 int rand = (int)(Math.random() * 2);
@@ -140,7 +140,8 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 			 }
 		 }
 		 
-		 //getGrid().get(new Location(size-1,size-1)).removeSelfFromGrid();
+		 
+		 getGrid().get(new Location(size-1,size-1)).removeSelfFromGrid();
 		 
 
 	}
