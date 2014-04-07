@@ -20,7 +20,12 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 	private BoundedGrid<TowerDefenseObject> grid; //The grid
 	private final int size = 20; // Size of the grid
 	private final int towercost = 100; // Cost to build a tower
+	private final int monsterGold = 20;//Gold recieved for killing a monster
 
+	public void addGold(int amt)
+	{
+		gold += amt;
+	}
 
 	public boolean keyPressed(String description, Location loc)
 	{
@@ -34,7 +39,14 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 	
 	public void nextWave()//Can you program this Anish to make a random wave be added to toBeDeployed?
 	{
-		
+		int numberOfMonsters = (int)(Math.random() * wave) + 1;
+		int monsterHealth = ((int)(Math.random() * wave) + 1) * 10;
+		for(int i = 0 ; i < numberOfMonsters; i++)
+		{
+			Monster monster = new Monster(monsterGold,monsterHealth, this);
+			toBeDeployed.add(monster);
+		}
+		wave++;
 	}
 
 
@@ -80,12 +92,6 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 			lives--;
 		}
 		updateMessage();
-		if(toBeDeployed.size() != 0)
-		{
-			Monster toSpawn = toBeDeployed.get(0);
-			toSpawn.putSelfInGrid(getGrid(), new Location(0,0));
-			toBeDeployed.remove(0);
-		}
 		
 		ArrayList<Location> locs = getGrid().getOccupiedLocations();
 		for(int x = 0; x < locs.size(); x++)
@@ -95,6 +101,13 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 			{
 				o.act();
 			}
+		}
+		
+		if(toBeDeployed.size() != 0)
+		{
+			Monster toSpawn = toBeDeployed.get(0);
+			toSpawn.putSelfInGrid(getGrid(), new Location(0,0));
+			toBeDeployed.remove(0);
 		}
 	}
 

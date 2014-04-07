@@ -45,7 +45,6 @@ public class Tower extends TowerDefenseObject
 	
 	public void act()
 	{
-		
 		int halfDistance = 2;
 		int row = getLoc().getRow();
 		int col = getLoc().getCol();
