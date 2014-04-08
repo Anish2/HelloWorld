@@ -63,7 +63,10 @@ public class Tower extends TowerDefenseObject
 		}
 		
 		int rand = (int)(Math.random() * monsters.size());
-		monsters.get(rand).damage(damage);
+		if(monsters.size() !=0)
+		{
+			monsters.get(rand).damage(damage);
+		}
 	}
 	
 	

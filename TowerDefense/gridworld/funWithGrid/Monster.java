@@ -31,6 +31,10 @@ public class Monster extends TowerDefenseObject
 		return health <= 0;
 	}
 	
+	public String toString(){
+		return(" Monster with health:"  + health);
+	}
+	
 	public void act()
 	{
 		 Location downLoc = new Location(getLoc().getRow() + 1, getLoc().getCol());

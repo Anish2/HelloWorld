@@ -9,7 +9,7 @@ import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
 import info.gridworld.world.World;
 
-public class TowerDefenseBoard extends World<TowerDefenseObject>
+public class TowerDefenseBoardWithNotUsingStepAndDoesNotDisplay extends World<TowerDefenseObject>
 {
 	//private Tower currentTowerToBuild = new Tower(); //Set this to a default once i make a basic tower
 	private int gold = 200;// Decide on starting gold
@@ -29,15 +29,26 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 
 	public boolean keyPressed(String description, Location loc)
 	{
-		//System.out.println(description);
 		if(description.equals("Q"))
 		{
 			nextWave();
-			//for(int x = 0; x < toBeDeployed.size(); x++)
-			//{
-			//	System.out.print(toBeDeployed.get(x));
-			//}
-			return true;
+			do
+			{
+				move();
+				this.show();
+			}while(hasMonsters());//I do need a semicolon here, right?
+		}
+		
+		return false;
+	}
+	
+	public boolean hasMonsters(){
+		for(int x = 0; x < grid.getOccupiedLocations().size(); x++)
+		{
+			if(grid.get(grid.getOccupiedLocations().get(x)) instanceof Monster)
+			{
+				return true;
+			}
 		}
 		
 		return false;
@@ -58,7 +69,7 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 
 	public boolean locationClicked(Location loc)
 	{
-
+		System.out.println("yes");
 		TowerDefenseObject object = getGrid().get(loc);
 		if(object == null)
 		{
@@ -91,10 +102,6 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 
 	public void step()
 	{
-		if(lives == 0)
-		{
-			//Figure out how to end game
-		}
 		Location end = new Location(size-1,size-1);
 		TowerDefenseObject monster = (Monster)getGrid().get(end);
 		if(monster !=null)
@@ -124,13 +131,11 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 
 	public void updateMessage()
 	{
-		super.setMessage("Gold : " + gold + "  Lives :  " + lives + "  Wave : " + wave +
-				"\n" + "Current Tower Type : Basic" +  "   Press q to send the next wave, then hit run" +
-				"\n To build a tower, unselect run then click on the space you want to build it at. Click on it again to upgrade.");
+		super.setMessage("Gold : " + gold + "  Lives :  " + lives + "  Wave : " + wave + "\n" + "Current Tower Type : Basic" +  "   Press q to send the next wave"  );
 	}
 
 
-	public TowerDefenseBoard()
+	public TowerDefenseBoardWithNotUsingStepAndDoesNotDisplay()
 	{
 		toBeDeployed = new ArrayList<Monster>();
 		grid  = new BoundedGrid<TowerDefenseObject>(size, size);//How do I initialize the grid of the world
