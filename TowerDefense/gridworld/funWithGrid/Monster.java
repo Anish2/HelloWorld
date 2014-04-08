@@ -19,7 +19,7 @@ public class Monster extends TowerDefenseObject
 	public void damage(int amt)
 	{
 		health -= amt;
-		if(health < 0)
+		if(isDead())
 		{
 			board.addGold(killGold);
 			removeSelfFromGrid();

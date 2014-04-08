@@ -61,7 +61,7 @@ public class Tower extends TowerDefenseObject
 				}
 			}
 		}
-		
+		if (monsters.size() == 0) return;
 		int rand = (int)(Math.random() * monsters.size());
 		monsters.get(rand).damage(damage);
 	}
