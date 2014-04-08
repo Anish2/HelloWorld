@@ -29,7 +29,7 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 
 	public boolean keyPressed(String description, Location loc)
 	{
-		//System.out.println(description);
+
 		if(description.equals("Q"))
 		{
 			nextWave();
@@ -42,7 +42,7 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 		
 		return false;
 	}
-	
+
 	public void nextWave()//Can you program this Anish to make a random wave be added to toBeDeployed?
 	{
 		int numberOfMonsters = (int)(Math.random() * wave) + 1;
@@ -75,9 +75,9 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 		}
 		if(object instanceof TowerTile)
 		{
-			if(gold > towercost)
+			if(gold >= towercost)
 			{
-				gold= gold - towercost;
+				gold = gold - towercost;
 				object.removeSelfFromGrid();
 				Tower tower = new Tower();
 				tower.putSelfInGrid(getGrid(), loc);
@@ -103,7 +103,7 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 			lives--;
 		}
 		updateMessage();
-		
+
 		ArrayList<Location> locs = getGrid().getOccupiedLocations();
 		for(int x = 0; x < locs.size(); x++)
 		{
@@ -113,8 +113,8 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 				o.act();
 			}
 		}
-		
-		if(toBeDeployed.size() != 0)
+
+		while (toBeDeployed.size() > 0)
 		{
 			Monster toSpawn = toBeDeployed.get(0);
 			toSpawn.putSelfInGrid(getGrid(), new Location(0,0));
@@ -140,59 +140,59 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 	public void generateRandomField() //It works Now
 	{
 
-		 ArrayList<Location> monsterPath = new ArrayList<Location>();
-		 Location loc = new Location(0,0);
-		 
-		 while(loc.getCol() != size -1 || loc.getRow() != size -1 )
-		 {
-			 monsterPath.add(loc);
-			 int rand = (int)(Math.random() * 2);
-			 Location downLoc = new Location(loc.getRow() + 1, loc.getCol());
-			 Location rightLoc = new Location(loc.getRow(), loc.getCol() + 1);
-			 
-			 if(!getGrid().isValid(rightLoc) && !getGrid().isValid(downLoc))
-			 {
-				 throw new IndexOutOfBoundsException("You are getting two invalid locations");
-			 }
-			 
-			 if(rand == 0)
-			 {
-				 loc = downLoc;
-			 }
-			 else
-			 {
-				 loc = rightLoc;
-			 }
-			 
-			 if(!getGrid().isValid(rightLoc))
-			 {
-				 loc = downLoc;
-			 }
-			 if(!getGrid().isValid(downLoc))
-			 {
-				 loc = rightLoc;
-			 }
-			 
-		 }
+		ArrayList<Location> monsterPath = new ArrayList<Location>();
+		Location loc = new Location(0,0);
 
-		 for(int x = 0; x < size; x++)
-		 {
-			 for(int y =0; y < size; y++)
-			 {
-			
+		while(loc.getCol() != size -1 || loc.getRow() != size -1 )
+		{
+			monsterPath.add(loc);
+			int rand = (int)(Math.random() * 2);
+			Location downLoc = new Location(loc.getRow() + 1, loc.getCol());
+			Location rightLoc = new Location(loc.getRow(), loc.getCol() + 1);
+
+			if(!getGrid().isValid(rightLoc) && !getGrid().isValid(downLoc))
+			{
+				throw new IndexOutOfBoundsException("You are getting two invalid locations");
+			}
+
+			if(rand == 0)
+			{
+				loc = downLoc;
+			}
+			else
+			{
+				loc = rightLoc;
+			}
+
+			if(!getGrid().isValid(rightLoc))
+			{
+				loc = downLoc;
+			}
+			if(!getGrid().isValid(downLoc))
+			{
+				loc = rightLoc;
+			}
+
+		}
+
+		for(int x = 0; x < size; x++)
+		{
+			for(int y =0; y < size; y++)
+			{
+
 				loc = new Location(x,y);
 				if(!monsterPath.contains(loc))
 				{
 					TowerTile tile = new TowerTile();
 					tile.putSelfInGrid(getGrid(),loc);//
 				}
-				 
-			 }
-		 }
-		 
-		 
-		 getGrid().get(new Location(size-1,size-1)).removeSelfFromGrid();
-		 
+
+			}
+		}
+
+
+		getGrid().get(new Location(size-1,size-1)).removeSelfFromGrid();
+
 
 	}
 }
