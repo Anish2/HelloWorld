@@ -114,7 +114,7 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 			}
 		}
 
-		while (toBeDeployed.size() > 0)
+		if (toBeDeployed.size() != 0)
 		{
 			Monster toSpawn = toBeDeployed.get(0);
 			toSpawn.putSelfInGrid(getGrid(), new Location(0,0));
