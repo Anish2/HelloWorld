@@ -108,7 +108,7 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 		for(int x = 0; x < locs.size(); x++)
 		{
 			TowerDefenseObject o = getGrid().get(locs.get(x));
-			if(o!=null)
+			if(o!=null)//
 			{
 				o.act();
 			}
