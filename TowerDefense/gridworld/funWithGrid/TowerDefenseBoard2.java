@@ -47,6 +47,7 @@ public class TowerDefenseBoard2 extends World<TowerDefenseObject>
 			do
 			{
 				step();
+				this.show();
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
