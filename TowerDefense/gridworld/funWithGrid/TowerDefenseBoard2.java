@@ -112,7 +112,7 @@ public class TowerDefenseBoard2 extends World<TowerDefenseObject>
 	{
 		if(lives == 0)
 		{
-			//Figure out how to end game
+			System.exit(0);
 		}
 		Location end = new Location(size-1,size-1);
 		TowerDefenseObject monster = (Monster)getGrid().get(end);
