@@ -6,7 +6,7 @@ public class TowerDefenseRunner
 {
 	public static void main(String[] args)
 	{
-		TowerDefenseBoard t = new TowerDefenseBoard();
+		TowerDefenseBoard2 t = new TowerDefenseBoard2();
 		
 		t.show();
 		t.generateRandomField();

@@ -7,9 +7,9 @@ public class Monster extends TowerDefenseObject
 {
 	int killGold;
 	int health;
-	TowerDefenseBoard board;
+	TowerDefenseBoard2 board;
 	
-	public Monster(int gold, int health, TowerDefenseBoard b) 
+	public Monster(int gold, int health, TowerDefenseBoard2 b) 
 	{
 		killGold = gold;
 		this.health = health;

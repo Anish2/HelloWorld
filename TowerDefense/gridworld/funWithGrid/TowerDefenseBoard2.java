@@ -9,7 +9,7 @@ import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
 import info.gridworld.world.World;
 
-public class TowerDefenseBoardWithNotUsingStepAndDoesNotDisplay extends World<TowerDefenseObject>
+public class TowerDefenseBoard2 extends World<TowerDefenseObject>
 {
 	//private Tower currentTowerToBuild = new Tower(); //Set this to a default once i make a basic tower
 	private int gold = 200;// Decide on starting gold
@@ -27,21 +27,6 @@ public class TowerDefenseBoardWithNotUsingStepAndDoesNotDisplay extends World<To
 		gold += amt;
 	}
 
-	public boolean keyPressed(String description, Location loc)
-	{
-		if(description.equals("Q"))
-		{
-			nextWave();
-			do
-			{
-				move();
-				this.show();
-			}while(hasMonsters());//I do need a semicolon here, right?
-		}
-		
-		return false;
-	}
-	
 	public boolean hasMonsters(){
 		for(int x = 0; x < grid.getOccupiedLocations().size(); x++)
 		{
@@ -50,11 +35,33 @@ public class TowerDefenseBoardWithNotUsingStepAndDoesNotDisplay extends World<To
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
-	
-	public void nextWave()//Can you program this Anish to make a random wave be added to toBeDeployed?
+
+	public boolean keyPressed(String description, Location loc)
+	{
+		if(description.equals("Q"))
+		{
+			nextWave();
+			do
+			{
+				step();
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} while(hasMonsters());
+		}
+
+		return false;
+	}
+
+
+
+	public void nextWave()
 	{
 		int numberOfMonsters = (int)(Math.random() * wave) + 1;
 		int monsterHealth = ((int)(Math.random() * wave) + 1) * 10;
@@ -86,9 +93,9 @@ public class TowerDefenseBoardWithNotUsingStepAndDoesNotDisplay extends World<To
 		}
 		if(object instanceof TowerTile)
 		{
-			if(gold > towercost)
+			if(gold >= towercost)
 			{
-				gold= gold - towercost;
+				gold = gold - towercost;
 				object.removeSelfFromGrid();
 				Tower tower = new Tower();
 				tower.putSelfInGrid(getGrid(), loc);
@@ -102,6 +109,10 @@ public class TowerDefenseBoardWithNotUsingStepAndDoesNotDisplay extends World<To
 
 	public void step()
 	{
+		if(lives == 0)
+		{
+			//Figure out how to end game
+		}
 		Location end = new Location(size-1,size-1);
 		TowerDefenseObject monster = (Monster)getGrid().get(end);
 		if(monster !=null)
@@ -110,18 +121,18 @@ public class TowerDefenseBoardWithNotUsingStepAndDoesNotDisplay extends World<To
 			lives--;
 		}
 		updateMessage();
-		
+
 		ArrayList<Location> locs = getGrid().getOccupiedLocations();
 		for(int x = 0; x < locs.size(); x++)
 		{
 			TowerDefenseObject o = getGrid().get(locs.get(x));
-			if(o!=null)
+			if(o != null)
 			{
 				o.act();
 			}
 		}
-		
-		if(toBeDeployed.size() != 0)
+
+		if (toBeDeployed.size() != 0)
 		{
 			Monster toSpawn = toBeDeployed.get(0);
 			toSpawn.putSelfInGrid(getGrid(), new Location(0,0));
@@ -135,69 +146,69 @@ public class TowerDefenseBoardWithNotUsingStepAndDoesNotDisplay extends World<To
 	}
 
 
-	public TowerDefenseBoardWithNotUsingStepAndDoesNotDisplay()
+	public TowerDefenseBoard2()
 	{
 		toBeDeployed = new ArrayList<Monster>();
-		grid  = new BoundedGrid<TowerDefenseObject>(size, size);//How do I initialize the grid of the world
+		grid  = new BoundedGrid<TowerDefenseObject>(size, size);
 		setGrid(grid);
 		updateMessage();	}
 
-	public void generateRandomField() //It works Now
+	public void generateRandomField() 
 	{
 
-		 ArrayList<Location> monsterPath = new ArrayList<Location>();
-		 Location loc = new Location(0,0);
-		 
-		 while(loc.getCol() != size -1 || loc.getRow() != size -1 )
-		 {
-			 monsterPath.add(loc);
-			 int rand = (int)(Math.random() * 2);
-			 Location downLoc = new Location(loc.getRow() + 1, loc.getCol());
-			 Location rightLoc = new Location(loc.getRow(), loc.getCol() + 1);
-			 
-			 if(!getGrid().isValid(rightLoc) && !getGrid().isValid(downLoc))
-			 {
-				 throw new IndexOutOfBoundsException("You are getting two invalid locations");
-			 }
-			 
-			 if(rand == 0)
-			 {
-				 loc = downLoc;
-			 }
-			 else
-			 {
-				 loc = rightLoc;
-			 }
-			 
-			 if(!getGrid().isValid(rightLoc))
-			 {
-				 loc = downLoc;
-			 }
-			 if(!getGrid().isValid(downLoc))
-			 {
-				 loc = rightLoc;
-			 }
-			 
-		 }
+		ArrayList<Location> monsterPath = new ArrayList<Location>();
+		Location loc = new Location(0,0);
 
-		 for(int x = 0; x < size; x++)
-		 {
-			 for(int y =0; y < size; y++)
-			 {
-			
+		while(loc.getCol() != size -1 || loc.getRow() != size -1 )
+		{
+			monsterPath.add(loc);
+			int rand = (int)(Math.random() * 2);
+			Location downLoc = new Location(loc.getRow() + 1, loc.getCol());
+			Location rightLoc = new Location(loc.getRow(), loc.getCol() + 1);
+
+			if(!getGrid().isValid(rightLoc) && !getGrid().isValid(downLoc))
+			{
+				throw new IndexOutOfBoundsException("You are getting two invalid locations");
+			}
+
+			if(rand == 0)
+			{
+				loc = downLoc;
+			}
+			else
+			{
+				loc = rightLoc;
+			}
+
+			if(!getGrid().isValid(rightLoc))
+			{
+				loc = downLoc;
+			}
+			if(!getGrid().isValid(downLoc))
+			{
+				loc = rightLoc;
+			}
+
+		}
+
+		for(int x = 0; x < size; x++)
+		{
+			for(int y =0; y < size; y++)
+			{
+
 				loc = new Location(x,y);
 				if(!monsterPath.contains(loc))
 				{
 					TowerTile tile = new TowerTile();
 					tile.putSelfInGrid(getGrid(),loc);//
 				}
-				 
-			 }
-		 }
-		 
-		 
-		 getGrid().get(new Location(size-1,size-1)).removeSelfFromGrid();
-		 
+
+			}
+		}
+
+
+		getGrid().get(new Location(size-1,size-1)).removeSelfFromGrid();
+
 
 	}
 }
