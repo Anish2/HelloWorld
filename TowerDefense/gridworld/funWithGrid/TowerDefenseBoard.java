@@ -2,48 +2,65 @@ package funWithGrid;
 
 import java.util.ArrayList;
 
-import javax.swing.text.BadLocationException;
+import javax.swing.JOptionPane;
 
 import info.gridworld.grid.BoundedGrid;
-import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
 import info.gridworld.world.World;
 
+/**
+ * Tower Defense Game Board
+ * @author Anish Visaria and Eitan Zlatin
+ *
+ */
 public class TowerDefenseBoard extends World<TowerDefenseObject>
 {
-	//private Tower currentTowerToBuild = new Tower(); //Set this to a default once i make a basic tower
-	private int gold = 200;// Decide on starting gold
-	private int wave = 1; // The current wave
-	private int lives = 10; // Decide on starting lives
-	private ArrayList<Monster> toBeDeployed; // The monsters that are waiting to be deployed
-	//private ArrayList<Monster> inGrid; // The monsters that are already in the grid 
-	private BoundedGrid<TowerDefenseObject> grid; //The grid
-	private final int size = 20; // Size of the grid
-	private final int towercost = 100; // Cost to build a tower
-	private final int monsterGold = 20;//Gold recieved for killing a monster
+	private int gold = 700;
+	private int wave = 1; 
+	private int lives = 10; 
+	private ArrayList<Monster> toBeDeployed;
+	private final int size = 20; 
+	private final int towercost = 100; 
+	private final int monsterGold = 20;
 
+	/**
+	 * Constructs a new board. Grid is set to size 20. Random field is generated.
+	 */
+	public TowerDefenseBoard()
+	{
+		toBeDeployed = new ArrayList<Monster>();
+		BoundedGrid<TowerDefenseObject> grid  = new BoundedGrid<TowerDefenseObject>(size, size);
+		setGrid(grid);
+		generateRandomField();
+		updateMessage();	
+	}
+
+	/**
+	 * Adds gold to current gold. May only be called by a Monster.
+	 * @param amt gold to be added
+	 */
 	public void addGold(int amt)
 	{
 		gold += amt;
+		updateMessage();	
 	}
 
+	/**
+	 * Handles key presses, such as sending the next wave.
+	 */
 	public boolean keyPressed(String description, Location loc)
 	{
 
 		if(description.equals("Q"))
 		{
 			nextWave();
-			//for(int x = 0; x < toBeDeployed.size(); x++)
-			//{
-			//	System.out.print(toBeDeployed.get(x));
-			//}
 			return true;
 		}
-		
+
 		return false;
 	}
 
-	public void nextWave()//Can you program this Anish to make a random wave be added to toBeDeployed?
+	private void nextWave()
 	{
 		int numberOfMonsters = (int)(Math.random() * wave) + 1;
 		int monsterHealth = ((int)(Math.random() * wave) + 1) * 10;
@@ -56,24 +73,54 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 	}
 
 
+	/**
+	 * Handles actions needed when location is clicked. If click is a tower options are shown. If click is a tile,
+	 * new Tower is constructed.
+	 */
 	public boolean locationClicked(Location loc)
 	{
 
 		TowerDefenseObject object = getGrid().get(loc);
-		if(object == null)
-		{
-			return true;
-		}
+
 		if(object instanceof Tower)
 		{
+
 			int levelupcost = 50;
-			if(gold > levelupcost)
-			{
-				gold-= levelupcost;
-				((Tower) object).levelUp();
+
+			Object[] options = {"Upgrade Tower", "Sell Tower", "Cancel"};
+			int n = JOptionPane.showOptionDialog(null,
+					"Tower Level: "+((Tower)object).getLevel()+
+					"\nCost to upgrade: "+levelupcost+
+					"\nGold obtained from sale: "+((Tower)object).getSellGold(),
+					"Tower Defense",
+					JOptionPane.YES_NO_CANCEL_OPTION,
+					JOptionPane.QUESTION_MESSAGE,
+					null,
+					options,
+					options[0]);
+
+			if (n == 0) {
+				if(gold >= levelupcost)
+				{
+					gold -= levelupcost;
+					((Tower) object).levelUp();
+				}
+				else {
+					JOptionPane.showMessageDialog(null,
+							"Not enough gold to upgrade.");
+					return false;
+				}
+
+			}
+			else if (n == 1) {
+				addGold(((Tower)object).getSellGold());
+				object.removeSelfFromGrid();
+				TowerTile tile = new TowerTile();
+				tile.putSelfInGrid(getGrid(), loc);
 			}
 		}
-		if(object instanceof TowerTile)
+
+		else if(object instanceof TowerTile)
 		{
 			if(gold >= towercost)
 			{
@@ -83,21 +130,33 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 				tower.putSelfInGrid(getGrid(), loc);
 			}
 		}
+
 		updateMessage();
 		return true;
 	}
 
-
-
 	public void step()
 	{
-		if(lives == 0)
+		if(lives <= 0)
 		{
-			//Figure out how to end game
+			Object[] options = {"Exit"};
+			JOptionPane.showOptionDialog(null,
+					"You have lost.",
+					"Tower Defense",
+					JOptionPane.YES_NO_CANCEL_OPTION,
+					JOptionPane.QUESTION_MESSAGE,
+					null,
+					options,
+					options[0]);
+
+
+			System.exit(0);
+
 		}
+
 		Location end = new Location(size-1,size-1);
 		TowerDefenseObject monster = (Monster)getGrid().get(end);
-		if(monster !=null)
+		if(monster != null)
 		{
 			monster.removeSelfFromGrid();
 			lives--;
@@ -108,7 +167,7 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 		for(int x = 0; x < locs.size(); x++)
 		{
 			TowerDefenseObject o = getGrid().get(locs.get(x));
-			if(o!=null)//
+			if (o != null)
 			{
 				o.act();
 			}
@@ -122,22 +181,16 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 		}
 	}
 
-	public void updateMessage()
+	private void updateMessage()
 	{
 		super.setMessage("Gold : " + gold + "  Lives :  " + lives + "  Wave : " + wave +
-				"\n" + "Current Tower Type : Basic" +  "   Press q to send the next wave, then hit run" +
-				"\n To build a tower, unselect run then click on the space you want to build it at. Click on it again to upgrade.");
+				"\n" + "Press q to send the next wave, then hit run." +
+				" To build a tower, click stop then click on the space you want to build it at. For "
+				+ "more options click on the Tower");
 	}
 
 
-	public TowerDefenseBoard()
-	{
-		toBeDeployed = new ArrayList<Monster>();
-		grid  = new BoundedGrid<TowerDefenseObject>(size, size);//How do I initialize the grid of the world
-		setGrid(grid);
-		updateMessage();	}
-
-	public void generateRandomField() //It works Now
+	private void generateRandomField() 
 	{
 
 		ArrayList<Location> monsterPath = new ArrayList<Location>();
@@ -195,4 +248,6 @@ public class TowerDefenseBoard extends World<TowerDefenseObject>
 
 
 	}
+
+
 }

@@ -1,73 +1,94 @@
 package funWithGrid;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
-import info.gridworld.actor.Actor;
-import info.gridworld.actor.Rock;
-import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
 
 public class Tower extends TowerDefenseObject
 {
-	private int damage;
-	private int sellGold; // Do we want them to be able to sell towers, or is that too much
-	
+	private int damage, sellGold, level;
+
+	/**
+	 * Constructs a level 1 Tower with damage 5.
+	 */
 	public Tower()
 	{
-		damage = 10;
+		damage = 5;
+		setSellGold();
+		level = 1;
 	}
-	
+
+	/**
+	 * Upgrades Tower.
+	 */
 	public void levelUp()
 	{
-		damage+=5;
+		damage += 5;
+		setSellGold();
+		level++;
 	}
 	
+	/**
+	 * Returns level.
+	 * @return level
+	 */
+	public int getLevel() {
+		return level;
+	}
+
+	/**
+	 * Return damage capability.
+	 * @return damage
+	 */
 	public int getDamage()
 	{
 		return damage;
 	}
-	
-	public void setDamage(int damage) 
-	{
-		this.damage = damage;
-	}
-	
+
+
+	/**
+	 * Return sell gold. Sell gold is 65% of damage level.
+	 * @return sell gold
+	 */
 	public int getSellGold()
 	{
 		return sellGold;
 	}
-	
-	public void setSellGold(int sellGold) 
+
+	private void setSellGold() 
 	{
-		this.sellGold = sellGold;
+		sellGold = (int)(damage*0.65);
 	}
-	
+
+	/**
+	 * Damages one monster within halfDistance range.
+	 */
 	public void act()
 	{
 		int halfDistance = 2;
 		int row = getLoc().getRow();
 		int col = getLoc().getCol();
 		ArrayList<Monster> monsters = new ArrayList<Monster>();
-		
+
 		for(int x = row - halfDistance; x<= halfDistance + row; x++)
 		{
 			for(int y = col - halfDistance; y<= halfDistance + col; y++)
 			{
 				Location loc = new Location(x,y);
-				if(getGrid().get(loc) instanceof Monster)
+				if(getGrid().isValid(loc) && getGrid().get(loc) instanceof Monster)
 				{
 					monsters.add((Monster) getGrid().get(loc));
 				}
 			}
 		}
+		
 		if (monsters.size() == 0) return;
+		
 		int rand = (int)(Math.random() * monsters.size());
-		if(monsters.size() !=0)
-		{
-			monsters.get(rand).damage(damage);
-		}
+
+		monsters.get(rand).damage(damage);
+
 	}
-	
-	
+
+
 }
