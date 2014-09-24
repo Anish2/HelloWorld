@@ -14,7 +14,7 @@ public class AIPlayer extends Player {
 	 * Gets entities to build through computation.
 	 */
 	@Override
-	public ArrayList<String> getMaterialsToBuild() {
+	public ArrayList<Integer> getMaterialsToBuild() {
 		// TODO Auto-generated method stub
 		return null;
 	}

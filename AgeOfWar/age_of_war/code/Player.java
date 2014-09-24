@@ -14,14 +14,14 @@ public abstract class Player {
 	 * Returns list of unit or yagura types that player is able to build
 	 * @return list of unit or yagura types
 	 */
-	public abstract ArrayList<String> getMaterialsToBuild();
+	public abstract ArrayList<Integer> getMaterialsToBuild();
 	
 	/**
 	 * Returns a string representing the player's current age
 	 * @return "dark" if the player is in the dark age or "medieval" if the player is in the medieval age
 	 */
-	public String getAge() {
-		return null;
+	public int getAge() {
+		return 0;
 	}
 	
 	/**
@@ -45,8 +45,8 @@ public abstract class Player {
 	 * @return "damage":damage all enemy units, "heal": restore all of this player's units health, "null" if no special
 	 * 
 	 */
-	public String getSpecials() {
-		return null;
+	public int getSpecials() {
+		return 0;
 	}
 	
 	

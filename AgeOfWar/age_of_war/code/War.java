@@ -1,7 +1,7 @@
 package code;
 
 /**
- * Handles displaying the game, updating the player stats, and connecting over the network.
+ * Handles displaying the game, updating the player stats.
  * @author Anish Visaria and Eitan Zlatin
  *
  */

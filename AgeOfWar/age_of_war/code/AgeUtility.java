@@ -14,7 +14,7 @@ public class AgeUtility
 	 * @param type type of unit
 	 * @return built Unit
 	 */
-	public static Unit makeUnit(String type) {
+	public static Unit makeUnit(int type) {
 		return null;
 	}
 	
@@ -24,7 +24,7 @@ public class AgeUtility
 	 * @param type type of yagura
 	 * @return built yagura
 	 */
-	public static Yagura makeYagura(String type) {
+	public static Yagura makeYagura(int type) {
 		return null;
 	}
 	
@@ -33,7 +33,7 @@ public class AgeUtility
 	 * @param type type of unit or yagura
 	 * @return cost
 	 */
-	public static int getCost(String type) {
+	public static int getCost(int type) {
 		return 100000;
 	}
 	
@@ -42,7 +42,7 @@ public class AgeUtility
 	 * @param age age name
 	 * @return image of age home base
 	 */
-	public static PImage getAgePicture(String age) {
+	public static PImage getAgePicture(int age) {
 		return null;		
 	}
 }
