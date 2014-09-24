@@ -7,8 +7,12 @@ import java.util.ArrayList;
  * @author Anish Visaria, Eitan Zlatin
  *
  */
-public abstract class Player {
-	
+public abstract class Player 
+{
+	private int currentAge = 0;
+	private int gold = 100;
+	private int xp = 0;
+	private ArrayList<Integer> materialToBuild = new ArrayList<Integer>();
 	
 	/**
 	 * Returns list of unit or yagura types that player is able to build
@@ -21,23 +25,25 @@ public abstract class Player {
 	 * @return "dark" if the player is in the dark age or "medieval" if the player is in the medieval age
 	 */
 	public int getAge() {
-		return 0;
+		return currentAge;
 	}
+	
 	
 	/**
 	 * Returns gold of this player.
 	 * @return amount of gold
 	 */
 	public int getGold() {
-		return 0;
+		return gold;
 	}
 	
-	/**
+	/*
 	 * Processes gain or loss of gold.
 	 * @param gold amount to be gained , negative if the gold is to be lost.
 	 */
-	public void processWarTransaction(int gold) {
-		
+	private void processWarTransaction(int gold)
+	{
+		this.gold += gold;
 	}
 	
 	/**
@@ -49,7 +55,8 @@ public abstract class Player {
 		return 0;
 	}
 	
-	
-	
-
+	public void mouseClicked()
+	{
+		
+	}
 }
