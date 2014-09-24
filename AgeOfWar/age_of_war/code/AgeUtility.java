@@ -34,7 +34,7 @@ public class AgeUtility
 	 * @return cost
 	 */
 	public static int getCost(String type) {
-		return 0;
+		return 100000;
 	}
 	
 	/**
