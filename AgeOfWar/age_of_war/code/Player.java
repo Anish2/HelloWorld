@@ -1,5 +1,6 @@
 package code;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
@@ -17,9 +18,16 @@ public abstract class Player
 	private PApplet parent;
 	private ArrayList<Integer> materialToBuild = new ArrayList<Integer>();
 	
+	private Rectangle unit1Rect;
+	private Rectangle unit2Rect;
+	private Rectangle specialRect;
+	
 	public Player(PApplet p)
 	{
 		parent = p;
+		unit1Rect = new Rectangle();/*Fill in the exact positions later*/
+		unit2Rect = new Rectangle();
+		specialRect = new Rectangle();
 	}
 	/**
 	 * Returns list of unit or yagura types that player is able to build
@@ -64,6 +72,19 @@ public abstract class Player
 	
 	public void mouseClicked()
 	{
+		if(unit1Rect.contains(parent.mouseX, parent.mouseY))
+		{
+			
+		}
 		
+		if(unit2Rect.contains(parent.mouseX, parent.mouseY))
+		{
+			
+		}
+		
+		if(specialRect.contains(parent.mouseX, parent.mouseY))
+		{
+			
+		}
 	}
 }
