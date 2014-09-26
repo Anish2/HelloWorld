@@ -14,7 +14,8 @@ public class HumanPlayer extends Player {
 	 * Gets entities to build by user interaction with display.
 	 */
 	@Override
-	public ArrayList<Integer> getMaterialsToBuild() {
+	public ArrayList<Integer> getMaterialsToBuild() 
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}

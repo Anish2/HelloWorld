@@ -2,6 +2,8 @@ package code;
 
 import java.util.ArrayList;
 
+import processing.core.PApplet;
+
 /**
  * Abstract class that is responsible for deciding whether to build a unit each move cycle.
  * @author Anish Visaria, Eitan Zlatin
@@ -12,8 +14,14 @@ public abstract class Player
 	private int currentAge = 0;
 	private int gold = 100;
 	private int xp = 0;
+	private PApplet parent;
+	
 	private ArrayList<Integer> materialToBuild = new ArrayList<Integer>();
 	
+	public Player(PApplet p)
+	{
+		parent = p;
+	}
 	/**
 	 * Returns list of unit or yagura types that player is able to build
 	 * @return list of unit or yagura types
