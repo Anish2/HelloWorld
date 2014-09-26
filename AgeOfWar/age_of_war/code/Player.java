@@ -15,7 +15,6 @@ public abstract class Player
 	private int gold = 100;
 	private int xp = 0;
 	private PApplet parent;
-	
 	private ArrayList<Integer> materialToBuild = new ArrayList<Integer>();
 	
 	public Player(PApplet p)
