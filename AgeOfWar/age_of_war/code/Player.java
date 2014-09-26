@@ -1,5 +1,6 @@
 package code;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
@@ -17,9 +18,18 @@ public abstract class Player
 	private PApplet parent;
 	private ArrayList<Integer> materialToBuild = new ArrayList<Integer>();
 	
+	private Rectangle unit1Rect;
+	private Rectangle unit2Rect;
+	private Rectangle specialRect;
+	
+	private int specialUsed;
+	
 	public Player(PApplet p)
 	{
 		parent = p;
+		unit1Rect = new Rectangle();/*Fill in the exact positions later*/
+		unit2Rect = new Rectangle();
+		specialRect = new Rectangle();
 	}
 	/**
 	 * Returns list of unit or yagura types that player is able to build
@@ -54,8 +64,8 @@ public abstract class Player
 	}
 	
 	/**
-	 * Returns string representing special used
-	 * @return "damage":damage all enemy units, "heal": restore all of this player's units health, "null" if no special
+	 * Returns an int representing special used
+	 * @return the int corresponding to the used special, -1 if no special was used.
 	 * 
 	 */
 	public int getSpecials() {
@@ -64,6 +74,19 @@ public abstract class Player
 	
 	public void mouseClicked()
 	{
+		if(unit1Rect.contains(parent.mouseX, parent.mouseY))
+		{
+			materialToBuild.add(AgeUtility.getUnits(getAge())[0]);
+		}
 		
+		if(unit2Rect.contains(parent.mouseX, parent.mouseY))
+		{
+			materialToBuild.add(AgeUtility.getUnits(getAge())[1]);
+		}
+		
+		if(specialRect.contains(parent.mouseX, parent.mouseY))
+		{
+			
+		}
 	}
 }
