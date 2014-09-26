@@ -12,7 +12,7 @@ public class Unit {
 	private int health, pos, attack_power, range;
 	private PImage fightState, walkState;
 	private boolean isFighting= false;
-	
+	 
 	/**
 	 * Deploys unit with following characteristics and displays it on battlefield.
 	 * @param maxHealth starting health of unit
