@@ -23,6 +23,7 @@ public class AgeUtility
 	public static final int DAMAGE_SPECIAL = 8;
 	public static final int HEAL_SPECIAL = 9;
 	
+	
 	/**
 	 * Returns an array of the units that can be built in age containing the meele unit in the first index and the ranged unit in the second.
 	 * @param age The age that the units will be built in
@@ -66,5 +67,15 @@ public class AgeUtility
 	 */
 	public static PImage getAgePicture(int age) {
 		return null;		
+	}
+	
+	
+	/**
+	 * Returns int representing special available in a certain age
+	 * @param age given age
+	 * @return special available
+	 */
+	public static int getSpecial(int age) {
+		return 0;
 	}
 }
