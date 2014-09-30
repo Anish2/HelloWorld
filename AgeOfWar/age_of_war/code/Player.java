@@ -16,21 +16,50 @@ public abstract class Player
 	private int gold = 100;
 	private int xp = 0;
 	private PApplet parent;
-	private ArrayList<Integer> materialToBuild = new ArrayList<Integer>();
-	
-	private Rectangle unit1Rect;
-	private Rectangle unit2Rect;
-	private Rectangle specialRect;
-	
+
 	private int specialUsed;
+	private int specialCooldown;
+	
+	public void setSpecial(int special)
+	{
+		specialUsed = special;
+	}
+	
+	public int getSpecialCooldown()
+	{
+		return specialCooldown;
+	}
+	
+	public int getXp()
+	{
+		return xp;
+	}
+	
+	public PApplet getParent()
+	{
+		return parent;
+	}
+	
+	public void gainXP(int exp)
+	{
+		xp +=exp;
+	}
 	
 	public Player(PApplet p)
 	{
 		parent = p;
-		unit1Rect = new Rectangle();/*Fill in the exact positions later*/
-		unit2Rect = new Rectangle();
-		specialRect = new Rectangle();
 	}
+	
+	public void setGold(int gold)
+	{
+		this.gold = gold;
+	}
+	
+	public void ageUp()
+	{
+		currentAge++;
+	}
+	
 	/**
 	 * Returns list of unit or yagura types that player is able to build
 	 * @return list of unit or yagura types
@@ -55,38 +84,32 @@ public abstract class Player
 	}
 	
 	/*
+	
 	 * Processes gain or loss of gold.
 	 * @param gold amount to be gained , negative if the gold is to be lost.
-	 */
+	 
 	private void processWarTransaction(int gold)
 	{
 		this.gold += gold;
-	}
+	}*/
 	
 	/**
 	 * Returns an int representing special used
 	 * @return the int corresponding to the used special, -1 if no special was used.
 	 * 
 	 */
-	public int getSpecials() {
+	public int getSpecial() 
+	{
+		if(specialCooldown == 0)
+		{
+			specialCooldown = AgeUtility.getCooldown(AgeUtility.getSpecial(currentAge));
+			specialUsed = 0;
+			return specialUsed;
+		}
+		
+		specialUsed = 0;
 		return 0;
 	}
 	
-	public void mouseClicked()
-	{
-		if(unit1Rect.contains(parent.mouseX, parent.mouseY))
-		{
-			materialToBuild.add(AgeUtility.getUnits(getAge())[0]);
-		}
-		
-		if(unit2Rect.contains(parent.mouseX, parent.mouseY))
-		{
-			materialToBuild.add(AgeUtility.getUnits(getAge())[1]);
-		}
-		
-		if(specialRect.contains(parent.mouseX, parent.mouseY))
-		{
-			
-		}
-	}
+	
 }
