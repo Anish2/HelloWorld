@@ -8,6 +8,10 @@ import processing.core.PImage;
  * 
  */
 public class Yagura {
+	
+	private int attack, location, range;
+	private PImage picture, attackState;
+	private boolean state = false;
 
 	/**
 	 * Deploys yagura(Japanese word for tower) with following characteristics
@@ -22,8 +26,12 @@ public class Yagura {
 	 * @param range
 	 *            range of firing and damage inflictment
 	 */
-	public Yagura(PImage picture, int attack, int location, int range) {
-
+	public Yagura(PImage picture, PImage attackState, int attack, int location, int range) {
+		this.picture = picture;
+		this.attack = attack;
+		this.location = location;
+		this.range = range;
+		this.attackState = attackState;
 	}
 
 	/**
@@ -32,7 +40,7 @@ public class Yagura {
 	 * @return attack ability
 	 */
 	public int getAttack() {
-		return 0;
+		return attack;
 	}
 
 	/**
@@ -41,7 +49,7 @@ public class Yagura {
 	 * @return placement on y-axis
 	 */
 	public int getPlacement() {
-		return 0;
+		return location;
 	}
 
 	/**
@@ -50,8 +58,16 @@ public class Yagura {
 	 * @return range of firing
 	 */
 	public int getRange() {
-		return 0;
+		return range;
 
+	}
+	
+	/**
+	 * Sets yagura to attack mode or dormant mode
+	 * @param state attack state of yagura
+	 */
+	public void setAttackState(boolean state) {
+		this.state = state;
 	}
 
 }
