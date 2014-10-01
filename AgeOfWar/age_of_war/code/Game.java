@@ -14,7 +14,7 @@ public class Game extends PApplet
 	 * Constructs Game with war class.
 	 * @param w war to play on
 	 */
-	public Game(War w)
+	public Game(Player a, Player b)
 	{
 		
 	}

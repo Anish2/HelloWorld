@@ -33,23 +33,23 @@ public class War {
 		
 	}
 	
-	/**
+/*	*//**
 	 * Adds a unit to the list of units on battlefield.
 	 * @param u unit to add
-	 */
+	 *//*
 	public void addUnit(Unit u) {
 		units.add(u);
 	}
 	
 	
-	/**
+	*//**
 	 * Adds yagura to list of yaguras.
 	 * @param y yagura to add
-	 */
+	 *//*
 	public void addYagura(Yagura y) {
 		yaguras.add(y);
 	}
 
-	
+	*/
 
 }
