@@ -26,5 +26,11 @@ public class AIPlayer extends Player {
 		return null;
 	}
 
+	@Override
+	public int getSpecial() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	
 }
