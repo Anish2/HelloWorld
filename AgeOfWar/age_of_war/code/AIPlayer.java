@@ -28,7 +28,7 @@ public class AIPlayer extends Player {
 
 	@Override
 	public int getSpecial() {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub 
 		return 0;
 	}
 
