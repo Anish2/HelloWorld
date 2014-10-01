@@ -16,19 +16,11 @@ public abstract class Player
 	private int gold = 100;
 	private int xp = 0;
 	private PApplet parent;
-
-	private int specialUsed;
-	private int specialCooldown;
 	
-	public void setSpecial(int special)
+	/*public void setSpecial(int special)
 	{
 		specialUsed = special;
-	}
-	
-	public int getSpecialCooldown()
-	{
-		return specialCooldown;
-	}
+	}*/
 	
 	public int getXp()
 	{
@@ -98,18 +90,6 @@ public abstract class Player
 	 * @return the int corresponding to the used special, -1 if no special was used.
 	 * 
 	 */
-	public int getSpecial() 
-	{
-		if(specialCooldown == 0)
-		{
-			specialCooldown = AgeUtility.getCooldown(AgeUtility.getSpecial(currentAge));
-			specialUsed = 0;
-			return specialUsed;
-		}
-		
-		specialUsed = 0;
-		return 0;
-	}
-	
+	public abstract int getSpecial();
 	
 }
