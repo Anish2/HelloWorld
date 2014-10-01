@@ -1,2 +1,4 @@
-Unit Health Attack Range
-Clubman 100 10 50
+Unit Health Attack Range Cost
+Shinobi 100 25 50 15
+Archer 75 20 250 25
+Ali Baba 150 35 50 50 
