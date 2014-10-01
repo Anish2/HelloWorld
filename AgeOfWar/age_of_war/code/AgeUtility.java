@@ -78,4 +78,14 @@ public class AgeUtility
 	public static int getSpecial(int age) {
 		return 0;
 	}
+	
+	public static int xpToAgeUp(int currentAge)
+	{
+		return 0;
+	}
+	
+	public static int getCooldown(int special)
+	{
+		return 0;
+	}
 }
