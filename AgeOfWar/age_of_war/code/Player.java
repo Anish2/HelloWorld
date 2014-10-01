@@ -69,7 +69,7 @@ public abstract class Player
 	/**
 	 * Returns a string representing the player's current age
 	 * @return "dark" if the player is in the dark age or "medieval" if the player is in the medieval age
-	 */
+	 */ 
 	public int getAge() {
 		return currentAge;
 	}
