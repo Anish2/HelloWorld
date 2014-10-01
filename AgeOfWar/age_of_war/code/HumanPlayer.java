@@ -19,7 +19,7 @@ public class HumanPlayer extends Player {
 	private Rectangle specialRect;
 	private Rectangle ageUpRect;
 	
-
+	private int specialUsed;
 	
 	public HumanPlayer(PApplet p) {
 		super(p);
@@ -35,7 +35,9 @@ public class HumanPlayer extends Player {
 	@Override
 	public ArrayList<Integer> getMaterialsToBuild() 
 	{
-		return materialToBuild;
+		ArrayList<Integer> temp = materialToBuild;
+		materialToBuild = new ArrayList<Integer>();
+		return temp;
 	}
 	
 	public void mouseClicked()
@@ -52,7 +54,7 @@ public class HumanPlayer extends Player {
 		
 		if(specialRect.contains(getParent().mouseX, getParent().mouseY))
 		{
-				setSpecial(AgeUtility.getSpecial(getAge()));
+				specialUsed = AgeUtility.getSpecial(getAge());
 		}
 	
 		if(ageUpRect.contains(getParent().mouseX, getParent().mouseY))
@@ -74,5 +76,11 @@ public class HumanPlayer extends Player {
 		}
 	}
 	
+	public int getSpecial() 
+	{
+		int temp = specialUsed;
+		specialUsed = 0;
+		return temp;
+	}
 
 }
