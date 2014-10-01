@@ -22,7 +22,7 @@ public class War {
 	{
 		this.a = a;
 		this.b = b;
-	}
+	} 
 	
 	/**
 	 * Activates all units and yaguras on battlefield to attack or change position.
