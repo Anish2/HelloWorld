@@ -17,7 +17,7 @@ import processing.core.PImage;
  */
 public class AgeUtility 
 {
-	public static final int CLUB_MAN = 0;
+	public static final int SHINOBI = 0;
 	public static final int ARCHER = 1;
 	public static final int NINJA = 2;
 	public static final int ALI_BABA = 3;
@@ -43,8 +43,20 @@ public class AgeUtility
 	{
 		int[] units = new int[2];
 		
-
 		
+		ArrayList<ArrayList<String>> file = readfile("game_data\\UnitInfo");
+
+		int ageCol = file.get(0).indexOf("Age");
+		int numberCol = file.get(0).indexOf("Number");
+		
+		int row = 0;
+		for(int x = 0; x < file.size(); x++)
+		{
+			if(Integer.parseInt(file.get(x).get(ageCol)) == age)
+			{
+				units[row] = Integer.parseInt(file.get(x).get(numberCol));
+			}
+		}
 	
 		return units;
 	}
@@ -82,7 +94,7 @@ public class AgeUtility
 	 * @return built Unit
 	 */
 	public static Unit makeUnit(int type) {
-		return null;
+		return null; 
 	}
 	
 	/**

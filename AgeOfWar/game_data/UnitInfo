@@ -1,5 +1,5 @@
-Unit Age Health Attack Range Cost
-Shinobi 4 100 25 50 15
-Archer 4 75 20 250 25
-AliBaba 5 150 35 50 50
-Ninja 5 110 35 250 70 
+Number Age Health Attack Range Cost
+0 4 100 25 50 15
+1 4 75 20 250 25
+2 5 150 35 50 50
+3 5 110 35 250 70 
