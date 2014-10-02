@@ -14,7 +14,7 @@ public class AIPlayer extends Player {
 	
 	public AIPlayer(PApplet p) {
 		super(p);
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	/**
@@ -22,14 +22,17 @@ public class AIPlayer extends Player {
 	 */
 	@Override
 	public ArrayList<Integer> getMaterialsToBuild() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Integer> toBuild = new ArrayList<Integer>();
+		toBuild.add((int) (Math.random()*4));
+		return toBuild;
 	}
 
+	/**
+	 * Determines whether to use special ability or not.
+	 */
 	@Override
-	public int getSpecial() {
-		// TODO Auto-generated method stub 
-		return 0;
+	public boolean getSpecial() {
+		return true;
 	}
 
 	

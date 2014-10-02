@@ -90,6 +90,6 @@ public abstract class Player
 	 * @return the int corresponding to the used special, -1 if no special was used.
 	 * 
 	 */
-	public abstract int getSpecial();
+	public abstract boolean getSpecial();
 	
 }
