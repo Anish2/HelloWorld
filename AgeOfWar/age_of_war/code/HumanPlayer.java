@@ -15,19 +15,17 @@ public class HumanPlayer extends Player {
  
 	private ArrayList<Integer> materialToBuild = new ArrayList<Integer>();
 	
-	private Rectangle unit1Rect;
-	private Rectangle unit2Rect;
-	private Rectangle specialRect;
-	private Rectangle ageUpRect;
+	private ArrayList<Rectangle> buttons = new ArrayList<Rectangle>();
 	
 	private int specialUsed;
 	
 	public HumanPlayer(PApplet p) {
 		super(p);
-		unit1Rect = new Rectangle();/*Fill in the exact positions later*/
+		// fill up buttons arraylist
+		/*unit1Rect = new Rectangle();Fill in the exact positions later
 		unit2Rect = new Rectangle();
 		specialRect = new Rectangle();
-		ageUpRect = new Rectangle();
+		ageUpRect = new Rectangle();*/
 	}
 
 	/**
@@ -43,14 +41,30 @@ public class HumanPlayer extends Player {
 	
 	public void mouseClicked() throws IOException
 	{
-		if(unit1Rect.contains(getParent().mouseX, getParent().mouseY))
+		
+		for (int i = 0; i < buttons.size(); i++) {
+			if (buttons.get(i).contains(getParent().mouseX, getParent().mouseY)) {
+				if (getAge() == AgeUtility.DARK)
+					compileUnit(AgeUtility.CLUB_MAN);
+				else
+					compileUnit(AgeUtility.ALI_BABA);
+			}
+		}
+		
+		/*if(unit1Rect.contains(getParent().mouseX, getParent().mouseY))
 		{
-			buildUnit(0);
+			if (getAge() == AgeUtility.DARK)
+				compileUnit(AgeUtility.CLUB_MAN);
+			else
+				compileUnit(AgeUtility.ALI_BABA);
 		}
 		
 		if(unit2Rect.contains(getParent().mouseX, getParent().mouseY))
 		{
-			buildUnit(1);
+			if (getAge() == AgeUtility.DARK)
+				compileUnit(AgeUtility.ARCHER);
+			else
+				compileUnit(AgeUtility.NINJA);
 		}
 		
 		if(specialRect.contains(getParent().mouseX, getParent().mouseY))
@@ -64,24 +78,23 @@ public class HumanPlayer extends Player {
 			{
 				ageUp();
 			}
-		}
+		}*/
 	}
 	
-	private void buildUnit(int type) throws IOException
+	private void compileUnit(int type) throws IOException
 	{
 		int unit = AgeUtility.getUnits(getAge())[type];
 		if(AgeUtility.getCost(unit) <= getGold())
 		{
-			setGold(getGold() - AgeUtility.getCost(unit));
 			materialToBuild.add(AgeUtility.getUnits(getAge())[type]);
 		}
 	}
 	
-	public int getSpecial() 
+	public boolean getSpecial() 
 	{
 		int temp = specialUsed;
 		specialUsed = 0;
-		return temp;
+		return temp != 0;
 	}
 
 }
