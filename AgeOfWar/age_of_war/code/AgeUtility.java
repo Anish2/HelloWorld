@@ -1,5 +1,13 @@
 package code;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
 import processing.core.PImage;
 
 /**
@@ -23,16 +31,51 @@ public class AgeUtility
 	public static final int DAMAGE_SPECIAL = 8;
 	public static final int HEAL_SPECIAL = 9;
 	
+
 	
 	/**
 	 * Returns an array of the units that can be built in age containing the meele unit in the first index and the ranged unit in the second.
 	 * @param age The age that the units will be built in
 	 * @return The array containing the units
+	 * @throws IOException 
 	 */
-	public static int[] getUnits(int age)
+	public static int[] getUnits(int age) throws IOException
 	{
-		return null;
+		int[] units = new int[2];
+		
+
+		
+	
+		return units;
 	}
+	
+	public static ArrayList<ArrayList<String>> readfile(String fileName) throws IOException
+	{
+		ArrayList<ArrayList<String>> file = new ArrayList<ArrayList<String>>();
+		BufferedReader in = new BufferedReader(new FileReader(new File(fileName)));
+		
+		
+		String p = in.readLine();
+		int line = 0;
+		
+		while(p != null)
+		{
+			StringTokenizer t = new StringTokenizer(p);
+			file.add(new ArrayList<String>());
+			while(t.hasMoreTokens())
+			{
+				String token = t.nextToken();
+				file.get(line).add(token);
+			}
+			line++;
+			p = in.readLine();
+		}
+		
+		in.close();
+		
+		return file;
+	}
+	
 	/**
 	 * Returns Unit with characteristics according to type.
 	 * @param type type of unit

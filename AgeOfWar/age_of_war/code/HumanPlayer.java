@@ -1,6 +1,7 @@
 package code;
 
 import java.awt.Rectangle;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
@@ -40,7 +41,7 @@ public class HumanPlayer extends Player {
 		return temp;
 	}
 	
-	public void mouseClicked()
+	public void mouseClicked() throws IOException
 	{
 		if(unit1Rect.contains(getParent().mouseX, getParent().mouseY))
 		{
@@ -66,7 +67,7 @@ public class HumanPlayer extends Player {
 		}
 	}
 	
-	private void buildUnit(int type)
+	private void buildUnit(int type) throws IOException
 	{
 		int unit = AgeUtility.getUnits(getAge())[type];
 		if(AgeUtility.getCost(unit) <= getGold())
