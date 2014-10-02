@@ -12,7 +12,7 @@ import processing.core.PApplet;
  *
  */
 public class HumanPlayer extends Player {
-
+ 
 	private ArrayList<Integer> materialToBuild = new ArrayList<Integer>();
 	
 	private Rectangle unit1Rect;
