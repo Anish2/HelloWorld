@@ -15,21 +15,24 @@ public class HumanPlayer extends Player {
  
 	private ArrayList<Integer> materialToBuild = new ArrayList<Integer>();
 	
+	//Index 0 
 	private ArrayList<Rectangle> buttons = new ArrayList<Rectangle>();
 	
 	private int specialUsed;
+	private int playerNum;
 	
-	public HumanPlayer(PApplet p) {
+	public HumanPlayer(PApplet p, int playerNum) {
 		super(p);
 		// fill up buttons arraylist
 		/*unit1Rect = new Rectangle();Fill in the exact positions later
 		unit2Rect = new Rectangle();
 		specialRect = new Rectangle();
 		ageUpRect = new Rectangle();*/
+		this.playerNum = playerNum;
 	}
 
 	/**
-	 * Gets entities to build by user interaction with display.
+	 * Returns the entities the player wants to build.
 	 */
 	@Override
 	public ArrayList<Integer> getMaterialsToBuild() 
@@ -39,15 +42,31 @@ public class HumanPlayer extends Player {
 		return temp;
 	}
 	
-	public void mouseClicked() throws IOException
+	/**
+	 * Detects when buttons are clicked and adds the units to the build list.
+	 */
+	public void mouseClicked() 
 	{
 		
 		for (int i = 0; i < buttons.size(); i++) {
 			if (buttons.get(i).contains(getParent().mouseX, getParent().mouseY)) {
-				if (getAge() == AgeUtility.DARK)
-					compileUnit(AgeUtility.CLUB_MAN);
-				else
-					compileUnit(AgeUtility.ALI_BABA);
+				switch(i)
+				{
+				case 0:
+					if (getAge() == AgeUtility.DARK)
+					{
+						compileUnit(AgeUtility.SHINOBI);
+					}
+					else
+						compileUnit(AgeUtility.ALI_BABA);
+				case 1: 
+					if (getAge() == AgeUtility.DARK)
+					{
+						compileUnit(AgeUtility.SHINOBI);
+					}
+					else
+						compileUnit(AgeUtility.ALI_BABA);
+				}
 			}
 		}
 		
@@ -81,20 +100,28 @@ public class HumanPlayer extends Player {
 		}*/
 	}
 	
-	private void compileUnit(int type) throws IOException
+	private void compileUnit(int type) 
 	{
-		int unit = AgeUtility.getUnits(getAge())[type];
-		if(AgeUtility.getCost(unit) <= getGold())
+		if(AgeUtility.getCost(type) <= getGold())
 		{
-			materialToBuild.add(AgeUtility.getUnits(getAge())[type]);
+			materialToBuild.add(type);
 		}
 	}
 	
+	/**
+	 * Returns the special the player wants to use.
+	 */
 	public boolean getSpecial() 
 	{
 		int temp = specialUsed;
 		specialUsed = 0;
 		return temp != 0;
+	}
+
+	@Override
+	public int playerNum() {
+		// TODO Auto-generated method stub
+		return playerNum;
 	}
 
 }

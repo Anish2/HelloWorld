@@ -11,9 +11,10 @@ import processing.core.PApplet;
  */
 public class AIPlayer extends Player {
 
-	
-	public AIPlayer(PApplet p) {
+	private int playerNum; 
+	public AIPlayer(PApplet p, int playerNum) {
 		super(p);
+		this.playerNum = playerNum;
 		
 	}
 
@@ -33,6 +34,12 @@ public class AIPlayer extends Player {
 	@Override
 	public boolean getSpecial() {
 		return true;
+	}
+
+	@Override
+	public int playerNum() {
+		// TODO Auto-generated method stub
+		return playerNum;
 	}
 
 	

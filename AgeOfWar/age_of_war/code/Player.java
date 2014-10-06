@@ -92,4 +92,5 @@ public abstract class Player
 	 */
 	public abstract boolean getSpecial();
 	
+	public abstract int playerNum();
 }

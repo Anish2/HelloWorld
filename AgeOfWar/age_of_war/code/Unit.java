@@ -1,5 +1,6 @@
 package code;
 
+import processing.core.PApplet;
 import processing.core.PImage;
 
 /**
@@ -12,7 +13,9 @@ public class Unit {
 	private int health, pos, attack_power, range;
 	private PImage fightState, walkState;
 	private boolean isFighting= false;
+	private PApplet parent;
 	 
+	public final int ypos = 100;//Fill in later
 	/**
 	 * Deploys unit with following characteristics and displays it on battlefield.
 	 * @param maxHealth starting health of unit
@@ -23,8 +26,9 @@ public class Unit {
 	 * @param walkState image of unit walking
 	 */
 	public Unit(int maxHealth, int startingLocation, int attackAbility, int range, PImage fightState,
-			PImage walkState)
+			PImage walkState, PApplet p)
 	{
+		parent = p;
 		health = maxHealth;
 		pos = startingLocation;
 		attack_power = attackAbility;
@@ -32,16 +36,21 @@ public class Unit {
 		this.fightState = fightState;
 		this.walkState = walkState;
 		
-		draw();
 	}
 	
-	private void draw() {
+	public void display() 
+	{
+		if(isFighting)
+		{
+			//parent.image(walkState, , b);
+		}
+		else {
+			//parent.image(walkState, , b);
+		}
 		
 	}
 	
-	private void kill() {
-		
-	}
+
 	
 	/**
 	 * Moves the unit to location position.
@@ -50,7 +59,6 @@ public class Unit {
 	public void move(int position)
 	{
 		pos = position;
-		draw();
 	}
 	
 	/**
@@ -89,10 +97,6 @@ public class Unit {
 	 */
 	public void damage(int injury) {
 		health = health - injury;
-		if (health <= 0) 
-			kill();
-		else
-			draw();
 	}
 	
 	/**
@@ -109,8 +113,9 @@ public class Unit {
 	 */
 	public void setState(boolean state) {
 		isFighting = state;
-		draw();
 	}
+	
+
 	
 
 }

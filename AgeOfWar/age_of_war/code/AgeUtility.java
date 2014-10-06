@@ -91,18 +91,20 @@ public class AgeUtility
 	/**
 	 * Returns Unit with characteristics according to type.
 	 * @param type type of unit
+	 * @param player 1 if the unit belongs to player 1, 2 if it belongs to player 2.
 	 * @return built Unit
 	 */
-	public static Unit makeUnit(int type) {
+	public static Unit makeUnit(int type, int player) {
 		return null; 
 	}
 	
 	/**
 	 * Returns yagura with characteristics according to type.
 	 * @param type type of yagura
+	 * @param player 1 if the yagura belongs to player 1, 2 if it belongs to player 2.
 	 * @return built yagura
 	 */
-	public static Yagura makeYagura(int type) {
+	public static Yagura makeYagura(int type, int player) {
 		return null;
 	}
 	
@@ -134,11 +136,21 @@ public class AgeUtility
 		return 0;
 	}
 	
+	/**
+	 * Returns the amount of xp required for the player to age up from the current age
+	 * @param currentAge the current age
+	 * @return the xp to age up
+	 */
 	public static int xpToAgeUp(int currentAge)
 	{
 		return 0;
 	}
 	
+	/**
+	 * Returns the cooldown on a the special passed in.
+	 * @param special which special the cooldown is desired to know
+	 * @return the cooldown of the special
+	 */
 	public static int getCooldown(int special)
 	{
 		return 0;

@@ -29,7 +29,8 @@ public class War {
 	 * Deploys units and yaguras that a Player desires on the battlefield.
 	 * Executes all actions player commands including upgrades.
 	 */
-	public void act() {
+	public void act() 
+	{
 		
 		
 		
