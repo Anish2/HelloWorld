@@ -31,7 +31,8 @@ public class AgeUtility
 	public static final int DAMAGE_SPECIAL = 8;
 	public static final int HEAL_SPECIAL = 9;
 	
-
+	public final static int player1UnitStartingLocation = 100;//Subject to change
+	public final static int player2UnitStartingLocation = 900;
 	
 	/**
 	 * Returns an array of the units that can be built in age containing the meele unit in the first index and the ranged unit in the second.
@@ -93,9 +94,45 @@ public class AgeUtility
 	 * @param type type of unit
 	 * @param player 1 if the unit belongs to player 1, 2 if it belongs to player 2.
 	 * @return built Unit
+	 * @throws Exception 
 	 */
-	public static Unit makeUnit(int type, int player) {
-		return null; 
+	public static Unit makeUnit(int type, int player) throws Exception
+	{
+		ArrayList<ArrayList<String>> file = readfile("game_data\\UnitInfo");
+		
+		int numberCol = file.get(0).indexOf("Number");
+		int healthCol = file.get(0).indexOf("Health");
+		int attackCol = file.get(0).indexOf("Attack");
+		int rangeCol = file.get(0).indexOf("Range");
+		Unit unit = null;
+		
+		int location;
+		if(player == 1)
+		{
+			location = player1UnitStartingLocation;
+		}
+		else
+		{
+			location = player2UnitStartingLocation;
+		}
+		
+		for(int x = 0 ; x < file.size(); x++)
+		{
+			if(Integer.parseInt(file.get(x).get(numberCol)) == type)
+			{
+				int health = Integer.parseInt(file.get(x).get(healthCol));
+				int attack = Integer.parseInt(file.get(x).get(attackCol));
+				int range = Integer.parseInt(file.get(x).get(rangeCol));
+				
+				unit = new Unit(health,location,attack,range,"0.png","0" + "fight.png" );
+			}
+		}
+		
+		if(unit == null)
+		{
+			throw new Exception();
+		}
+		return unit;
 	}
 	
 	/**

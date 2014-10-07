@@ -2,11 +2,15 @@ package code;
 
 import java.io.IOException;
 
+import processing.core.PApplet;
+
 public class AgeOfWarTester {
 
-	public static void main(String[] args) throws IOException 
+	public static void main(String[] args) throws Exception 
 	{
-		testFileReading();
+		PApplet display = new PApplet();
+//		testFileReading();
+		Unit unit = AgeUtility.makeUnit(AgeUtility.SHINOBI, 1);
 
 	}
 	

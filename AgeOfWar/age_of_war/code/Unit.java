@@ -11,7 +11,8 @@ import processing.core.PImage;
 public class Unit {
 	
 	private int health, pos, attack_power, range;
-	private PImage fightState, walkState;
+	private String fightState;
+	private String walkState;
 	private boolean isFighting= false;
 	private PApplet parent;
 	 
@@ -25,30 +26,17 @@ public class Unit {
 	 * @param fightState image of unit attacking
 	 * @param walkState image of unit walking
 	 */
-	public Unit(int maxHealth, int startingLocation, int attackAbility, int range, PImage fightState,
-			PImage walkState, PApplet p)
+	public Unit(int maxHealth, int startingLocation, int attackAbility, int range, String fightState,
+			String walkState)
 	{
-		parent = p;
 		health = maxHealth;
 		pos = startingLocation;
 		attack_power = attackAbility;
 		this.range = range;
 		this.fightState = fightState;
 		this.walkState = walkState;
-		
 	}
-	
-	public void display() 
-	{
-		if(isFighting)
-		{
-			//parent.image(walkState, , b);
-		}
-		else {
-			//parent.image(walkState, , b);
-		}
-		
-	}
+
 	
 
 	
