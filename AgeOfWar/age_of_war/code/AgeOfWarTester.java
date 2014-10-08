@@ -8,9 +8,9 @@ public class AgeOfWarTester {
 
 	public static void main(String[] args) throws Exception 
 	{
-		PApplet display = new PApplet();
+		Display d = new Display();
 //		testFileReading();
-		Unit unit = AgeUtility.makeUnit(AgeUtility.SHINOBI, 1);
+		
 
 	}
 	

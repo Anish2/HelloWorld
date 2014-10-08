@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import processing.core.PApplet;
 import processing.core.PImage;
 
 /**
@@ -94,19 +95,19 @@ public class AgeUtility
 	 * @param type type of unit
 	 * @param player 1 if the unit belongs to player 1, 2 if it belongs to player 2.
 	 * @return built Unit
+	 * @throws IOException 
 	 * @throws Exception 
 	 */
-	public static Unit makeUnit(int type, int player) throws Exception
+	public static Unit makeUnit(PApplet parent, int type, int player) throws IOException
 	{
-		ArrayList<ArrayList<String>> file = readfile("game_data\\UnitInfo");
+		ArrayList<ArrayList<String>> file = readfile("C:\\Users\\Anish\\git\\HelloWorld\\AgeOfWar\\game_data\\UnitInfo");
 		
 		int numberCol = file.get(0).indexOf("Number");
 		int healthCol = file.get(0).indexOf("Health");
 		int attackCol = file.get(0).indexOf("Attack");
 		int rangeCol = file.get(0).indexOf("Range");
-		Unit unit = null;
 		
-		int location;
+		int location, health = 0, attack = 0, range = 0;
 		if(player == 1)
 		{
 			location = player1UnitStartingLocation;
@@ -115,24 +116,21 @@ public class AgeUtility
 		{
 			location = player2UnitStartingLocation;
 		}
-		
-		for(int x = 0 ; x < file.size(); x++)
+		//System.out.println(file);
+		for(int x = 1 ; x < file.size(); x++)
 		{
 			if(Integer.parseInt(file.get(x).get(numberCol)) == type)
 			{
-				int health = Integer.parseInt(file.get(x).get(healthCol));
-				int attack = Integer.parseInt(file.get(x).get(attackCol));
-				int range = Integer.parseInt(file.get(x).get(rangeCol));
-				
-				unit = new Unit(health,location,attack,range,"0.png","0" + "fight.png" );
+				health = Integer.parseInt(file.get(x).get(healthCol));
+				attack = Integer.parseInt(file.get(x).get(attackCol));
+				range = Integer.parseInt(file.get(x).get(rangeCol));							
 			}
 		}
 		
-		if(unit == null)
-		{
-			throw new Exception();
-		}
-		return unit;
+		PImage img = parent.loadImage("C:\\Users\\Anish\\git\\HelloWorld\\AgeOfWar\\game_data\\0.png");
+		
+		Unit u = new Unit(parent,health,location,attack,range,img, img);
+		return u;
 	}
 	
 	/**
