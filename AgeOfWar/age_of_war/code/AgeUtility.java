@@ -46,7 +46,7 @@ public class AgeUtility
 		int[] units = new int[2];
 		
 		
-		ArrayList<ArrayList<String>> file = readfile("game_data\\UnitInfo");
+		ArrayList<ArrayList<String>> file = readfile("UnitInfo");
 
 		int ageCol = file.get(0).indexOf("Age");
 		int numberCol = file.get(0).indexOf("Number");
@@ -100,7 +100,9 @@ public class AgeUtility
 	 */
 	public static Unit makeUnit(PApplet parent, int type, int player) throws IOException
 	{
-		ArrayList<ArrayList<String>> file = readfile("C:\\Users\\Anish\\git\\HelloWorld\\AgeOfWar\\game_data\\UnitInfo");
+		
+		File bgURL = new File("data\\UnitInfo");
+		ArrayList<ArrayList<String>> file = readfile(bgURL.getAbsolutePath());
 		
 		int numberCol = file.get(0).indexOf("Number");
 		int healthCol = file.get(0).indexOf("Health");
@@ -127,7 +129,7 @@ public class AgeUtility
 			}
 		}
 		
-		PImage img = parent.loadImage("C:\\Users\\Anish\\git\\HelloWorld\\AgeOfWar\\game_data\\0.png");
+		PImage img = parent.loadImage("0.png");
 		
 		Unit u = new Unit(parent,health,location,attack,range,img, img);
 		return u;
@@ -149,7 +151,7 @@ public class AgeUtility
 	 * @return cost
 	 */
 	public static int getCost(int type) {
-		return 100000;
+		return 0;
 	}
 	
 	/**

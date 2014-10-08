@@ -1,6 +1,8 @@
 package code;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
@@ -15,34 +17,27 @@ public class Display extends PApplet {
 
 	private ArrayList<Unit> units = new ArrayList<Unit>();
 	private PImage field;
-	private int[] unit1, unit2, yagura, special, nextAge;
-	private int rectSize = 80;
+
+	private final int rectSize = 80;
+	public final  int[] unit1 = new int[] {width/4-rectSize-10, 5};
+	public final int[] unit2 = new int[] {unit1[0]+rectSize, 5};
+	public final int[] yagura = new int[] {unit2[0]+rectSize, 5};
+	public final int[] special = new int[] {yagura[0]+rectSize, 5};
+	public final int[] nextAge = new int[] {special[0]+rectSize, 5};
+
 	private boolean rectOver = false;
 
 
 	public void setup() {
-		field = loadImage("C:\\Users\\Anish\\git\\HelloWorld\\AgeOfWar\\game_data\\field.jpg");
+
+		field = loadImage("field.jpg");
 		size(field.width, field.height);
-		unit1 = new int[] {width/4-rectSize-10, 5};
-		unit2 = new int[] {unit1[0]+rectSize, 5};
-		yagura = new int[] {unit2[0]+rectSize, 5};
-		special = new int[] {yagura[0]+rectSize, 5};
-		nextAge = new int[] {special[0]+rectSize, 5};
 	}
 
 	public void draw()
 	{
 		update(mouseX, mouseY);
 		background(field);
-
-		if (rectOver) {
-			try {
-				Unit unit = AgeUtility.makeUnit(this, AgeUtility.SHINOBI, 1);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 
 		stroke(0);
 		rect(unit1[0], unit1[1], rectSize, rectSize);
@@ -61,16 +56,7 @@ public class Display extends PApplet {
 		return mouseX >= x && mouseX <= x+width && mouseY >= y && mouseY <= y+height;
 	}
 
-	public void mousePressed() {
-		/*if (rectOver) {
-			try {
 
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}*/
-	}
 
 	/**
 	 * Updates age home base image.

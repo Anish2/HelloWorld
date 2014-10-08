@@ -12,22 +12,23 @@ import processing.core.PApplet;
  *
  */
 public class HumanPlayer extends Player {
- 
+
 	private ArrayList<Integer> materialToBuild = new ArrayList<Integer>();
-	
-	//Index 0 
-	private ArrayList<Rectangle> buttons = new ArrayList<Rectangle>();
-	
+
+	ArrayList<int[]> buttons = new ArrayList<int[]>();
+
 	private int specialUsed;
 	private int playerNum;
-	
+	private int rectSize = 80;
+
 	public HumanPlayer(PApplet p, int playerNum) {
 		super(p);
-		// fill up buttons arraylist
-		/*unit1Rect = new Rectangle();Fill in the exact positions later
-		unit2Rect = new Rectangle();
-		specialRect = new Rectangle();
-		ageUpRect = new Rectangle();*/
+		Display d = (Display) p;
+		buttons.add(d.unit1);
+		buttons.add(d.unit2);
+		buttons.add(d.yagura);
+		buttons.add(d.special);
+		buttons.add(d.nextAge);
 		this.playerNum = playerNum;
 	}
 
@@ -41,65 +42,39 @@ public class HumanPlayer extends Player {
 		materialToBuild = new ArrayList<Integer>();
 		return temp;
 	}
+
+	public void mouseClicked() {
+		if (super.getParent().mousePressed) {
+			for (int i = 0; i < buttons.size(); i++) {
+				if (buttons.get(i)[0] == getParent().mouseX && buttons.get(i)[1] == getParent().mouseY) {
+					switch(i)
+					{
+					case 0:
+						if (getAge() == AgeUtility.DARK)
+						{
+							compileUnit(AgeUtility.SHINOBI);
+						}
+						else
+							compileUnit(AgeUtility.ALI_BABA);
+					case 1: 
+						if (getAge() == AgeUtility.DARK)
+						{
+							compileUnit(AgeUtility.SHINOBI);
+						}
+						else
+							compileUnit(AgeUtility.ALI_BABA);
+					}
+				}
+			}
+		}
+	}
+
 	
 	/**
 	 * Detects when buttons are clicked and adds the units to the build list.
 	 */
-	public void mouseClicked() 
-	{
-		
-		for (int i = 0; i < buttons.size(); i++) {
-			if (buttons.get(i).contains(getParent().mouseX, getParent().mouseY)) {
-				switch(i)
-				{
-				case 0:
-					if (getAge() == AgeUtility.DARK)
-					{
-						compileUnit(AgeUtility.SHINOBI);
-					}
-					else
-						compileUnit(AgeUtility.ALI_BABA);
-				case 1: 
-					if (getAge() == AgeUtility.DARK)
-					{
-						compileUnit(AgeUtility.SHINOBI);
-					}
-					else
-						compileUnit(AgeUtility.ALI_BABA);
-				}
-			}
-		}
-		
-		/*if(unit1Rect.contains(getParent().mouseX, getParent().mouseY))
-		{
-			if (getAge() == AgeUtility.DARK)
-				compileUnit(AgeUtility.CLUB_MAN);
-			else
-				compileUnit(AgeUtility.ALI_BABA);
-		}
-		
-		if(unit2Rect.contains(getParent().mouseX, getParent().mouseY))
-		{
-			if (getAge() == AgeUtility.DARK)
-				compileUnit(AgeUtility.ARCHER);
-			else
-				compileUnit(AgeUtility.NINJA);
-		}
-		
-		if(specialRect.contains(getParent().mouseX, getParent().mouseY))
-		{
-				specialUsed = AgeUtility.getSpecial(getAge());
-		}
-	
-		if(ageUpRect.contains(getParent().mouseX, getParent().mouseY))
-		{
-			if(getXp() > AgeUtility.xpToAgeUp(getAge()))
-			{
-				ageUp();
-			}
-		}*/
-	}
-	
+
+
 	private void compileUnit(int type) 
 	{
 		if(AgeUtility.getCost(type) <= getGold())
@@ -107,7 +82,7 @@ public class HumanPlayer extends Player {
 			materialToBuild.add(type);
 		}
 	}
-	
+
 	/**
 	 * Returns the special the player wants to use.
 	 */
