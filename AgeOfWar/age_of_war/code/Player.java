@@ -12,15 +12,15 @@ import processing.core.PApplet;
  */
 public abstract class Player 
 {
-	private int currentAge = 0;
+	private int currentAge = AgeUtility.DARK;
 	private int gold = 100;
 	private int xp = 0;
 	private PApplet parent;
-	
-	/*public void setSpecial(int special)
+
+	public Player(PApplet p)
 	{
-		specialUsed = special;
-	}*/
+		parent = p;
+	}
 	
 	public int getXp()
 	{
@@ -34,13 +34,10 @@ public abstract class Player
 	
 	public void gainXP(int exp)
 	{
-		xp +=exp;
+		xp += exp;
 	}
 	
-	public Player(PApplet p)
-	{
-		parent = p;
-	}
+	
 	
 	public void setGold(int gold)
 	{
@@ -49,7 +46,7 @@ public abstract class Player
 	
 	public void ageUp()
 	{
-		currentAge++;
+		currentAge = AgeUtility.MEDIEVAL;
 	}
 	
 	/**
@@ -74,22 +71,7 @@ public abstract class Player
 	public int getGold() {
 		return gold;
 	}
-	
-	/*
-	
-	 * Processes gain or loss of gold.
-	 * @param gold amount to be gained , negative if the gold is to be lost.
-	 
-	private void processWarTransaction(int gold)
-	{
-		this.gold += gold;
-	}*/
-	
-	/**
-	 * Returns an int representing special used
-	 * @return the int corresponding to the used special, -1 if no special was used.
-	 * 
-	 */
+
 	public abstract boolean getSpecial();
 	
 	public abstract int playerNum();

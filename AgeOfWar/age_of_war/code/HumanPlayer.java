@@ -16,10 +16,10 @@ public class HumanPlayer extends Player {
 	private ArrayList<Integer> materialToBuild = new ArrayList<Integer>();
 
 	ArrayList<int[]> buttons = new ArrayList<int[]>();
+	private int rectSize;
 
 	private int specialUsed;
 	private int playerNum;
-	private int rectSize = 80;
 
 	public HumanPlayer(PApplet p, int playerNum) {
 		super(p);
@@ -30,6 +30,7 @@ public class HumanPlayer extends Player {
 		buttons.add(d.special);
 		buttons.add(d.nextAge);
 		this.playerNum = playerNum;
+		rectSize = d.rectSize;
 	}
 
 	/**
@@ -46,7 +47,9 @@ public class HumanPlayer extends Player {
 	public void mouseClicked() {
 		if (super.getParent().mousePressed) {
 			for (int i = 0; i < buttons.size(); i++) {
-				if (buttons.get(i)[0] == getParent().mouseX && buttons.get(i)[1] == getParent().mouseY) {
+				if (buttons.get(i)[0] >= getParent().mouseX && buttons.get(i)[0]+rectSize <= getParent().mouseX
+						&& buttons.get(i)[1] >= getParent().mouseY && buttons.get(i)[1]+rectSize <= getParent().mouseY) {
+					
 					switch(i)
 					{
 					case 0:
@@ -59,17 +62,31 @@ public class HumanPlayer extends Player {
 					case 1: 
 						if (getAge() == AgeUtility.DARK)
 						{
-							compileUnit(AgeUtility.SHINOBI);
+							compileUnit(AgeUtility.ARCHER);
 						}
 						else
-							compileUnit(AgeUtility.ALI_BABA);
+							compileUnit(AgeUtility.NINJA);
+					case 2:
+						if (getAge() == AgeUtility.DARK)
+						{
+							compileUnit(AgeUtility.EARTH_YAGURA);
+						}
+						else
+							compileUnit(AgeUtility.WIND_YAGURA);
+					case 3:
+						if (getAge() == AgeUtility.DARK)
+						{
+							specialUsed = AgeUtility.DAMAGE_SPECIAL;
+						}
+						else
+							specialUsed = AgeUtility.HEAL_SPECIAL;
 					}
 				}
 			}
 		}
 	}
 
-	
+
 	/**
 	 * Detects when buttons are clicked and adds the units to the build list.
 	 */
@@ -95,7 +112,6 @@ public class HumanPlayer extends Player {
 
 	@Override
 	public int playerNum() {
-		// TODO Auto-generated method stub
 		return playerNum;
 	}
 

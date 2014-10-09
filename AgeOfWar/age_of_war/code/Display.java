@@ -18,8 +18,8 @@ public class Display extends PApplet {
 	private ArrayList<Unit> units = new ArrayList<Unit>();
 	private PImage field;
 
-	private final int rectSize = 80;
-	public final  int[] unit1 = new int[] {width/4-rectSize-10, 5};
+	public final int rectSize = 80;
+	public final  int[] unit1 = new int[] {width/10+10, 5};
 	public final int[] unit2 = new int[] {unit1[0]+rectSize, 5};
 	public final int[] yagura = new int[] {unit2[0]+rectSize, 5};
 	public final int[] special = new int[] {yagura[0]+rectSize, 5};

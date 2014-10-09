@@ -9,11 +9,14 @@ public class AgeOfWarTester {
 	public static void main(String[] args) throws Exception 
 	{
 		Display d = new Display();
-//		testFileReading();
-		
+		War w = new War(d, new HumanPlayer(d,1), new AIPlayer(d,2));
+
+		while (true) {
+			w.act();
+		}
 
 	}
-	
+
 	public static void testFileReading() throws IOException
 	{
 		System.out.println(AgeUtility.readfile("game_data\\UnitInfo"));
