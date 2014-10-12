@@ -21,9 +21,9 @@ public class HumanPlayer extends Player {
 	private int specialUsed;
 	private int playerNum;
 
-	public HumanPlayer(PApplet p, int playerNum) {
+	public HumanPlayer(Display p, int playerNum) {
 		super(p);
-		Display d = (Display) p;
+		Display d = p;
 		buttons.add(d.unit1);
 		buttons.add(d.unit2);
 		buttons.add(d.yagura);
@@ -39,13 +39,17 @@ public class HumanPlayer extends Player {
 	@Override
 	public ArrayList<Integer> getMaterialsToBuild() 
 	{
-		ArrayList<Integer> temp = materialToBuild;
-		materialToBuild = new ArrayList<Integer>();
-		return temp;
+		materialToBuild.clear();
+		mouseClicked();
+		return materialToBuild;
 	}
 
 	public void mouseClicked() {
-		if (super.getParent().mousePressed) {
+		if (getParent().mousePressed) {
+			System.out.println("I got this");
+			compileUnit(AgeUtility.SHINOBI);
+		}
+		/*if (getParent().mousePressed) {
 			for (int i = 0; i < buttons.size(); i++) {
 				if (buttons.get(i)[0] >= getParent().mouseX && buttons.get(i)[0]+rectSize <= getParent().mouseX
 						&& buttons.get(i)[1] >= getParent().mouseY && buttons.get(i)[1]+rectSize <= getParent().mouseY) {
@@ -83,7 +87,7 @@ public class HumanPlayer extends Player {
 					}
 				}
 			}
-		}
+		}*/
 	}
 
 
@@ -96,6 +100,7 @@ public class HumanPlayer extends Player {
 	{
 		if(AgeUtility.getCost(type) <= getGold())
 		{
+			setGold(getGold()-AgeUtility.getCost(type));
 			materialToBuild.add(type);
 		}
 	}

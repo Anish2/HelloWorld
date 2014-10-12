@@ -16,7 +16,7 @@ public class Unit {
 	private boolean isFighting= false;
 	private PApplet parent;
 
-	public final int ypos = 350;
+	public final int ypos = 375;
 
 
 	/**

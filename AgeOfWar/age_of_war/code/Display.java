@@ -17,6 +17,7 @@ public class Display extends PApplet {
 
 	private ArrayList<Unit> units = new ArrayList<Unit>();
 	private PImage field;
+	private War w;
 
 	public final int rectSize = 80;
 	public final  int[] unit1 = new int[] {width/10+10, 5};
@@ -29,6 +30,8 @@ public class Display extends PApplet {
 
 
 	public void setup() {
+		
+		w = new War(this, new HumanPlayer(this,1), new AIPlayer(this,2));
 
 		field = loadImage("field.jpg");
 		size(field.width, field.height);
@@ -36,7 +39,10 @@ public class Display extends PApplet {
 
 	public void draw()
 	{
+		
+		
 		update(mouseX, mouseY);
+		size(field.width, field.height);
 		background(field);
 
 		stroke(0);
@@ -45,6 +51,19 @@ public class Display extends PApplet {
 		rect(yagura[0], yagura[1], rectSize, rectSize);
 		rect(special[0], special[1], rectSize, rectSize);
 		rect(nextAge[0], nextAge[1], rectSize, rectSize);
+		
+		try {
+			w.act();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 

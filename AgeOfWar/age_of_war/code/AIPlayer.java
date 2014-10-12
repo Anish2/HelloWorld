@@ -12,7 +12,7 @@ import processing.core.PApplet;
 public class AIPlayer extends Player {
 
 	private int playerNum; 
-	public AIPlayer(PApplet p, int playerNum) {
+	public AIPlayer(Display p, int playerNum) {
 		super(p);
 		this.playerNum = playerNum;
 		

@@ -32,7 +32,7 @@ public class AgeUtility
 	public static final int DAMAGE_SPECIAL = 8;
 	public static final int HEAL_SPECIAL = 9;
 	
-	public final static int player1UnitStartingLocation = 100;//Subject to change
+	public final static int player1UnitStartingLocation = 100;
 	public final static int player2UnitStartingLocation = 900;
 	
 	/**
@@ -151,7 +151,7 @@ public class AgeUtility
 	 * @return cost
 	 */
 	public static int getCost(int type) {
-		return 0;
+		return 12;
 	}
 	
 	/**

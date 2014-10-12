@@ -17,7 +17,7 @@ public abstract class Player
 	private int xp = 0;
 	private PApplet parent;
 
-	public Player(PApplet p)
+	public Player(Display p)
 	{
 		parent = p;
 	}

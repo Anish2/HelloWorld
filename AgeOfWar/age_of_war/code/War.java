@@ -27,8 +27,6 @@ public class War {
 		parent = d;
 		this.a = a;
 		this.b = b;
-
-		PApplet.runSketch(new String[] {"--present"}, d);
 	} 
 	
 	/**
@@ -39,8 +37,8 @@ public class War {
 	 */
 	public void act() throws IOException 
 	{
-		if (parent.mousePressed)
-			System.out.println("It Works");
+		/*if (parent.mousePressed)
+			System.out.println("It Works");*/
 		
 		for (Unit u: units) {
 			u.move(u.getPos()+2);
@@ -49,6 +47,8 @@ public class War {
 		for (int type: a.getMaterialsToBuild()) {
 			units.add(AgeUtility.makeUnit(parent, type, 1));
 		}
+		System.out.println(a.getGold());
+		//System.out.println(units);
 		
 		
 		
