@@ -66,6 +66,7 @@ public class Display extends PApplet {
 		}
 
 	}
+	
 
 	public void update(int x, int y) {
 		rectOver = overRect(unit1[0], unit1[1], rectSize, rectSize);

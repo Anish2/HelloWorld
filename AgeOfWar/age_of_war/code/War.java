@@ -44,6 +44,10 @@ public class War {
 			u.move(u.getPos()+2);
 		}
 		
+		/*for (Yagura y: yaguras) {
+			y.move(u.getPos()+2);
+		}*/
+		
 		for (int type: a.getMaterialsToBuild()) {
 			units.add(AgeUtility.makeUnit(parent, type, 1));
 		}

@@ -1,6 +1,7 @@
 package code;
 
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -45,14 +46,17 @@ public class HumanPlayer extends Player {
 	}
 
 	public void mouseClicked() {
-		if (getParent().mousePressed) {
+		//if (getParent().mousePressed) {
+		/*if (getParent().mousePressed) {
 			System.out.println("I got this");
 			compileUnit(AgeUtility.SHINOBI);
-		}
-		/*if (getParent().mousePressed) {
+		}*/
+		if (getParent().mousePressed) {
+			final int X = getParent().mouseX;
+			final int Y = getParent().mouseY;
 			for (int i = 0; i < buttons.size(); i++) {
-				if (buttons.get(i)[0] >= getParent().mouseX && buttons.get(i)[0]+rectSize <= getParent().mouseX
-						&& buttons.get(i)[1] >= getParent().mouseY && buttons.get(i)[1]+rectSize <= getParent().mouseY) {
+				if (buttons.get(i)[0] <= X && buttons.get(i)[0]+rectSize >= X
+						&& buttons.get(i)[1] <= Y && buttons.get(i)[1]+rectSize >= Y) {
 					
 					switch(i)
 					{
@@ -63,6 +67,7 @@ public class HumanPlayer extends Player {
 						}
 						else
 							compileUnit(AgeUtility.ALI_BABA);
+						break;
 					case 1: 
 						if (getAge() == AgeUtility.DARK)
 						{
@@ -70,6 +75,7 @@ public class HumanPlayer extends Player {
 						}
 						else
 							compileUnit(AgeUtility.NINJA);
+						break;
 					case 2:
 						if (getAge() == AgeUtility.DARK)
 						{
@@ -77,6 +83,7 @@ public class HumanPlayer extends Player {
 						}
 						else
 							compileUnit(AgeUtility.WIND_YAGURA);
+						break;
 					case 3:
 						if (getAge() == AgeUtility.DARK)
 						{
@@ -84,10 +91,11 @@ public class HumanPlayer extends Player {
 						}
 						else
 							specialUsed = AgeUtility.HEAL_SPECIAL;
+						break;
 					}
 				}
 			}
-		}*/
+		}
 	}
 
 
