@@ -41,7 +41,7 @@ public class War {
 			System.out.println("It Works");*/
 		
 		for (Unit u: units) {
-			u.move(u.getPos()+2);
+			u.move(u.getPos()+4);
 		}
 		
 		/*for (Yagura y: yaguras) {
@@ -51,7 +51,7 @@ public class War {
 		for (int type: a.getMaterialsToBuild()) {
 			units.add(AgeUtility.makeUnit(parent, type, 1));
 		}
-		System.out.println(a.getGold());
+		//System.out.println(a.getGold());
 		//System.out.println(units);
 		
 		
