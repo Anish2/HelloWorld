@@ -46,7 +46,7 @@ public class AgeUtility
 		int[] units = new int[2];
 		
 		
-		ArrayList<ArrayList<String>> file = readfile("UnitInfo");
+		ArrayList<ArrayList<String>> file = readfileIntoList("UnitInfo");
 
 		int ageCol = file.get(0).indexOf("Age");
 		int numberCol = file.get(0).indexOf("Number");
@@ -63,7 +63,7 @@ public class AgeUtility
 		return units;
 	}
 	
-	public static ArrayList<ArrayList<String>> readfile(String fileName) throws IOException
+	private static ArrayList<ArrayList<String>> readfileIntoList(String fileName) throws IOException
 	{
 		ArrayList<ArrayList<String>> file = new ArrayList<ArrayList<String>>();
 		BufferedReader in = new BufferedReader(new FileReader(new File(fileName)));
@@ -102,8 +102,8 @@ public class AgeUtility
 	{
 		
 		File bgURL = new File("data\\UnitInfo");
-		ArrayList<ArrayList<String>> file = readfile(bgURL.getAbsolutePath());
-		
+		ArrayList<ArrayList<String>> file = readfileIntoList(bgURL.getAbsolutePath());
+		System.out.println(file);
 		int numberCol = file.get(0).indexOf("Number");
 		int healthCol = file.get(0).indexOf("Health");
 		int attackCol = file.get(0).indexOf("Attack");

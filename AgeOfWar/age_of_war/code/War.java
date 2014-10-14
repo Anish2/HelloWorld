@@ -51,6 +51,7 @@ public class War {
 		for (int type: a.getMaterialsToBuild()) {
 			units.add(AgeUtility.makeUnit(parent, type, 1));
 		}
+
 		//System.out.println(a.getGold());
 		//System.out.println(units);
 		

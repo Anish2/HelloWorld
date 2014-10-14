@@ -19,7 +19,7 @@ public class AgeOfWarTester {
 
 	public static void testFileReading() throws IOException
 	{
-		System.out.println(AgeUtility.readfile("game_data\\UnitInfo"));
+		System.out.println(AgeUtility.readfileIntoList("game_data\\UnitInfo"));
 	}
 
 }
