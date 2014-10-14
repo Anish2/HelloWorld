@@ -2,6 +2,7 @@ package code;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import processing.core.PApplet;
 
@@ -40,9 +41,19 @@ public class War {
 		/*if (parent.mousePressed)
 			System.out.println("It Works");*/
 		
-		for (Unit u: units) {
+		Unit[] unitsArray = (Unit[]) units.toArray();
+		
+		Arrays.sort(unitsArray);
+		
+		for (int x = 0 ; x < unitsArray.length; x ++) 
+		{
+			Unit u = unitsArray[x];
+			Unit adjacentU = unitsArray[x + 1];
+			if(u.getPos() + u.getRange() <= )
 			u.move(u.getPos()+4);
 		}
+		
+		
 		
 		/*for (Yagura y: yaguras) {
 			y.move(u.getPos()+2);
