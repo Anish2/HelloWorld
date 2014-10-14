@@ -8,9 +8,9 @@ import processing.core.PImage;
  * @author Anish Visaria, Eitan Zlatin
  *
  */
-public class Unit {
+public class Unit implements Comparable{
 
-	private int health, pos, attack_power, range;
+	private int health, pos, attack_power, range, player;
 	private PImage fightState;
 	private PImage walkState;
 	private boolean isFighting= false;
@@ -29,8 +29,9 @@ public class Unit {
 	 * @param walkState image of unit walking
 	 */
 	public Unit(PApplet parent, int maxHealth, int startingLocation, int attackAbility, int range, PImage fightState,
-			PImage walkState)
+			PImage walkState, int player)
 	{
+		this.player = player;
 		this.parent = parent;
 		health = maxHealth;
 		pos = startingLocation;
@@ -42,6 +43,10 @@ public class Unit {
 		parent.image(walkState, pos, ypos);
 	}
 
+	public int getPlayer()
+	{
+		return player;
+	}
 
 
 
@@ -114,6 +119,16 @@ public class Unit {
 	 */
 	public void setState(boolean state) {
 		isFighting = state;
+	}
+
+
+
+
+	public int compareTo(Object arg0) //Hope it works
+	{
+		Unit other = (Unit)arg0;
+	
+		return this.getPos() - other.getPos();
 	}
 
 

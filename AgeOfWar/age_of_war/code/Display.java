@@ -28,7 +28,6 @@ public class Display extends PApplet {
 
 
 	public void setup() {
-		
 		w = new War(this, new HumanPlayer(this,1), new AIPlayer(this,2));
 
 		field = loadImage("field.jpg");
@@ -37,8 +36,6 @@ public class Display extends PApplet {
 
 	public void draw()
 	{
-		
-		
 		update(mouseX, mouseY);
 		size(field.width, field.height);
 		background(field);

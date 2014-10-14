@@ -3,6 +3,7 @@ package code;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import processing.core.PApplet;
 
@@ -36,28 +37,35 @@ public class War {
 	 * Executes all actions player commands including upgrades.
 	 * @throws IOException 
 	 */
+	@SuppressWarnings("unchecked")
 	public void act() throws IOException 
 	{
 		/*if (parent.mousePressed)
 			System.out.println("It Works");*/
 		
-		Unit[] unitsArray = (Unit[]) units.toArray();
+
+		/*Collections.sort(units);
 		
-		Arrays.sort(unitsArray);
-		
-		for (int x = 0 ; x < unitsArray.length; x ++) 
+		for (int x = 0 ; x < units.size(); x ++) 
 		{
-			Unit u = unitsArray[x];
-			Unit adjacentU = unitsArray[x + 1];
-			if(u.getPos() + u.getRange() <= )
+			Unit u = units.get(x);
+			Unit adjacentU = units.get(x + 1);
+			if(u.getPos() + u.getRange() <=  adjacentU.getPos() && )
+			{
+				
+			}
 			u.move(u.getPos()+4);
-		}
+		}*/
 		
 		
 		
 		/*for (Yagura y: yaguras) {
 			y.move(u.getPos()+2);
 		}*/
+		
+		for (Unit u: units) {
+			u.move(u.getPos()+4);
+		}
 		
 		for (int type: a.getMaterialsToBuild()) {
 			units.add(AgeUtility.makeUnit(parent, type, 1));

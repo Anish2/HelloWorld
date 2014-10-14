@@ -41,11 +41,16 @@ public class HumanPlayer extends Player {
 	public ArrayList<Integer> getMaterialsToBuild() 
 	{
 		materialToBuild.clear();
-		mouseClicked();
+		try {
+			mouseClicked();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return materialToBuild;
 	}
 
-	public void mouseClicked() {
+	public void mouseClicked() throws IOException {
 		//if (getParent().mousePressed) {
 		/*if (getParent().mousePressed) {
 			System.out.println("I got this");
@@ -101,10 +106,11 @@ public class HumanPlayer extends Player {
 
 	/**
 	 * Detects when buttons are clicked and adds the units to the build list.
+	 * @throws IOException 
 	 */
 
 
-	private void compileUnit(int type) 
+	private void compileUnit(int type) throws IOException 
 	{
 		if(AgeUtility.getCost(type) <= getGold())
 		{
