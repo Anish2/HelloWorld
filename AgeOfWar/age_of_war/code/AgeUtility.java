@@ -119,12 +119,12 @@ public class AgeUtility
 		if(player == 1)
 		{
 			location = player1UnitStartingLocation;
-			direction = 'r';
+			direction = 'l';
 		}
 		else
 		{
 			location = player2UnitStartingLocation;
-			direction = 'l';
+			direction = 'r';
 		}
 
 		for(int x = 1 ; x < file.size(); x++)
@@ -205,9 +205,12 @@ public class AgeUtility
 	 * Returns the cooldown on a the special passed in.
 	 * @param special which special the cooldown is desired to know
 	 * @return the cooldown of the special
+	 * @throws IOException 
 	 */
-	public static int getCooldown(int special)
+	public static int getCooldown(int special) throws IOException
 	{
+		File bgURL = new File("data\\UnitInfo");
+		ArrayList<ArrayList<String>> file = readfileIntoList(bgURL.getAbsolutePath());
 		return 0;
 	}
 }
