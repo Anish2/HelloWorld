@@ -104,38 +104,26 @@ public class AgeUtility
 	public static Unit makeUnit(PApplet parent, int type, int player) throws IOException
 	{
 
+		if (type < 0 || type > 3)
+			throw new InvalidTypeException("No such unit type exists.");
+		
 		File bgURL = new File("data\\UnitInfo");
 		ArrayList<ArrayList<String>> file = readfileIntoList(bgURL.getAbsolutePath());
-		int numberCol = file.get(0).indexOf("Number");
 		int healthCol = file.get(0).indexOf("Health");
 		int attackCol = file.get(0).indexOf("Attack");
 		int rangeCol = file.get(0).indexOf("Range");
 
-		int location;
 		int health = Integer.parseInt(file.get(type+1).get(healthCol));
 		int attack = Integer.parseInt(file.get(type+1).get(attackCol));
 		int range = Integer.parseInt(file.get(type+1).get(rangeCol));
-		char direction;
-		if(player == 1)
-		{
-			location = player1UnitStartingLocation;
-			direction = 'l';
-		}
-		else
-		{
-			location = player2UnitStartingLocation;
-			direction = 'r';
-		}
 
-		for(int x = 1 ; x < file.size(); x++)
-		{
-			if(Integer.parseInt(file.get(x).get(numberCol)) == type)
-			{
-				health = Integer.parseInt(file.get(x).get(healthCol));
-				attack = Integer.parseInt(file.get(x).get(attackCol));
-				range = Integer.parseInt(file.get(x).get(rangeCol));							
-			}
-		}
+		char direction = (player == 1) ? 'r' : 'l';
+		int location = (player == 1) ? player1UnitStartingLocation : player2UnitStartingLocation;
+		
+		int num = type+1;
+		health = Integer.parseInt(file.get(num).get(healthCol));
+		attack = Integer.parseInt(file.get(num).get(attackCol));
+		range = Integer.parseInt(file.get(num).get(rangeCol));	
 
 		PImage walkImg = parent.loadImage(type+"w"+direction+".png");
 		PImage fightImg = parent.loadImage(type+"f"+direction+".png");
@@ -154,10 +142,30 @@ public class AgeUtility
 	 * @return built yagura
 	 * @throws IOException 
 	 */
-	public static Yagura makeYagura(int type, int player) throws IOException {
+	public static Yagura makeYagura(PApplet parent, int type, int player) throws IOException {
+		
+		if (type != AgeUtility.EARTH_YAGURA || type != AgeUtility.WIND_YAGURA)
+			throw new InvalidTypeException("Yagura type does not exist.");
+		
 		File bgURL = new File("data\\YaguraInfo");
 		ArrayList<ArrayList<String>> data = readfileIntoList(bgURL.getAbsolutePath());
-		return null;
+		int attackCol = data.get(0).indexOf("Attack");
+		int rangeCol = data.get(0).indexOf("Range");
+		
+		int row = (type == AgeUtility.EARTH_YAGURA) ? 1 : 2;
+		char direction = (player == 1) ? 'r' : 'l';
+		int location = (player == 1) ? player1UnitStartingLocation : player2UnitStartingLocation;
+		
+		PImage restImg = parent.loadImage(type+"r"+direction+".png");
+		PImage activeImg = parent.loadImage(type+"a"+direction+".png");
+
+		restImg.resize(UNIT_WIDTH, UNIT_HEIGHT);
+		activeImg.resize(UNIT_WIDTH, UNIT_HEIGHT);
+		
+		Yagura y = new Yagura(restImg, activeImg, Integer.parseInt(data.get(row).get(attackCol)), location,
+				Integer.parseInt(data.get(row).get(rangeCol)), parent);
+		
+		return y;
 	}
 
 	/**
@@ -167,7 +175,7 @@ public class AgeUtility
 	 * @throws IOException 
 	 */
 	public static int getCost(int type) throws IOException {
-		if (type <= AgeUtility.ALI_BABA) {
+		if (type <= AgeUtility.ALI_BABA && type >= AgeUtility.SHINOBI) {
 			File bgURL = new File("data\\UnitInfo");
 			ArrayList<ArrayList<String>> data = readfileIntoList(bgURL.getAbsolutePath());
 			int costCol = data.get(0).indexOf("Cost");
@@ -223,8 +231,13 @@ public class AgeUtility
 	 */
 	public static int getCooldown(int special) throws IOException
 	{
-		File bgURL = new File("data\\UnitInfo");
-		ArrayList<ArrayList<String>> file = readfileIntoList(bgURL.getAbsolutePath());
-		return 0;
+		if (special != HEAL_SPECIAL && special != DAMAGE_SPECIAL)
+			throw new InvalidTypeException("Special type does not exist.");
+		
+		File bgURL = new File("data\\SpecialInfo");
+		ArrayList<ArrayList<String>> data = readfileIntoList(bgURL.getAbsolutePath());
+		int coolCol = data.get(0).indexOf("Cooldown");
+		return (special == AgeUtility.HEAL_SPECIAL) ? Integer.parseInt(data.get(2).get(coolCol)) 
+				: Integer.parseInt(data.get(1).get(coolCol));
 	}
 }

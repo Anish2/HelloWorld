@@ -11,7 +11,7 @@ import processing.core.PImage;
 public class Yagura {
 	
 	private int attack, location, range;
-	private PImage picture, attackState;
+	private PImage restState, attackState;
 	private boolean state = false;
 	private PApplet parent;
 	public final int xPos = 200;
@@ -29,8 +29,8 @@ public class Yagura {
 	 * @param range
 	 *            range of firing and damage inflictment
 	 */
-	public Yagura(PImage picture, PImage attackState, int attack, int location, int range, PApplet p) {
-		this.picture = picture;
+	public Yagura(PImage restState, PImage attackState, int attack, int location, int range, PApplet p) {
+		this.restState = restState;
 		this.attack = attack;
 		this.location = location;
 		this.range = range;
