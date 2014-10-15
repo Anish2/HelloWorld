@@ -117,7 +117,7 @@ public class AgeUtility
 		int attack = Integer.parseInt(file.get(type+1).get(attackCol));
 		int range = Integer.parseInt(file.get(type+1).get(rangeCol));
 
-		char direction = (player == 1) ? 'r' : 'l';
+		char direction = (player == 1) ? 'l' : 'r';
 		int location = (player == 1) ? player1UnitStartingLocation : player2UnitStartingLocation;
 		
 		int num = type+1;
@@ -153,7 +153,7 @@ public class AgeUtility
 		int rangeCol = data.get(0).indexOf("Range");
 		
 		int row = (type == AgeUtility.EARTH_YAGURA) ? 1 : 2;
-		char direction = (player == 1) ? 'r' : 'l';
+		char direction = (player == 1) ? 'l' : 'r';
 		int location = (player == 1) ? player1UnitStartingLocation : player2UnitStartingLocation;
 		
 		PImage restImg = parent.loadImage(type+"r"+direction+".png");

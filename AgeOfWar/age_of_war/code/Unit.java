@@ -16,7 +16,7 @@ public class Unit implements Comparable{
 	private boolean isFighting= false;
 	private PApplet parent;
 
-	public final int ypos = 375;
+	public final int YPOS = 375;
 
 
 	/**
@@ -40,7 +40,7 @@ public class Unit implements Comparable{
 		this.fightState = fightState;
 		this.walkState = walkState;
 
-		parent.image(walkState, pos, ypos);
+		parent.image(walkState, pos, YPOS);
 	}
 
 	public int getPlayer()
@@ -57,14 +57,14 @@ public class Unit implements Comparable{
 	public void move(int position)
 	{
 		pos = position;
-		parent.image(walkState, pos, ypos);
+		parent.image(walkState, pos, YPOS);
 	}
 
 	public void fight() {
 		if (isFighting)
-			parent.image(fightState, pos, ypos);
+			parent.image(fightState, pos, YPOS);
 		else
-			parent.image(walkState, pos, ypos);
+			parent.image(walkState, pos, YPOS);
 	}
 
 	/**
