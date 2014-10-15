@@ -35,8 +35,8 @@ public class AgeUtility
 	public final static int player1UnitStartingLocation = 100;
 	public final static int player2UnitStartingLocation = 900;
 
-	private final static int UNIT_WIDTH = 80;
-	private final static int UNIT_HEIGHT = 100;
+	private final static int UNIT_WIDTH = 70;
+	private final static int UNIT_HEIGHT = 85;
 
 	/**
 	 * Returns an array of the units that can be built in age containing the meele unit in the first index and the ranged unit in the second.
@@ -167,9 +167,23 @@ public class AgeUtility
 	 * @throws IOException 
 	 */
 	public static int getCost(int type) throws IOException {
-		File bgURL = new File("data\\UnitInfo");
-		ArrayList<ArrayList<String>> data = readfileIntoList(bgURL.getAbsolutePath());
-		return Integer.parseInt(data.get(type+1).get(5));
+		if (type <= AgeUtility.ALI_BABA) {
+			File bgURL = new File("data\\UnitInfo");
+			ArrayList<ArrayList<String>> data = readfileIntoList(bgURL.getAbsolutePath());
+			int costCol = data.get(0).indexOf("Cost");
+			return Integer.parseInt(data.get(type+1).get(costCol));
+		}
+		else {
+			File bgURL = new File("data\\YaguraInfo");			
+			ArrayList<ArrayList<String>> data = readfileIntoList(bgURL.getAbsolutePath());
+			int costCol = data.get(0).indexOf("Cost");
+			if (type == AgeUtility.EARTH_YAGURA) 
+				return Integer.parseInt(data.get(1).get(costCol));
+			else if (type == AgeUtility.WIND_YAGURA)
+				return Integer.parseInt(data.get(2).get(costCol));
+			else
+				throw new InvalidTypeException("This type of unit or yagura does not exist.");
+		}
 	}
 
 	/**

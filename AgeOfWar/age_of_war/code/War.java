@@ -40,8 +40,6 @@ public class War {
 	@SuppressWarnings("unchecked")
 	public void act() throws IOException 
 	{
-		/*if (parent.mousePressed)
-			System.out.println("It Works");*/
 		
 
 		/*Collections.sort(units);
