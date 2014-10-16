@@ -50,8 +50,6 @@ public class AgeUtility
 	public static int[] getUnits(int age) throws IOException
 	{
 		int[] units = new int[2];
-
-
 		ArrayList<ArrayList<String>> file = readfileIntoList("data\\UnitInfo");
 
 		int ageCol = file.get(0).indexOf("Age");
@@ -63,6 +61,7 @@ public class AgeUtility
 			if(Integer.parseInt(file.get(x).get(ageCol)) == age)
 			{
 				units[row] = Integer.parseInt(file.get(x).get(numberCol));
+				row++;
 			}
 		}
 
