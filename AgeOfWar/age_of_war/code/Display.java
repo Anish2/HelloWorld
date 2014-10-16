@@ -7,7 +7,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 /**
- * Shows battlefield movement, fighting, and age updates.
+ * Displays buttons for the human to click, the player's bases, and the humans current gold and xp.
  * @author Anish Visaria, Eitan Zlatin
  *
  */
@@ -49,8 +49,10 @@ public class Display extends PApplet {
 		
 		fill(255);
 		
-		
+		//displayLightning();
 		stroke(0);
+		
+		fill(255);
 		rect(unit1[0], unit1[1], rectSize, rectSize);
 		rect(unit2[0], unit2[1], rectSize, rectSize);
 		rect(yagura[0], yagura[1], rectSize, rectSize);
@@ -107,6 +109,15 @@ public class Display extends PApplet {
 	//{
 	//	this.units = units;
 //	}
+	
+	private void displayLightning()
+	{
+		fill(255,255,0);
+		stroke(255,255,0);
+		quad(500,100,530,100,510,150,480,150);
+		quad(480,150,550,150,540,160,470,160);
+		quad(510,160,540,160,510,210,480,210);
+	}
 
 
 }
