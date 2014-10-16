@@ -81,10 +81,11 @@ public class Unit implements Comparable<Unit> {
 	}
 
 	public void fight() {
-		if (isFighting)
+		//if (isFighting)
 			this.displayImage(fightState);
-		else
-			this.displayImage(walkState);
+		//else
+		//	this.displayImage(fightState);
+			//this.displayImage(walkState);
 	}
 
 	/**
