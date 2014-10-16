@@ -22,9 +22,11 @@ public class War {
 	private ArrayList<Yagura> yaguras = new ArrayList<Yagura>();
 	private Display parent;
 	private long coolA, coolB;
+	private int scoreA, scoreB;
 
 	/**
-	 * Constructs a War with two players.
+	 * Constructs war with 2 players and display.
+	 * @param d display object
 	 * @param a player one
 	 * @param b player two
 	 */
@@ -42,7 +44,6 @@ public class War {
 	 * @throws IOException 
 	 * @throws InterruptedException 
 	 */
-	@SuppressWarnings("unchecked")
 	public void act() throws IOException, InterruptedException 
 	{
 		// handle specials
@@ -60,10 +61,24 @@ public class War {
 		}
 
 		for (Unit u: units) {
-			if (u.getPlayer() == 1)
+			if (u.getPlayer() == 1) {
 				u.move(u.getPos()+4);
-			else
+				if (u.getPos() >= AgeUtility.player2UnitStartingLocation)
+					scoreA++;
+				if (scoreA >= 5) {
+					JOptionPane.showMessageDialog(null, "Player 1 wins!");
+					System.exit(0);
+				}
+			}
+			else {
 				u.move(u.getPos()-4);
+				if (u.getPos() <= AgeUtility.player1UnitStartingLocation)
+					scoreB++;
+				if (scoreB >= 5) {
+					JOptionPane.showMessageDialog(null, "Player 2 wins!");
+					System.exit(0);
+				}
+			}
 		}
 
 		for (int type: a.getMaterialsToBuild()) {
@@ -79,6 +94,8 @@ public class War {
 			else
 				units.add(AgeUtility.makeUnit(parent, type, 2));
 		}
+		
+		
 
 
 	}

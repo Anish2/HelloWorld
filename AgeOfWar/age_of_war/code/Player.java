@@ -17,33 +17,55 @@ public abstract class Player
 	private int xp = 0;
 	private PApplet parent;
 
+	/**
+	 * Makes player with display
+	 * @param p display object
+	 */
 	public Player(Display p)
 	{
 		parent = p;
 	}
 	
+	/**
+	 * Returns Xp of player.
+	 * @return xp
+	 */
 	public int getXp()
 	{
 		return xp;
 	}
 	
+	/**
+	 * Returns display object
+	 * @return display object
+	 */
 	public PApplet getParent()
 	{
 		return parent;
 	}
 	
+	/**
+	 * Adds xp to current player xp
+	 * @param exp xp to add
+	 */
 	public void gainXP(int exp)
 	{
 		xp += exp;
 	}
 	
 	
-	
+	/**
+	 * Sets gold to a value.
+	 * @param gold gold to set
+	 */
 	public void setGold(int gold)
 	{
 		this.gold = gold;
 	}
 	
+	/**
+	 * Changes current age.
+	 */
 	public void ageUp()
 	{
 		currentAge = AgeUtility.MEDIEVAL;
@@ -57,7 +79,7 @@ public abstract class Player
 	
 	/**
 	 * Returns a string representing the player's current age
-	 * @return "dark" if the player is in the dark age or "medieval" if the player is in the medieval age
+	 * @return current age
 	 */ 
 	public int getAge() {
 		return currentAge;
@@ -72,7 +94,15 @@ public abstract class Player
 		return gold;
 	}
 
+	/**
+	 * Returns whether this player used a special or not.
+	 * @return special choice
+	 */
 	public abstract boolean getSpecial();
 	
+	/**
+	 * Returns number of player.
+	 * @return player num
+	 */
 	public abstract int playerNum();
 }

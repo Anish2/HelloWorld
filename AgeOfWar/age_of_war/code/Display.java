@@ -24,8 +24,10 @@ public class Display extends PApplet {
 	public final int[] nextAge = new int[] {special[0]+rectSize, 5};
 
 	private HumanPlayer player1;
-//	private boolean rectOver = false;
-
+	
+	/**
+	 * Makes war and initializes battle arena size and bgImage.
+	 */
 	public void setup() 
 	{
 		player1= new HumanPlayer(this,1);
@@ -35,9 +37,11 @@ public class Display extends PApplet {
 		size(field.width, field.height);
 	}
 
+	/**
+	 * Draws and updates field.
+	 */
 	public void draw()
 	{
-	//	update(mouseX, mouseY);
 		size(field.width, field.height);
 		background(field);
 		
@@ -69,14 +73,13 @@ public class Display extends PApplet {
 		fill(255);
 		text("Gold :" + player1.getGold(), 850 , 50);
 		text("Xp :" + player1.getXp(), 950 , 50);
-		text("Age :" + (player1.getAge() - 3), 1050 , 50);//The three is to convert it from 4 and 5 to 1 and 2
+		text("Age :" + (player1.getAge() - 3), 1050 , 50);
 		
 		
 		try {
 			try {
 				w.act();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} catch (IOException e) {

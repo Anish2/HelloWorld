@@ -17,17 +17,15 @@ public class Yagura {
 	public final int XPOS, YPOS = 245;
 
 	/**
-	 * Deploys yagura(Japanese word for tower) with following characteristics
-	 * and displays it on battlefield.
 	 * 
-	 * @param picture
-	 *            yagura's picture
+	 * @param restState
+	 * @param attackState
 	 * @param attack
-	 *            attack ability
 	 * @param location
-	 *            yagura's placement of y-axis
 	 * @param range
-	 *            range of firing and damage inflictment
+	 * @param p
+	 * @param type
+	 * @param player
 	 */
 	public Yagura(PImage restState, PImage attackState, int attack, int location, int range, PApplet p, int type, int player) {
 		this.restState = restState;

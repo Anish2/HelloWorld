@@ -22,6 +22,11 @@ public class HumanPlayer extends Player {
 	private int specialUsed;
 	private int playerNum;
 
+	/**
+	 * constructs HumanPlayer.
+	 * @param p display object
+	 * @param playerNum number of player
+	 */
 	public HumanPlayer(Display p, int playerNum) {
 		super(p);
 		Display d = p;
@@ -50,7 +55,8 @@ public class HumanPlayer extends Player {
 		return materialToBuild;
 	}
 
-	public void mouseClicked() throws IOException {
+
+	private void mouseClicked() throws IOException {
 		if (getParent().mousePressed) {
 			final int X = getParent().mouseX;
 			final int Y = getParent().mouseY;
@@ -102,11 +108,6 @@ public class HumanPlayer extends Player {
 		}
 	}
 
-
-	/**
-	 * Detects when buttons are clicked and adds the units to the build list.
-	 * @throws IOException 
-	 */
 
 
 	private void compileUnit(int type) throws IOException 

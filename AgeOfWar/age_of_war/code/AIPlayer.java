@@ -12,6 +12,12 @@ import processing.core.PApplet;
 public class AIPlayer extends Player {
 
 	private int playerNum; 
+	
+	/**
+	 * Constructs AIPlayer
+	 * @param p display object
+	 * @param playerNum number of player
+	 */
 	public AIPlayer(Display p, int playerNum) {
 		super(p);
 		this.playerNum = playerNum;
@@ -26,6 +32,8 @@ public class AIPlayer extends Player {
 		ArrayList<Integer> toBuild = new ArrayList<Integer>();
 		if (Math.random() > 0.95)
 			toBuild.add((int) (Math.random()*4));
+		/*if (Math.random() > 0.95)
+			toBuild.add(AgeUtility.EARTH_YAGURA);*/
 		return toBuild;
 	}
 

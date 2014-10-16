@@ -33,7 +33,7 @@ public class AgeUtility
 	public static final int HEAL_SPECIAL = 9;
 
 	public final static int player1UnitStartingLocation = 100;
-	public final static int player2UnitStartingLocation = 900;
+	public final static int player2UnitStartingLocation = 1000;
 
 	private final static int UNIT_WIDTH = 70;
 	private final static int UNIT_HEIGHT = 85;
@@ -97,12 +97,12 @@ public class AgeUtility
 	}
 
 	/**
-	 * Returns Unit with characteristics according to type.
+	 * Makes unit and returns it.
+	 * @param parent papplet object
 	 * @param type type of unit
-	 * @param player 1 if the unit belongs to player 1, 2 if it belongs to player 2.
-	 * @return built Unit
-	 * @throws IOException 
-	 * @throws Exception 
+	 * @param player player num
+	 * @return unit
+	 * @throws IOException
 	 */
 	public static Unit makeUnit(PApplet parent, int type, int player) throws IOException
 	{
@@ -139,11 +139,12 @@ public class AgeUtility
 	}
 
 	/**
-	 * Returns yagura with characteristics according to type.
+	 * Makes yagura with specs.
+	 * @param parent papplet object
 	 * @param type type of yagura
-	 * @param player 1 if the yagura belongs to player 1, 2 if it belongs to player 2.
-	 * @return built yagura
-	 * @throws IOException 
+	 * @param player player num
+	 * @return yagura
+	 * @throws IOException
 	 */
 	public static Yagura makeYagura(PApplet parent, int type, int player) throws IOException {
 

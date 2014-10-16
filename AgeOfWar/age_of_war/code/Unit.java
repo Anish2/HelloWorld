@@ -21,13 +21,16 @@ public class Unit implements Comparable<Unit> {
 
 
 	/**
-	 * Deploys unit with following characteristics and displays it on battlefield.
-	 * @param maxHealth starting health of unit
-	 * @param startingLocation initial position of unit on x-axis
-	 * @param attackAbility damage this unit can inflict each attack
-	 * @param range distance unit attacks from
-	 * @param fightState image of unit attacking
-	 * @param walkState image of unit walking
+	 * Makes unit with characteristics given.
+	 * @param parent papplet object
+	 * @param maxHealth starting health
+	 * @param startingLocation start location on x-axis
+	 * @param attackAbility damage of attack
+	 * @param range range of attack
+	 * @param fightState fight state picture
+	 * @param walkState walk state picture
+	 * @param player player num or unit owner
+	 * @param type type of unit
 	 */
 	public Unit(PApplet parent, int maxHealth, int startingLocation, int attackAbility, int range, PImage fightState,
 			PImage walkState, int player, int type)
@@ -46,11 +49,19 @@ public class Unit implements Comparable<Unit> {
 		this.displayImage(walkState);
 	}
 
+	/**
+	 * Returns player num.
+	 * @return player num
+	 */
 	public int getPlayer()
 	{
 		return player;
 	}
 
+	/**
+	 * Returns type of unit
+	 * @return unit type
+	 */
 	public int getType()
 	{
 		return type;
@@ -80,12 +91,11 @@ public class Unit implements Comparable<Unit> {
 		this.displayImage(walkState);
 	}
 
+	/**
+	 * Places unit in fight state. (displays fightState image)
+	 */
 	public void fight() {
-		//if (isFighting)
-			this.displayImage(fightState);
-		//else
-		//	this.displayImage(fightState);
-			//this.displayImage(walkState);
+		this.displayImage(fightState);
 	}
 
 	/**
@@ -97,7 +107,7 @@ public class Unit implements Comparable<Unit> {
 		return pos;
 
 	}
-	
+
 	/**
 	 * Returns attack ability of unit.
 	 * @return attack ability of unit
@@ -133,7 +143,7 @@ public class Unit implements Comparable<Unit> {
 	public int getHealth() {
 		return health;
 	}
-	
+
 	public void heal() {
 		health = maxhealth;
 	}
@@ -148,14 +158,13 @@ public class Unit implements Comparable<Unit> {
 
 
 
-
+	/**
+	 * Compares units by position
+	 */
 	public int compareTo(Unit u) 
 	{
 		return this.getPos() - u.getPos();
 	}
-
-
-	public String toString() { return player+""; };
 
 
 
