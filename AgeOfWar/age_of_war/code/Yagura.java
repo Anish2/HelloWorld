@@ -17,15 +17,15 @@ public class Yagura {
 	public final int XPOS, YPOS = 245;
 
 	/**
-	 * 
-	 * @param restState
-	 * @param attackState
-	 * @param attack
-	 * @param location
-	 * @param range
-	 * @param p
-	 * @param type
-	 * @param player
+	 * Makes yagura with characteristics given.
+	 * @param restState rest image
+	 * @param attackState attack image
+	 * @param attack damage of attack
+	 * @param location location on y-axis
+	 * @param range range of yagura
+	 * @param p papplet object
+	 * @param type type of yagura
+	 * @param player number of player
 	 */
 	public Yagura(PImage restState, PImage attackState, int attack, int location, int range, PApplet p, int type, int player) {
 		this.restState = restState;
@@ -50,24 +50,22 @@ public class Yagura {
 		return attack;
 	}
 	
-	
+	/**
+	 * Returns type of yagura.
+	 * @return type
+	 */
 	public int getType()
 	{
 		return type;
 	}
 	
+	/**
+	 * Returns player num of owner.
+	 * @return player num
+	 */
 	public int getPlayer()
 	{
 		return player;
-	}
-
-	/**
-	 * Gets placement on y-axis of battlefield
-	 * 
-	 * @return placement on y-axis
-	 */
-	public int getPlacement() {
-		return location;
 	}
 
 	/**
@@ -88,6 +86,9 @@ public class Yagura {
 		this.state = state;
 	}
 	
+	/**
+	 * Displays yagura on field.
+	 */
 	public void display()
 	{
 		parent.image(restState, XPOS, YPOS);
