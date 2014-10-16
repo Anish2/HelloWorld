@@ -140,7 +140,7 @@ public class Unit implements Comparable{
 
 	public int compareTo(Object arg0) //Hope it works
 	{
-		Unit other = (Unit)arg0;
+		Unit other = (Unit)arg0; 
 	
 		return this.getPos() - other.getPos();
 	}
