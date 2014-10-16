@@ -1,6 +1,5 @@
 package code;
 
-import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import processing.core.PApplet;

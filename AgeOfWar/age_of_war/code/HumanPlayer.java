@@ -1,11 +1,10 @@
 package code;
 
-import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
-import processing.core.PApplet;
+
 
 /**
  * Normal player that interacts with the display.

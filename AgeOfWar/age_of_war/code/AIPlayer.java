@@ -2,7 +2,6 @@ package code;
 
 import java.util.ArrayList;
 
-import processing.core.PApplet;
 
 /**
  * Simulates computer player as opponent.
