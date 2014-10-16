@@ -10,11 +10,11 @@ import processing.core.PImage;
  */
 public class Yagura {
 	
-	private int attack, location, range;
+	private int attack, location, range, type, player;
 	private PImage restState, attackState;
 	private boolean state = false;
 	private PApplet parent;
-	public final int xPos = 200;
+	public final int XPOS, YPOS = 245;
 
 	/**
 	 * Deploys yagura(Japanese word for tower) with following characteristics
@@ -29,13 +29,18 @@ public class Yagura {
 	 * @param range
 	 *            range of firing and damage inflictment
 	 */
-	public Yagura(PImage restState, PImage attackState, int attack, int location, int range, PApplet p) {
+	public Yagura(PImage restState, PImage attackState, int attack, int location, int range, PApplet p, int type, int player) {
 		this.restState = restState;
 		this.attack = attack;
 		this.location = location;
 		this.range = range;
 		this.attackState = attackState;
 		parent = p;
+		this.type = type;
+		XPOS = location-20;
+		this.player = player;
+		
+		parent.image(restState, XPOS, YPOS);
 	}
 
 	/**
@@ -45,6 +50,17 @@ public class Yagura {
 	 */
 	public int getAttack() {
 		return attack;
+	}
+	
+	
+	public int getType()
+	{
+		return type;
+	}
+	
+	public int getPlayer()
+	{
+		return player;
 	}
 
 	/**
@@ -76,7 +92,7 @@ public class Yagura {
 	
 	public void display()
 	{
-		
+		parent.image(restState, XPOS, YPOS);
 	}
 
 }

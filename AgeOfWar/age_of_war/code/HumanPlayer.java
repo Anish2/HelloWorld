@@ -51,18 +51,12 @@ public class HumanPlayer extends Player {
 	}
 
 	public void mouseClicked() throws IOException {
-		//if (getParent().mousePressed) {
-		/*if (getParent().mousePressed) {
-			System.out.println("I got this");
-			compileUnit(AgeUtility.SHINOBI);
-		}*/
 		if (getParent().mousePressed) {
 			final int X = getParent().mouseX;
 			final int Y = getParent().mouseY;
 			for (int i = 0; i < buttons.size(); i++) {
 				if (buttons.get(i)[0] <= X && buttons.get(i)[0]+rectSize >= X
 						&& buttons.get(i)[1] <= Y && buttons.get(i)[1]+rectSize >= Y) {
-					
 					switch(i)
 					{
 					case 0:
@@ -96,6 +90,11 @@ public class HumanPlayer extends Player {
 						}
 						else
 							specialUsed = AgeUtility.HEAL_SPECIAL;
+						break;
+					case 4:
+						if (getXp() >= AgeUtility.xpToAgeUp(getAge())) {
+							this.ageUp();
+						}
 						break;
 					}
 				}

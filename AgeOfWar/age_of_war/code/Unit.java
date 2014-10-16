@@ -8,16 +8,15 @@ import processing.core.PImage;
  * @author Anish Visaria, Eitan Zlatin
  *
  */
-public class Unit implements Comparable{
+public class Unit implements Comparable<Unit> {
 
-	private int health, pos, attack_power, range, player;
+	private int health, pos, attack_power, range, player, type, maxhealth;
 	private PImage fightState;
 	private PImage walkState;
 	private boolean isFighting= false;
 	private PApplet parent;
 
-	
-	private int maxHealth;
+
 	public final int YPOS = 375;
 
 
@@ -31,17 +30,18 @@ public class Unit implements Comparable{
 	 * @param walkState image of unit walking
 	 */
 	public Unit(PApplet parent, int maxHealth, int startingLocation, int attackAbility, int range, PImage fightState,
-			PImage walkState, int player)
+			PImage walkState, int player, int type)
 	{
 		this.player = player;
 		this.parent = parent;
 		health = maxHealth;
-		this.maxHealth = maxHealth;
+		this.maxhealth = maxHealth;
 		pos = startingLocation;
 		attack_power = attackAbility;
 		this.range = range;
 		this.fightState = fightState;
 		this.walkState = walkState;
+		this.type = type;
 
 		this.displayImage(walkState);
 	}
@@ -51,16 +51,22 @@ public class Unit implements Comparable{
 		return player;
 	}
 
+	public int getType()
+	{
+		return type;
+	}
+
 	private void displayImage(PImage image)
 	{
-		
-//		double percentHealth = health/ maxHealth;
-//		
-//		parent.fill(0,255,0);
-//		parent.rect(pos, YPOS + 50, 20, 10);
-//		
-//		parent.fill(255,0,0);
-//		parent.rect(pos, YPOS + 50, (float) (20 * percentHealth), 10);
+
+		double percentHealth = health/ maxhealth;
+		int width = 60, height = 35;
+
+		parent.fill(255,0,0);
+		parent.rect(pos, YPOS - 10, height, width);
+
+		parent.fill(0,255,0);
+		parent.rect(pos, YPOS - 10, height, (float) (width * percentHealth));
 		parent.image(image, pos, YPOS);
 	}
 
@@ -90,7 +96,7 @@ public class Unit implements Comparable{
 		return pos;
 
 	}
-
+	
 	/**
 	 * Returns attack ability of unit.
 	 * @return attack ability of unit
@@ -126,6 +132,10 @@ public class Unit implements Comparable{
 	public int getHealth() {
 		return health;
 	}
+	
+	public void heal() {
+		health = maxhealth;
+	}
 
 	/**
 	 * Changes the state to fighting if isFighting, walking else
@@ -138,12 +148,13 @@ public class Unit implements Comparable{
 
 
 
-	public int compareTo(Object arg0) //Hope it works
+	public int compareTo(Unit u) 
 	{
-		Unit other = (Unit)arg0; 
-	
-		return this.getPos() - other.getPos();
+		return this.getPos() - u.getPos();
 	}
+
+
+	public String toString() { return player+""; };
 
 
 

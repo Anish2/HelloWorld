@@ -24,7 +24,8 @@ public class AIPlayer extends Player {
 	@Override
 	public ArrayList<Integer> getMaterialsToBuild() {
 		ArrayList<Integer> toBuild = new ArrayList<Integer>();
-		toBuild.add((int) (Math.random()*4));
+		if (Math.random() > 0.95)
+			toBuild.add((int) (Math.random()*4));
 		return toBuild;
 	}
 
@@ -33,12 +34,11 @@ public class AIPlayer extends Player {
 	 */
 	@Override
 	public boolean getSpecial() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public int playerNum() {
-		// TODO Auto-generated method stub
 		return playerNum;
 	}
 

@@ -48,8 +48,7 @@ public class Display extends PApplet {
 		rect(1000, 300, 200, 250);
 		
 		fill(255);
-		
-		//displayLightning();
+
 		stroke(0);
 		
 		fill(255);
@@ -74,7 +73,12 @@ public class Display extends PApplet {
 		
 		
 		try {
-			w.act();
+			try {
+				w.act();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -87,37 +91,8 @@ public class Display extends PApplet {
 	}
 	
 
-	//public void update(int x, int y) {
-		//rectOver = overRect(unit1[0], unit1[1], rectSize, rectSize);
-//=	}
 
-	public boolean overRect(int x, int y, int width, int height)  {
-		return mouseX >= x && mouseX <= x+width && mouseY >= y && mouseY <= y+height;
-	}
-
-
-
-	/**
-	 * Updates age home base image.
-	 * @param p player that needs update
-	 */
-	public void updateAge(Player p) {
-
-	}
-
-	//public void updateUnits(ArrayList<Unit> units)
-	//{
-	//	this.units = units;
-//	}
 	
-	private void displayLightning()
-	{
-		fill(255,255,0);
-		stroke(255,255,0);
-		quad(500,100,530,100,510,150,480,150);
-		quad(480,150,550,150,540,160,470,160);
-		quad(510,160,540,160,510,210,480,210);
-	}
 
 
 }

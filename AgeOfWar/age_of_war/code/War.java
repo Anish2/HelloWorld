@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.JOptionPane;
+
 import processing.core.PApplet;
 
 /**
@@ -38,11 +40,100 @@ public class War {
 	 * Deploys units and yaguras that a Player desires on the battlefield.
 	 * Executes all actions player commands including upgrades.
 	 * @throws IOException 
+	 * @throws InterruptedException 
 	 */
 	@SuppressWarnings("unchecked")
-	public void act() throws IOException 
+	public void act() throws IOException, InterruptedException 
 	{
 		// handle specials
+		handle_specials();
+
+
+		// handle fighting
+		unit_combat();
+
+		// handle yagura combat
+		yagura_combat();
+
+		for (Yagura y: yaguras) {
+			y.display();
+		}
+
+		for (Unit u: units) {
+			if (u.getPlayer() == 1)
+				u.move(u.getPos()+4);
+			else
+				u.move(u.getPos()-4);
+		}
+
+		for (int type: a.getMaterialsToBuild()) {
+			if (type > AgeUtility.ALI_BABA)
+				yaguras.add(AgeUtility.makeYagura(parent, type, 1));
+			else
+				units.add(AgeUtility.makeUnit(parent, type, 1));
+		}
+
+		for (int type: b.getMaterialsToBuild()) {
+			if (type > AgeUtility.ALI_BABA)
+				yaguras.add(AgeUtility.makeYagura(parent, type, 2));
+			else
+				units.add(AgeUtility.makeUnit(parent, type, 2));
+		}
+
+
+	}
+
+	private void yagura_combat() throws IOException {
+		for (int i = 0; i < yaguras.size(); i++) {
+			for (int u = 0; u < units.size(); u++) {
+				if (yaguras.get(i).getPlayer() != units.get(u).getPlayer() && 
+						Math.abs(yaguras.get(i).XPOS-units.get(u).getPos()) <= yaguras.get(i).getRange()) {
+					units.get(u).damage(yaguras.get(i).getAttack());
+					if (units.get(u).getHealth() <= 0) {
+						killUnit(u);
+						u--;
+					}
+				}
+			}
+		}
+	}
+
+	private void unit_combat() throws IOException {
+		Collections.sort(units);
+		int unit_side = 0;
+		if (!units.isEmpty())
+			unit_side = units.get(0).getPlayer();
+
+		for (int i = 1; i < units.size(); i++) {
+			if (units.get(i).getPlayer() != unit_side) {
+				int distance = Math.abs(units.get(i).getPos()-units.get(i-1).getPos());
+				if (distance <= 80) {
+					while (units.get(i).getHealth() > 0 && units.get(i-1).getHealth() > 0) {
+						units.get(i).fight();
+						units.get(i-1).fight();
+						double rand = Math.random();
+						if (rand > 0.5)
+							units.get(i).damage(units.get(i-1).getAttack());
+						else
+							units.get(i-1).damage(units.get(i).getAttack());
+					}
+
+					if (units.get(i).getHealth() <= 0) {
+						killUnit(i);
+					}
+					else {
+						killUnit(i-1);
+					}
+
+					i--;
+
+				}
+			}
+			unit_side = units.get(i).getPlayer();
+		}
+	}
+
+	private void handle_specials() throws IOException {
 		long sec = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
 		int current_special = AgeUtility.getSpecial(a.getAge());
 		if (a.getSpecial() && (coolA == 0 || sec-coolA >= AgeUtility.getCooldown(current_special))) {
@@ -51,54 +142,57 @@ public class War {
 				damage_special(b.playerNum());
 			else
 				heal_special(a.playerNum());
-			
-		}
-		
-		// handle fighting
-		
-
-		/*Collections.sort(units);
-
-		for (int x = 0 ; x < units.size(); x ++) 
-		{
-			Unit u = units.get(x);
-			Unit adjacentU = units.get(x + 1);
-			if(u.getPos() + u.getRange() <=  adjacentU.getPos() && )
-			{
-
-			}
-			u.move(u.getPos()+4);
-		}*/
-
-
-
-		/*for (Yagura y: yaguras) {
-			y.move(u.getPos()+2);
-		}*/
-
-		for (Unit u: units) {
-			u.move(u.getPos()+4);
 		}
 
-		for (int type: a.getMaterialsToBuild()) {
-			units.add(AgeUtility.makeUnit(parent, type, 1));
+		sec = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+		current_special = AgeUtility.getSpecial(b.getAge());
+
+		if (b.getSpecial() && (coolB == 0 || sec-coolB >= AgeUtility.getCooldown(current_special))) {
+			coolB = sec;
+			if (current_special == AgeUtility.DAMAGE_SPECIAL)
+				damage_special(a.playerNum());
+			else
+				heal_special(b.playerNum());
 		}
-
-		//System.out.println(a.getGold());
-		//System.out.println(units);
-
-
-
 	}
 
-	private void damage_special(int player) {
-
+	private void damage_special(int player) throws IOException {
+		for (int i = 0; i < units.size(); i++) {
+			if (units.get(i).getPlayer() == player)
+				units.get(i).damage(30);
+			if (units.get(i).getHealth() <= 0) {
+				killUnit(i);
+				i--;
+			}
+		}
+		displayLightning();
 	}
 
 	private void heal_special(int player) {
-
+		for (int i = 0; i < units.size(); i++) {
+			if (units.get(i).getPlayer() == player)
+				units.get(i).heal();
+		}
+		displayLightning();
 	}
 
+	private void killUnit(int pos) throws IOException {
+		Player victor = (a.playerNum() != units.get(pos).getPlayer()) ? a : b;
+		victor.setGold(victor.getGold()+(int)(AgeUtility.getCost(units.get(pos).getType())/1.5));
+		victor.gainXP(AgeUtility.getCost(units.get(pos).getType()));
+		units.remove(pos);
+	}
+
+	private void displayLightning()
+	{
+		parent.fill(255,255,0);
+		parent.stroke(255,255,0);
+		parent.quad(500,100,530,100,510,150,480,150);
+		parent.quad(480,150,550,150,540,160,470,160);
+		parent.quad(510,160,540,160,510,210,480,210);
+
+		JOptionPane.showMessageDialog(null, "Special used successfully.");
+	}
 
 
 }
