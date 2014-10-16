@@ -52,13 +52,13 @@ public class AgeUtility
 		int[] units = new int[2];
 
 
-		ArrayList<ArrayList<String>> file = readfileIntoList("UnitInfo");
+		ArrayList<ArrayList<String>> file = readfileIntoList("data\\UnitInfo");
 
 		int ageCol = file.get(0).indexOf("Age");
 		int numberCol = file.get(0).indexOf("Number");
 
 		int row = 0;
-		for(int x = 0; x < file.size(); x++)
+		for(int x = 1; x < file.size(); x++)
 		{
 			if(Integer.parseInt(file.get(x).get(ageCol)) == age)
 			{
