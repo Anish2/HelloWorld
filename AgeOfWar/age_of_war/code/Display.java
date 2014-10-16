@@ -13,7 +13,6 @@ import processing.core.PImage;
  */
 public class Display extends PApplet {
 
-	private ArrayList<Unit> units = new ArrayList<Unit>();
 	private PImage field;
 	private War w;
 
@@ -24,11 +23,13 @@ public class Display extends PApplet {
 	public final int[] special = new int[] {yagura[0]+rectSize, 5};
 	public final int[] nextAge = new int[] {special[0]+rectSize, 5};
 
-	private boolean rectOver = false;
+	private HumanPlayer player1;
+//	private boolean rectOver = false;
 
-
-	public void setup() {
-		w = new War(this, new HumanPlayer(this,1), new AIPlayer(this,2));
+	public void setup() 
+	{
+		player1= new HumanPlayer(this,1);
+		w = new War(this, player1, new AIPlayer(this,2));
 
 		field = loadImage("field.jpg");
 		size(field.width, field.height);
@@ -36,10 +37,19 @@ public class Display extends PApplet {
 
 	public void draw()
 	{
-		update(mouseX, mouseY);
+	//	update(mouseX, mouseY);
 		size(field.width, field.height);
 		background(field);
-
+		
+		fill(255,0,0);
+		rect(0, 300, 200, 250);
+		
+		fill(0,0,255);
+		rect(1000, 300, 200, 250);
+		
+		fill(255);
+		
+		
 		stroke(0);
 		rect(unit1[0], unit1[1], rectSize, rectSize);
 		rect(unit2[0], unit2[1], rectSize, rectSize);
@@ -47,25 +57,37 @@ public class Display extends PApplet {
 		rect(special[0], special[1], rectSize, rectSize);
 		rect(nextAge[0], nextAge[1], rectSize, rectSize);
 		
+		
+		fill(0);
+		text("Melle unit", 25, 50);
+		text("Ranged unit", 100, 50);
+		text("Yagura", 190, 50);
+		text("Use Special", 260, 50);
+		text("Age Up", 350, 50);
+		
+		fill(255);
+		text("Gold :" + player1.getGold(), 850 , 50);
+		text("Xp :" + player1.getXp(), 950 , 50);
+		text("Age :" + (player1.getAge() - 3), 1050 , 50);//The three is to convert it from 4 and 5 to 1 and 2
+		
+		
 		try {
 			w.act();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
 	
 
-	public void update(int x, int y) {
-		rectOver = overRect(unit1[0], unit1[1], rectSize, rectSize);
-	}
+	//public void update(int x, int y) {
+		//rectOver = overRect(unit1[0], unit1[1], rectSize, rectSize);
+//=	}
 
 	public boolean overRect(int x, int y, int width, int height)  {
 		return mouseX >= x && mouseX <= x+width && mouseY >= y && mouseY <= y+height;
@@ -81,10 +103,10 @@ public class Display extends PApplet {
 
 	}
 
-	public void updateUnits(ArrayList<Unit> units)
-	{
-		this.units = units;
-	}
+	//public void updateUnits(ArrayList<Unit> units)
+	//{
+	//	this.units = units;
+//	}
 
 
 }

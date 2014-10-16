@@ -16,6 +16,8 @@ public class Unit implements Comparable{
 	private boolean isFighting= false;
 	private PApplet parent;
 
+	
+	private int maxHealth;
 	public final int YPOS = 375;
 
 
@@ -34,13 +36,14 @@ public class Unit implements Comparable{
 		this.player = player;
 		this.parent = parent;
 		health = maxHealth;
+		this.maxHealth = maxHealth;
 		pos = startingLocation;
 		attack_power = attackAbility;
 		this.range = range;
 		this.fightState = fightState;
 		this.walkState = walkState;
 
-		parent.image(walkState, pos, YPOS);
+		this.displayImage(walkState);
 	}
 
 	public int getPlayer()
@@ -48,7 +51,18 @@ public class Unit implements Comparable{
 		return player;
 	}
 
-
+	private void displayImage(PImage image)
+	{
+		
+//		double percentHealth = health/ maxHealth;
+//		
+//		parent.fill(0,255,0);
+//		parent.rect(pos, YPOS + 50, 20, 10);
+//		
+//		parent.fill(255,0,0);
+//		parent.rect(pos, YPOS + 50, (float) (20 * percentHealth), 10);
+		parent.image(image, pos, YPOS);
+	}
 
 	/**
 	 * Moves the unit to location position.
@@ -57,14 +71,14 @@ public class Unit implements Comparable{
 	public void move(int position)
 	{
 		pos = position;
-		parent.image(walkState, pos, YPOS);
+		this.displayImage(walkState);
 	}
 
 	public void fight() {
 		if (isFighting)
-			parent.image(fightState, pos, YPOS);
+			this.displayImage(fightState);
 		else
-			parent.image(walkState, pos, YPOS);
+			this.displayImage(walkState);
 	}
 
 	/**
