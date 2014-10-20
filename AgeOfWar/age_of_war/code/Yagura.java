@@ -10,9 +10,8 @@ import processing.core.PImage;
  */
 public class Yagura {
 	
-	private int attack, /*location,*/ range, type, player;
-	private PImage restState /*,attackState*/;
-/*	private boolean state = false;*/
+	private int attack, range, type, player;
+	private PImage restState;
 	private PApplet parent;
 	public final int XPOS, YPOS = 245;
 
@@ -30,9 +29,7 @@ public class Yagura {
 	public Yagura(PImage restState, PImage attackState, int attack, int location, int range, PApplet p, int type, int player) {
 		this.restState = restState;
 		this.attack = attack;
-	/*	this.location = location;*/
 		this.range = range;
-/*		this.attackState = attackState;*/
 		parent = p;
 		this.type = type;
 		XPOS = location-20;
@@ -78,13 +75,6 @@ public class Yagura {
 
 	}
 	
-/*	*//**
-	 * Sets yagura to attack mode or dormant mode
-	 * @param state attack state of yagura
-	 *//*
-	public void setAttackState(boolean state) {
-		this.state = state;
-	}*/
 	
 	/**
 	 * Displays yagura on field.

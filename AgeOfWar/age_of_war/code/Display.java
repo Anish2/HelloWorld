@@ -6,6 +6,7 @@ import processing.core.PImage;
 
 /**
  * Displays buttons for the human to click, the player's bases, and the humans current gold and xp.
+ * Also displays cost for each unit to make and yagura.
  * @author Anish Visaria, Eitan Zlatin
  *
  */
@@ -96,8 +97,6 @@ public class Display extends PApplet {
 		
 			try {
 				w.act();
-			} catch (InterruptedException e) { // If these exceptions occured it would be the programmer's fault so we are treating them like 
-				e.printStackTrace(); 			//	uncheked exceptions by printing the stack trace
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import processing.core.PApplet;
 
 /**
- * Abstract class that is responsible for deciding whether to build a unit each move cycle.
+ * Abstract class that is responsible for deciding whether to build a unit or yagura each move cycle.
+ * Also handles special use during game.
  * @author Anish Visaria, Eitan Zlatin
  *
  */
@@ -20,7 +21,7 @@ public abstract class Player
 	 * Makes player with display
 	 * @param p display object
 	 */
-	public Player(Display p)
+	public Player(PApplet p)
 	{
 		parent = p;
 	}

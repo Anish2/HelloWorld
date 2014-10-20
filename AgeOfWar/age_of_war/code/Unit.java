@@ -4,7 +4,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 /**
- * Fights opponent units and has ability to damage home base.
+ * Moves across field and damages enemy opponent.
  * @author Anish Visaria, Eitan Zlatin
  *
  */

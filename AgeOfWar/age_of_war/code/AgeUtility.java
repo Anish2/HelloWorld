@@ -11,7 +11,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 /**
- * Creates units and reads hardcoded information from a file and communicates that to the display.
+ * Creates units and reads information from a file and communicates that to the display.
  * @author Anish Visaria, Eitan Zlatin
  *
  */

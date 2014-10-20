@@ -4,10 +4,11 @@ package code;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import processing.core.PApplet;
 
 
 /**
- * Normal player that interacts with the display.
+ * Handles functions of human player that interacts with the display.
  * @author Anish Visaria, Eitan Zlatin
  *
  */
@@ -26,9 +27,9 @@ public class HumanPlayer extends Player {
 	 * @param p display object
 	 * @param playerNum number of player
 	 */
-	public HumanPlayer(Display p, int playerNum) {
+	public HumanPlayer(PApplet p, int playerNum) {
 		super(p);
-		Display d = p;
+		Display d = (Display) p;
 		buttons.add(d.unit1);
 		buttons.add(d.unit2);
 		buttons.add(d.yagura);
@@ -48,7 +49,6 @@ public class HumanPlayer extends Player {
 		try {
 			mouseClicked();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return materialToBuild;

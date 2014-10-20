@@ -11,7 +11,7 @@ import processing.core.PApplet;
 
 
 /**
- * Handles displaying the game, updating the player stats.
+ * Plays main game logic including handling combat between units.
  * @author Anish Visaria and Eitan Zlatin
  *
  */
@@ -25,8 +25,8 @@ public class War {
 	private int scoreA, scoreB;
 
 	/**
-	 * Constructs war with 2 players and display.
-	 * @param d display object
+	 * Constructs war with 2 players and papplet.
+	 * @param d papplet object
 	 * @param a player one
 	 * @param b player two
 	 */
@@ -42,9 +42,8 @@ public class War {
 	 * Deploys units and yaguras that a Player desires on the battlefield.
 	 * Executes all actions player commands including upgrades.
 	 * @throws IOException 
-	 * @throws InterruptedException 
 	 */
-	public void act() throws IOException, InterruptedException 
+	public void act() throws IOException
 	{
 		// handle specials
 		handle_specials();
@@ -94,8 +93,8 @@ public class War {
 			else
 				units.add(AgeUtility.makeUnit(parent, type, 2));
 		}
-		
-		
+
+
 
 
 	}
