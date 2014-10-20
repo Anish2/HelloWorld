@@ -13,7 +13,6 @@ public class Unit implements Comparable<Unit> {
 	private int health, pos, attack_power, range, player, type, maxhealth;
 	private PImage fightState;
 	private PImage walkState;
-	private boolean isFighting= false;
 	private PApplet parent;
 
 
@@ -148,13 +147,7 @@ public class Unit implements Comparable<Unit> {
 		health = maxhealth;
 	}
 
-	/**
-	 * Changes the state to fighting if isFighting, walking else
-	 * @param isFighting true if the unit is fighting, false otherwise
-	 */
-	public void setState(boolean state) {
-		isFighting = state;
-	}
+
 
 
 

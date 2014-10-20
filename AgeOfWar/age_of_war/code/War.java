@@ -2,13 +2,13 @@ package code;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JOptionPane;
 
 import processing.core.PApplet;
+
 
 /**
  * Handles displaying the game, updating the player stats.
@@ -20,7 +20,7 @@ public class War {
 	private Player a, b;
 	private ArrayList<Unit> units = new ArrayList<Unit>();
 	private ArrayList<Yagura> yaguras = new ArrayList<Yagura>();
-	private Display parent;
+	private PApplet parent;
 	private long coolA, coolB;
 	private int scoreA, scoreB;
 
@@ -30,7 +30,7 @@ public class War {
 	 * @param a player one
 	 * @param b player two
 	 */
-	public War(Display d, Player a, Player b) 
+	public War(PApplet d, Player a, Player b) 
 	{
 		parent = d;
 		this.a = a;

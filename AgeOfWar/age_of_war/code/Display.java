@@ -1,8 +1,6 @@
 package code;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -95,15 +93,15 @@ public class Display extends PApplet {
 		text("Age :" + (player1.getAge() - 3), 1050 , 50);
 
 
-		try {
+		
 			try {
 				w.act();
-			} catch (InterruptedException e) {
+			} catch (InterruptedException e) { // If these exceptions occured it would be the programmer's fault so we are treating them like 
+				e.printStackTrace(); 			//	uncheked exceptions by printing the stack trace
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
