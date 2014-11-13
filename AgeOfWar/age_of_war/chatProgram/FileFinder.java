@@ -4,7 +4,7 @@ public class FileFinder {
 
 	public static void main(String[] args) 
 	{
-		String wordToSearch = args[0];
+		String wordToSearch = args[0]; 
 		
 		for(int x = 1 ; x < args.length; x++)
 		{
