@@ -11,7 +11,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 /**
- * Creates units and reads hardcoded information from a file and communicates that to the display.
+ * Creates units and reads information from a file.
  * @author Anish Visaria, Eitan Zlatin
  *
  */
@@ -43,7 +43,7 @@ public class AgeUtility
 	/**
 	 * Returns an array of the units that can be built in age containing the meele unit in the first index and the ranged unit in the second.
 	 * @param age The age that the units will be built in
-	 * @return The array containing the units
+	 * @return The array containing the unit types
 	 * @throws IOException 
 	 */
 	public static int[] getUnits(int age) throws IOException
@@ -137,7 +137,7 @@ public class AgeUtility
 	}
 
 	/**
-	 * Makes yagura with specs.
+	 * Makes yagura and returns it.
 	 * @param parent papplet object
 	 * @param type type of yagura
 	 * @param player player num
@@ -237,4 +237,6 @@ public class AgeUtility
 		return (special == AgeUtility.HEAL_SPECIAL) ? Integer.parseInt(data.get(2).get(coolCol)) 
 				: Integer.parseInt(data.get(1).get(coolCol));
 	}
+	
+	
 }

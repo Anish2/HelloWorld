@@ -2,6 +2,8 @@ package code;
 
 import java.util.ArrayList;
 
+import processing.core.PApplet;
+
 
 /**
  * Simulates computer player as opponent.
@@ -14,10 +16,10 @@ public class AIPlayer extends Player {
 	
 	/**
 	 * Constructs AIPlayer
-	 * @param p display object
+	 * @param p papplet object
 	 * @param playerNum number of player
 	 */
-	public AIPlayer(Display p, int playerNum) {
+	public AIPlayer(PApplet p, int playerNum) {
 		super(p);
 		this.playerNum = playerNum;
 		
@@ -44,6 +46,9 @@ public class AIPlayer extends Player {
 		return false;
 	}
 
+	/**
+	 * Returns number of player.
+	 */
 	@Override
 	public int playerNum() {
 		return playerNum;
