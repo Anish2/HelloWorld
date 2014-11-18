@@ -18,6 +18,7 @@ public class SendCommand extends InputOutput implements Runnable {
 		
 		try {
 			super.sendChat(message);
+			ChatFrame.tf_message.setText("");
 		} catch (InvalidResponseException e) {
 			e.printStackTrace();
 		}
