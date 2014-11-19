@@ -6,4 +6,9 @@ public class ClientManager
 	{
 		
 	}
+	
+	public void addClient(Client c)
+	{
+		
+	}
 }
