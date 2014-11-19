@@ -1,4 +1,4 @@
-package chatProgram;
+package badClasses;
 
 import java.io.File;
 import java.io.FileNotFoundException;

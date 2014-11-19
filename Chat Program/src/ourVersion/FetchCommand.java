@@ -1,13 +1,17 @@
-package chatProgram;
+package ourVersion;
 
 import java.io.IOException;
+import java.net.Socket;
 import java.net.UnknownHostException;
+
+import chatProgram.ChatFrame;
+import chatProgram.ChatServer;
 
 public class FetchCommand extends InputOutput implements Runnable {
 
-	public FetchCommand(String hostname, String username)
+	public FetchCommand(Socket sock, String username)
 			throws UnknownHostException, IOException {
-		super(hostname, username);
+		super(sock, username);
 	}
 
 	public void run() {

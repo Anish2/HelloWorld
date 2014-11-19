@@ -1,13 +1,14 @@
-package chatProgram;
+package ourVersion;
 
 import java.io.IOException;
+import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class ListCommand extends InputOutput implements Runnable {
 
-	public ListCommand(String hostname, String username)
+	public ListCommand(String username, Socket sock)
 			throws UnknownHostException, IOException {
-		super(hostname, username);
+		super(sock, username);
 	}
 
 	public void run() {

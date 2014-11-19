@@ -1,4 +1,4 @@
-package chatProgram;
+package ourVersion;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,13 +18,11 @@ public class InputOutput
 	private Scanner read;
 	private Socket sock;
 
-	public InputOutput(String hostname, String username) throws UnknownHostException, IOException
+	public InputOutput(Socket sock, String username) throws UnknownHostException, IOException
 	{
-		Socket sock;
+		this.sock = sock;
 		InputStream in;
 		OutputStream out;
-
-		sock = new Socket(hostname, PORT_NUM);
 
 		in = sock.getInputStream();
 		out = sock.getOutputStream();

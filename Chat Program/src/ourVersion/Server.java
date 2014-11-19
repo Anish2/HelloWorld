@@ -1,4 +1,4 @@
-package chatProgram;
+package ourVersion;
 
 public class Server {
 	

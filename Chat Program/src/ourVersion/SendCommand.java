@@ -1,15 +1,18 @@
-package chatProgram;
+package ourVersion;
 
 import java.io.IOException;
+import java.net.Socket;
 import java.net.UnknownHostException;
+
+import chatProgram.ChatFrame;
 
 public class SendCommand extends InputOutput implements Runnable {
 	
 	private String message;
 
-	public SendCommand(String hostname, String username, String message)
+	public SendCommand(String username, String message, Socket sock)
 			throws UnknownHostException, IOException {
-		super(hostname, username);
+		super(sock, username);
 		this.message = message;
 
 	}

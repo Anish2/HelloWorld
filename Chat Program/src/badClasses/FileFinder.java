@@ -1,4 +1,5 @@
-package chatProgram;
+package badClasses;
+
 
 public class FileFinder {
 

@@ -1,4 +1,4 @@
-package chatProgram;
+package ourVersion;
 
 import java.io.IOException;
 
