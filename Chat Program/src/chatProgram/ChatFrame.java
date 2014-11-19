@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.StringTokenizer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -97,17 +98,26 @@ public class ChatFrame {
 				});
 	}
 	
-	private void action_TF_Send(){
-		if(!tf_message.getText().equals(""))
+	private void action_TF_Send()
+	{
+		String messageToSend = tf_message.getText();
+		StringTokenizer tokenizer = new StringTokenizer(messageToSend);
+		tokenizer.countTokens(); // 3 means one for the command, one for the person they want to send it to, and one for the actual message
+		if(tokenizer.nextToken().equals("whisper")&& tokenizer.countTokens() == 3) // This is how they will communicate they want to whisper
 		{
-			chatClient.SEND(tf_message.getText());
+			chatClient.WHISPER(tokenizer.nextToken(), tokenizer.nextToken()); // still need to implement the whisper method
+		}
+		
+		if(!messageToSend.equals(""))
+		{
+			chatClient.SEND(messageToSend); // Anish here is where we have to replace it with our code
 			tf_message.requestFocus();
 		}
 	}
 	
 	private static void action_B_Disconnect(){
 		try{
-			chatClient.DISCONNECT();
+			chatClient.DISCONNECT(); // We did not make code for disconnecting Anish, was that even part of the protocol?
 		}
 		catch(Exception e){
 			e.printStackTrace();
