@@ -6,21 +6,29 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
+import java.util.Queue;
 import java.util.Scanner;
 import java.util.StringTokenizer;
+import java.util.concurrent.ArrayBlockingQueue;
 
-public class InputOutput
+import chatProgram.ChatFrame;
+
+public class InputOutput implements Runnable
 {
-	public static final int PORT_NUM = 80;
 
 	private PrintWriter print;
 	private Scanner read;
 	private Socket sock;
+	private Queue<Message> tasks = new ArrayBlockingQueue<Message>(10);
+	
+	public static final int SEND = 1;
+	public static final int WHISPER = 2;
+	
 
-	public InputOutput(Socket sock, String username) throws UnknownHostException, IOException
+	public InputOutput(String host, int port, String username) throws UnknownHostException, IOException
 	{
-		this.sock = sock;
+		sock = new Socket(host, port);
+
 		InputStream in;
 		OutputStream out;
 
@@ -35,6 +43,10 @@ public class InputOutput
 
 		read = new Scanner(in);
 
+	}
+	
+	public void addTask(Message task) {
+		tasks.offer(task);
 	}
 
 	public void sendChat(String chat) throws InvalidResponseException
@@ -84,22 +96,15 @@ public class InputOutput
 
 	public void whisper(String message, String user) throws InvalidResponseException
 	{
-		print.println("Whisper " + message + " " + user);
+		print.println("WHISPER " + message + " " + user);
 		print.flush();
 		checkGoodResponse();
 	}
 
 
-	public void close() throws IOException
-	{
-		sock.close();
-	}
-
-	public ArrayList<String> getPpl() throws InvalidResponseException
+	public String[] getUsers() throws InvalidResponseException
 	{
 		print.println("LIST");
-
-		ArrayList<String> ppl = new ArrayList<String>();
 		String response = read.nextLine();
 
 		StringTokenizer t = new StringTokenizer(response);
@@ -107,13 +112,54 @@ public class InputOutput
 		if (!t.nextToken().equals("200"))
 			throw new InvalidResponseException(response);
 		t.nextToken();
+		
+		String[] ppl = new String[t.countTokens()];
+		int c = 0;
 
 		while (t.hasMoreTokens())
 		{
-			ppl.add(t.nextToken());
+			ppl[c] = t.nextToken();
+			c++;
 		}
 
 		return ppl;
 
+	}
+	
+	public void close() throws IOException
+	{
+		sock.close();
+	}
+
+	@SuppressWarnings("unchecked")
+	public void run() {
+		
+		
+		try {
+			// get next chat
+			String chat = getNextChat();
+			if (chat != null) {
+				// append chat to list of messages
+				ChatFrame.ta_conversation.append(chat + "\n");
+			}
+			
+			// update list of users
+			String[] users = getUsers();
+			ChatFrame.jl_online.setListData(users);
+			
+			// execute tasks
+			if (!tasks.isEmpty()) {
+				Message todo = tasks.poll();
+				if (todo.getType() == SEND) 
+					sendChat(todo.getData()[0]);
+				else if (todo.getType() == WHISPER)
+					whisper(todo.getData()[0], todo.getData()[1]);
+			}
+			
+			
+		} catch (InvalidResponseException e) {
+			e.printStackTrace();
+		}						
+		
 	}
 }

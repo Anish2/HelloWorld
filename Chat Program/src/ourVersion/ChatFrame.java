@@ -1,23 +1,18 @@
 package ourVersion;
 
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.StringTokenizer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -25,15 +20,11 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
 public class ChatFrame {
-	// should start from constructor
 
-	private static InputOutput chatClient;
-	// Gui
+	private InputOutput client;
 	public JFrame mainWindow = new JFrame();
-	
-	private String host;
-	private int port;
-	private String userName;
+
+	private String user_name;
 	
 	// Chat Window
 	private JButton b_disconnect = new JButton("Disconnect");
@@ -54,39 +45,18 @@ public class ChatFrame {
 
 	public ChatFrame(String userName, String hostName, int port) {
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	//	this.connect(userName, hostName, port);
-		host = hostName;
-		this.userName= userName;
-		this.port = port;
+		this.user_name= userName;
 		mainWindow();
 		mainWindowAction();
+		try {
+			this.client = new InputOutput(hostName, port, userName);
+		} catch (IOException e) {
+			System.out.println("Can't connect.");
+		}
+		
 	}
 
-	/*private void connect(String userName, String hostName, int port) {
-		try {
-			final String HOST = "localhost";
-			Socket SOCK = new Socket(HOST, port);
-			System.out.println("You connected to: " + HOST);
-
-			chatClient = new InputOutput(userName, SOCK);
-
-			// send name to add to online list of users on the right
-			PrintWriter out = new PrintWriter(SOCK.getOutputStream());
-			out.println(userName);
-			out.flush();
-
-			Thread t = new Thread(chatClient);
-			t.start();
-			mainWindow.setTitle(chatClient.getUser().getName()
-					+ "'s conversation");
-		} catch (Exception e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Server not responding.");
-			System.exit(0);
-		}
-	}*/
-
-	/****************************************** CONNECTIONS FROM GUI TO SERVER/CLIENT ********************************************/
+	/****************************************** CONNECTIONS FROM GUI TO CLIENT ********************************************/
 	
 	private void mainWindowAction(){
 		tf_message.addActionListener(
@@ -94,7 +64,11 @@ public class ChatFrame {
 				{
 					
 					public void actionPerformed(ActionEvent e) {
-						action_TF_Send();
+						try {
+							action_TF_Send();
+						} catch (IOException e1) {
+							System.out.println("Send doesn't work.");
+						}
 					}
 				});
 		b_disconnect.addActionListener(
@@ -102,37 +76,23 @@ public class ChatFrame {
 				{
 					
 					public void actionPerformed(ActionEvent e) {
-						action_B_Disconnect();
+						//action_B_Disconnect();
 					}
 				});
 	}
 	
 	private void action_TF_Send() throws UnknownHostException, IOException
 	{
-		String messageToSend = tf_message.getText();
-		StringTokenizer tokenizer = new StringTokenizer(messageToSend);
-//		tokenizer.countTokens(); // 3 means one for the command, one for the person they want to send it to, and one for the actual message
-//		if(tokenizer.nextToken().equals("whisper")&& tokenizer.countTokens() == 3) // This is how they will communicate they want to whisper
-//		{
-//			WhisperCommand whisper = new WhisperCommand(Host, tokenizer.nextToken(), tokenizer.nextToken());
-//			chatClient.WHISPER(tokenizer.nextToken(), tokenizer.nextToken()); // still need to implement the whisper method
-//		}
+		String message = tf_message.getText();
 		
-		if(!messageToSend.equals(""))
+		if(!message.equals(""))
 		{
-			SendCommand send = new SendCommand(host,userName,messageToSend, port); // Anish here is where we have to replace it with our code
+			Message m = new Message(InputOutput.SEND, new String[] {message});
+			client.addTask(m);
 			tf_message.requestFocus();
 		}
 	}
-	
-//	private static void action_B_Disconnect(){
-//		try{
-//			chatClient.DISCONNECT(); // We did not make code for disconnecting Anish, was that even part of the protocol?
-//		}
-//		catch(Exception e){
-//			e.printStackTrace();
-//		}
-//	}
+
 
 	/****************************************** GRAPHICS ***************************************************/
 	private void mainWindow() {
@@ -200,13 +160,11 @@ public class ChatFrame {
 		mainWindow.add(l_loggedInAs);
 		l_loggedInAs.setBounds(375, 0, 150, 20);
 
-		String name = this.chatClient.getUser().getName();
-
 		l_loggedInAsBox.setHorizontalAlignment(SwingConstants.CENTER);
 		l_loggedInAsBox.setFont(new Font("Tahoma", 0, 25));
 		l_loggedInAsBox.setForeground(new Color(0, 0, 0));
 		l_loggedInAsBox.setBorder(BorderFactory.createLineBorder(new Color(0,0, 0)));
-		l_loggedInAsBox.setText(name);
+		l_loggedInAsBox.setText(user_name);
 		l_loggedInAsBox.setPreferredSize(new Dimension(100, 100));
 		mainWindow.add(l_loggedInAsBox);
 		l_loggedInAsBox.setBounds(350, 40, 200, 40);
@@ -216,7 +174,7 @@ public class ChatFrame {
 		mainWindow.add(b_disconnect); 
 		b_disconnect.setBounds(375, 100, 150, 30);
 		 
-		this.tf_message.requestFocus();
+		tf_message.requestFocus();
 
 	}
 
