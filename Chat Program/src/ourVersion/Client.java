@@ -14,32 +14,43 @@ public class Client implements Runnable {
 	private ClientManager m;
 	private Scanner in;
 	private PrintWriter out;
+	private String username;
 	private boolean stop;
-	
+	private int message_loc;
+
 	public Client(Socket s, ClientManager manager)
 	{
 		sock = s;
 		m = manager;
 	}
 
+	public Socket getSocket() {
+		return sock;
+	}
+	
+	public int getMessageLoc() {
+		return message_loc;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+	
+	public void setMessageLoc(int loc) {
+		message_loc = loc;
+	}
+	
 	public void run() {
-		try
-		{
-			try
-			{
-				in = new Scanner(sock.getInputStream());
-				out = new PrintWriter(sock.getOutputStream());
-				doStuff();
-			}
-			finally
-			{
-				sock.close();
-			}
-		}
-		catch (IOException e) // Change later
-		{
+
+		try {
+			in = new Scanner(sock.getInputStream());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		doStuff();
+
 	}
 
 	private void doStuff() 
@@ -57,26 +68,27 @@ public class Client implements Runnable {
 				String command = tokenizer.nextToken();
 				switch(command)
 				{
-					case "SecretCommandToGrantYouAdminAcess12345":
-					{
-						//Implement secret command
-					}
-					case "SEND":
-					{
-						
-					}
-					case "WHISPER":
-					{
-						
-					}
-					case "LIST":
-					{
-						
-					}
-					case "NEAH PIZZA":
-					{
-						
-					}
+				case "SecretCommandToGrantYouAdminAcess12345":
+				{
+					//Implement secret command
+				}
+				case "SEND":
+				{
+
+				}
+				case "WHISPER":
+				{
+
+				}
+				case "LIST":
+				{
+
+				}
+				case "NEAH PIZZA":
+				{
+
+				}
+
 				}
 			}
 		}

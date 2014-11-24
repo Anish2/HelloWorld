@@ -29,7 +29,7 @@ public class Server implements Runnable
 				{
 					Socket soc = sock.accept();
 					Client client = new Client(soc,manager);
-				//	manager.addClient(client);
+					manager.addClient(client);
 					Thread t = new Thread(client);
 					t.start();
 				}
@@ -37,7 +37,6 @@ public class Server implements Runnable
 			finally
 			{
 				sock.close();
-				//Close all the connections
 			}
 		}
 		catch(IOException e)

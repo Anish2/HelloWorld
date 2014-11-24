@@ -96,7 +96,7 @@ public class InputOutput implements Runnable
 
 	public void whisper(String message, String user) throws InvalidResponseException
 	{
-		print.println("WHISPER " + message + " " + user);
+		print.println("WHISP " + message + " " + user);
 		print.flush();
 		checkGoodResponse();
 	}
