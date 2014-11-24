@@ -29,7 +29,9 @@ public class Server implements Runnable
 				{
 					Socket soc = sock.accept();
 					Client client = new Client(soc,manager);
-					manager.addClient(client);
+				//	manager.addClient(client);
+					Thread t = new Thread(client);
+					t.start();
 				}
 			}
 			finally
