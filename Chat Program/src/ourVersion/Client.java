@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
-public class Client implements Runnable {
+public class Client {
 
 	private Socket sock;
 	private ClientManager m;
@@ -36,62 +36,12 @@ public class Client implements Runnable {
 		return username;
 	}
 	
-	public void setMessageLoc(int loc) {
-		message_loc = loc;
+	public void setUsername(String u) {
+		username = u;
 	}
 	
-	public void run() {
-
-		try {
-			in = new Scanner(sock.getInputStream());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		doStuff();
-
-	}
-
-	private void doStuff() 
-	{
-		while(!stop)
-		{
-			if(!in.hasNext())
-			{
-				return;
-			}
-			else
-			{
-				String message = in.nextLine();
-				StringTokenizer tokenizer = new StringTokenizer(message);
-				String command = tokenizer.nextToken();
-				switch(command)
-				{
-				case "SecretCommandToGrantYouAdminAcess12345":
-				{
-					//Implement secret command
-				}
-				case "SEND":
-				{
-
-				}
-				case "WHISPER":
-				{
-
-				}
-				case "LIST":
-				{
-
-				}
-				case "NEAH PIZZA":
-				{
-
-				}
-
-				}
-			}
-		}
+	public void setMessageLoc(int loc) {
+		message_loc = loc;
 	}
 
 }

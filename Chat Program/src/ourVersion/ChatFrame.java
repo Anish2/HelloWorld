@@ -49,7 +49,9 @@ public class ChatFrame {
 		mainWindow();
 		mainWindowAction();
 		try {
-			this.client = new InputOutput(hostName, port, userName);
+			client = new InputOutput(hostName, port, userName);
+			Thread t = new Thread(client);
+			t.start();
 		} catch (IOException e) {
 			System.out.println("Can't connect.");
 		}
@@ -106,6 +108,7 @@ public class ChatFrame {
 	private void configureMainWindow() {
 		
 		mainWindow.setLayout(null);
+		mainWindow.setResizable(true);
 
 		// left side
 		ta_conversation.setColumns(20);

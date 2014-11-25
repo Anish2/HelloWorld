@@ -20,10 +20,10 @@ public class InputOutput implements Runnable
 	private Scanner read;
 	private Socket sock;
 	private Queue<Message> tasks = new ArrayBlockingQueue<Message>(10);
-	
+
 	public static final int SEND = 1;
 	public static final int WHISPER = 2;
-	
+
 
 	public InputOutput(String host, int port, String username) throws UnknownHostException, IOException
 	{
@@ -34,17 +34,14 @@ public class InputOutput implements Runnable
 
 		in = sock.getInputStream();
 		out = sock.getOutputStream();
+		read = new Scanner(in);
 
 		print = new PrintWriter(out);
 
 		print.println("JOIN " + username);
 
-		checkGoodResponse();
-
-		read = new Scanner(in);
-
 	}
-	
+
 	public void addTask(Message task) {
 		tasks.offer(task);
 	}
@@ -59,7 +56,7 @@ public class InputOutput implements Runnable
 	private void checkGoodResponse() throws InvalidResponseException
 	{
 		String response = read.nextLine();
-		
+		System.out.println(response);
 		StringTokenizer t = new StringTokenizer(response);
 		String code = t.nextToken();
 
@@ -78,6 +75,7 @@ public class InputOutput implements Runnable
 
 		String num = tokenizer.nextToken();
 		tokenizer.nextToken();
+		
 		String message = tokenizer.nextToken();
 
 		if(num.equals("200"))
@@ -112,7 +110,7 @@ public class InputOutput implements Runnable
 		if (!t.nextToken().equals("200"))
 			throw new InvalidResponseException(response);
 		t.nextToken();
-		
+
 		String[] ppl = new String[t.countTokens()];
 		int c = 0;
 
@@ -125,7 +123,7 @@ public class InputOutput implements Runnable
 		return ppl;
 
 	}
-	
+
 	public void close() throws IOException
 	{
 		sock.close();
@@ -133,33 +131,34 @@ public class InputOutput implements Runnable
 
 	@SuppressWarnings("unchecked")
 	public void run() {
-		
-		
-		try {
-			// get next chat
-			String chat = getNextChat();
-			if (chat != null) {
-				// append chat to list of messages
-				ChatFrame.ta_conversation.append(chat + "\n");
-			}
-			
-			// update list of users
-			String[] users = getUsers();
-			ChatFrame.jl_online.setListData(users);
-			
-			// execute tasks
-			if (!tasks.isEmpty()) {
-				Message todo = tasks.poll();
-				if (todo.getType() == SEND) 
-					sendChat(todo.getData()[0]);
-				else if (todo.getType() == WHISPER)
-					whisper(todo.getData()[0], todo.getData()[1]);
-			}
-			
-			
-		} catch (InvalidResponseException e) {
-			e.printStackTrace();
-		}						
-		
+
+		while (true) {
+			try {
+				// get next chat
+				String chat = getNextChat();
+				if (chat != null) {
+					// append chat to list of messages
+					ChatFrame.ta_conversation.append(chat + "\n");
+				}
+				// check for whispers
+
+				// update list of users
+				String[] users = getUsers();
+				ChatFrame.jl_online.setListData(users);
+
+				// execute tasks
+				if (!tasks.isEmpty()) {
+					Message todo = tasks.poll();
+					if (todo.getType() == SEND) 
+						sendChat(todo.getData()[0]);
+					else if (todo.getType() == WHISPER)
+						whisper(todo.getData()[0], todo.getData()[1]);
+				}
+
+
+			} catch (InvalidResponseException e) {
+				e.printStackTrace();
+			}						
+		}
 	}
 }

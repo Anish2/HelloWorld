@@ -8,30 +8,30 @@ import javax.imageio.IIOException;
 
 public class Server implements Runnable
 {
-	private  int port;
+
 	private boolean stop = false;
-	
-	public Server(int portNum)
+	private ClientManager manager;
+	private ServerSocket sock;
+
+	public Server(ClientManager m, int portNum) throws IOException
 	{
-		port = portNum;
+		manager = m;
+		sock = new ServerSocket(portNum);
 	}
-	
+
 	public void run() 
 	{	
 		try
 		{
-			ServerSocket sock = new ServerSocket(port);
 			
-			ClientManager manager = new ClientManager();
 			try
 			{
-				while(!stop)
+				while (!stop)
 				{
 					Socket soc = sock.accept();
+					System.out.println("server work");
 					Client client = new Client(soc,manager);
 					manager.addClient(client);
-					Thread t = new Thread(client);
-					t.start();
 				}
 			}
 			finally
@@ -41,10 +41,10 @@ public class Server implements Runnable
 		}
 		catch(IOException e)
 		{
-			e.printStackTrace();
+			System.out.println("Server failed");
 		}
-		
-		
+
+
 	}
-	
+
 }
