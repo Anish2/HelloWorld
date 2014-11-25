@@ -86,7 +86,7 @@ public class ChatFrame {
 	private void action_TF_Send() throws UnknownHostException, IOException
 	{
 		String message = tf_message.getText();
-		
+		System.out.println(message);
 		if(!message.equals(""))
 		{
 			Message m = new Message(InputOutput.SEND, new String[] {message});
@@ -99,8 +99,8 @@ public class ChatFrame {
 	/****************************************** GRAPHICS ***************************************************/
 	private void mainWindow() {
 		mainWindow.setSize(900, 900);
-		mainWindow.setLocation(220, 180);
-		mainWindow.setResizable(false);
+		mainWindow.setLocation(0, 180);
+		mainWindow.setResizable(true);
 		mainWindow.setVisible(true);
 		configureMainWindow();
 	}
@@ -108,7 +108,6 @@ public class ChatFrame {
 	private void configureMainWindow() {
 		
 		mainWindow.setLayout(null);
-		mainWindow.setResizable(true);
 
 		// left side
 		ta_conversation.setColumns(20);
@@ -124,7 +123,7 @@ public class ChatFrame {
 				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		sp_conversation.setViewportView(ta_conversation);
 		mainWindow.getContentPane().add(sp_conversation);
-		sp_conversation.setBounds(20, 150, 570, 600);
+		sp_conversation.setBounds(20, 150, 450, 470);
 
 		l_conversation.setHorizontalAlignment(SwingConstants.CENTER);
 		l_conversation.setText("Conversation");
@@ -137,7 +136,7 @@ public class ChatFrame {
 		tf_message.setForeground(new Color(0, 0, 255));
 		tf_message.requestFocus();
 		mainWindow.getContentPane().add(tf_message);
-		tf_message.setBounds(82, 770, 512, 30);
+		tf_message.setBounds(82, 590, 512, 30);
 
 		// right
 		l_online.setHorizontalAlignment(SwingConstants.CENTER);
@@ -155,7 +154,7 @@ public class ChatFrame {
 				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		sp_online.setViewportView(jl_online);
 		mainWindow.getContentPane().add(sp_online);
-		sp_online.setBounds(610, 150 , 270 , 600);
+		sp_online.setBounds(610, 150 , 270 , 400);
 		
 		// top
 		l_loggedInAs.setFont(new Font("Tahoma", 0, 15));

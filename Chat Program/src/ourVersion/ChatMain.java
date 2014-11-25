@@ -55,6 +55,7 @@ public class ChatMain {
 
 			addWindowStuff();
 
+			
 			introWindow.setLocationByPlatform(true);
 			introWindow.setLocation(1000, 300);
 			introWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

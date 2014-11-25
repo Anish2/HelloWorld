@@ -50,7 +50,7 @@ public class InputOutput implements Runnable
 	{
 		print.println("SEND " + chat);
 		print.flush();
-		checkGoodResponse();
+		//checkGoodResponse();
 	}
 
 	private void checkGoodResponse() throws InvalidResponseException
@@ -133,6 +133,7 @@ public class InputOutput implements Runnable
 	public void run() {
 
 		while (true) {
+			System.out.println(tasks);
 			try {
 				// get next chat
 				String chat = getNextChat();
