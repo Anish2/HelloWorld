@@ -93,7 +93,7 @@ public class ClientManager implements Runnable
 						}
 						StringTokenizer t = new StringTokenizer(in.nextLine());
 						String cmd = t.nextToken();
-						System.out.println(cmd);
+						//System.out.println(cmd);
 
 						if (cmd.equals("JOIN")) {
 							String username = t.nextToken();
@@ -107,6 +107,7 @@ public class ClientManager implements Runnable
 							}
 						}
 						else if (cmd.equals("SEND")) {
+							System.out.println("SEND");
 							String message = "";
 							while (t.hasMoreTokens())
 								message += t.nextToken();
@@ -126,6 +127,7 @@ public class ClientManager implements Runnable
 						}
 						else if (cmd.equals("WHISP")) {
 							String username = t.nextToken();
+							
 							String message = "";
 							while (t.hasMoreTokens())
 								message += t.nextToken();

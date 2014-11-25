@@ -10,6 +10,7 @@ import java.util.Queue;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import chatProgram.ChatFrame;
 
@@ -19,7 +20,7 @@ public class InputOutput implements Runnable
 	private PrintWriter print;
 	private Scanner read;
 	private Socket sock;
-	private Queue<Message> tasks = new ArrayBlockingQueue<Message>(10);
+	private Queue<Message> tasks = new ConcurrentLinkedQueue<Message>();
 
 	public static final int SEND = 1;
 	public static final int WHISPER = 2;
@@ -44,11 +45,12 @@ public class InputOutput implements Runnable
 	}
 
 	public void addTask(Message task) {
-		tasks.offer(task);
+		tasks.add(task);
 	}
 
 	public void sendChat(String chat) throws InvalidResponseException
 	{
+		System.out.println("This was sent form IO");
 		print.println("SEND " + chat);
 		print.flush();
 		//checkGoodResponse();
@@ -57,7 +59,7 @@ public class InputOutput implements Runnable
 	private void checkGoodResponse() throws InvalidResponseException
 	{
 		String response = read.nextLine();
-		System.out.println(response);
+		//System.out.println(response);
 		StringTokenizer t = new StringTokenizer(response);
 		String code = t.nextToken();
 
@@ -71,12 +73,12 @@ public class InputOutput implements Runnable
 		print.flush();
 
 		String response = read.nextLine();
-		System.out.println(response);
+		//System.out.println(response);
 		StringTokenizer tokenizer = new StringTokenizer(response);
 
 		String num = tokenizer.nextToken();
 		tokenizer.nextToken();
-		
+
 		String message = tokenizer.nextToken();
 
 		if(num.equals("200"))
@@ -133,17 +135,28 @@ public class InputOutput implements Runnable
 
 	@SuppressWarnings("unchecked")
 	public void run() {
-
+		
 		while (true) {
-			
+			System.out.println("Loop ran");
+
 			try {
+
+				if (!tasks.isEmpty()) 
+				{
+					System.out.println("Tasks was not empty");
+					Message todo = tasks.poll();
+					if (todo.getType() == SEND) 
+						sendChat(todo.getData()[0]);
+					else if (todo.getType() == WHISPER)
+						whisper(todo.getData()[0], todo.getData()[1]);
+				}
 				// get next chat
-				System.out.println(tasks);
 				String chat = getNextChat();
 				System.out.println(chat);
 				if (chat != null) {
 					// append chat to list of messages
 					ChatFrame.ta_conversation.append(chat + "\n");
+					
 				}
 				// check for whispers
 
@@ -152,13 +165,7 @@ public class InputOutput implements Runnable
 				ChatFrame.jl_online.setListData(users);
 				System.out.println(tasks);
 				// execute tasks
-				if (!tasks.isEmpty()) {
-					Message todo = tasks.poll();
-					if (todo.getType() == SEND) 
-						sendChat(todo.getData()[0]);
-					else if (todo.getType() == WHISPER)
-						whisper(todo.getData()[0], todo.getData()[1]);
-				}
+
 
 
 			} catch (InvalidResponseException e) {

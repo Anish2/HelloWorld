@@ -86,9 +86,10 @@ public class ChatFrame {
 	private void action_TF_Send() throws UnknownHostException, IOException
 	{
 		String message = tf_message.getText();
-		System.out.println(message);
+		
 		if(!message.equals(""))
 		{
+			System.out.println(message);
 			Message m = new Message(InputOutput.SEND, new String[] {message});
 			client.addTask(m);
 			tf_message.requestFocus();
