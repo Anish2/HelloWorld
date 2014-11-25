@@ -71,7 +71,9 @@ public class InputOutput implements Runnable
 	{
 		print.println("FETCH");
 		print.flush();
-
+		System.out.println("Got fetch");
+		while (!read.hasNextLine());
+		System.out.println("Got res");
 		String response = read.nextLine();
 		//System.out.println(response);
 		StringTokenizer tokenizer = new StringTokenizer(response);
@@ -134,9 +136,11 @@ public class InputOutput implements Runnable
 	}
 
 	@SuppressWarnings("unchecked")
-	public void run() {
+	public void run() 
+	{
 		
-		while (true) {
+		while (true) 
+		{
 			System.out.println("Loop ran");
 
 			try {
@@ -161,12 +165,11 @@ public class InputOutput implements Runnable
 				// check for whispers
 
 				// update list of users
-				String[] users = getUsers();
+				/*String[] users = getUsers();
 				ChatFrame.jl_online.setListData(users);
 				System.out.println(tasks);
 				// execute tasks
-
-
+*/
 
 			} catch (InvalidResponseException e) {
 				e.printStackTrace();

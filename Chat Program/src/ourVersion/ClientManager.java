@@ -19,7 +19,6 @@ public class ClientManager implements Runnable
 	private List<Client> clients;
 	private ArrayList<String> public_messages, usernames;
 	private Queue<Message> pm = new ArrayBlockingQueue<Message>(50);
-	private Queue<Integer> lock = new ConcurrentLinkedQueue<Integer>();
 	private Lock list_lock;
 	private Condition client_access;
 
@@ -30,13 +29,11 @@ public class ClientManager implements Runnable
 		client_access = list_lock.newCondition();
 		public_messages = new ArrayList<String>();
 		usernames = new ArrayList<String>();
-		lock.offer(0);
 	}
 
 	public void addClient(Client c) throws InterruptedException {
 		/*list_lock.lock();
-		client_access.await();*/
-		
+		client_access.await();*/		
 		clients.add(c);
 		c.setMessageLoc(public_messages.size());
 		System.out.println("adding");
@@ -78,9 +75,6 @@ public class ClientManager implements Runnable
 	public void run() {
 		while (true) {
 
-//			list_lock.lock();
-//			try {
-//				client_access.await();
 				for (Client c: clients) {
 
 					try {
@@ -153,15 +147,7 @@ public class ClientManager implements Runnable
 					}
 				}
 				
-//				client_access.signalAll();
-				
-//			}
-//			catch(InterruptedException e) {}
-//			finally {
-//
-//				list_lock.unlock();
-//
-//			}
+
 		} 
 
 	}

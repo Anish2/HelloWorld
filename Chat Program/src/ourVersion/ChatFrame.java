@@ -26,6 +26,7 @@ public class ChatFrame {
 
 	private String user_name;
 	
+	
 	// Chat Window
 	private JButton b_disconnect = new JButton("Disconnect");
 
