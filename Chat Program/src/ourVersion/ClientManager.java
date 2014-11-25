@@ -3,19 +3,23 @@ package ourVersion;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ClientManager implements Runnable
 {
-	private ArrayList<Client> clients;
+	private List<Client> clients;
 	private ArrayList<String> public_messages, usernames;
 	private Queue<Message> pm = new ArrayBlockingQueue<Message>(50);
+	private Queue<Integer> lock = new ConcurrentLinkedQueue<Integer>();
 	private Lock list_lock;
 	private Condition client_access;
 
@@ -26,12 +30,18 @@ public class ClientManager implements Runnable
 		client_access = list_lock.newCondition();
 		public_messages = new ArrayList<String>();
 		usernames = new ArrayList<String>();
+		lock.offer(0);
 	}
 
-	public void addClient(Client c) {
+	public void addClient(Client c) throws InterruptedException {
+		/*list_lock.lock();
+		client_access.await();*/
+		
 		clients.add(c);
 		c.setMessageLoc(public_messages.size());
 		System.out.println("adding");
+		/*client_access.signalAll();
+		list_lock.unlock();*/
 	}
 
 	public void whisper(String message, Client c) throws IOException {
@@ -68,9 +78,9 @@ public class ClientManager implements Runnable
 	public void run() {
 		while (true) {
 
-			list_lock.lock();
-			try {
-				client_access.await();
+//			list_lock.lock();
+//			try {
+//				client_access.await();
 				for (Client c: clients) {
 
 					try {
@@ -103,6 +113,7 @@ public class ClientManager implements Runnable
 							
 							public_messages.add(message);
 							System.out.println(public_messages);
+							System.out.println("Message: "+message);
 							//out.println("200 ok");
 						}
 						else if (cmd.equals("FETCH")) {
@@ -140,15 +151,15 @@ public class ClientManager implements Runnable
 					}
 				}
 				
-				client_access.signalAll();
+//				client_access.signalAll();
 				
-			}
-			catch(InterruptedException e) {}
-			finally {
-
-				list_lock.unlock();
-
-			}
+//			}
+//			catch(InterruptedException e) {}
+//			finally {
+//
+//				list_lock.unlock();
+//
+//			}
 		}
 
 	}

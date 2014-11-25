@@ -39,6 +39,7 @@ public class InputOutput implements Runnable
 		print = new PrintWriter(out);
 
 		print.println("JOIN " + username);
+		print.flush();
 
 	}
 
@@ -70,7 +71,7 @@ public class InputOutput implements Runnable
 		print.flush();
 
 		String response = read.nextLine();
-
+		System.out.println(response);
 		StringTokenizer tokenizer = new StringTokenizer(response);
 
 		String num = tokenizer.nextToken();
@@ -103,6 +104,7 @@ public class InputOutput implements Runnable
 	public String[] getUsers() throws InvalidResponseException
 	{
 		print.println("LIST");
+		print.flush();
 		String response = read.nextLine();
 
 		StringTokenizer t = new StringTokenizer(response);
@@ -133,10 +135,12 @@ public class InputOutput implements Runnable
 	public void run() {
 
 		while (true) {
-			System.out.println(tasks);
+			
 			try {
 				// get next chat
+				System.out.println(tasks);
 				String chat = getNextChat();
+				System.out.println(chat);
 				if (chat != null) {
 					// append chat to list of messages
 					ChatFrame.ta_conversation.append(chat + "\n");
@@ -146,7 +150,7 @@ public class InputOutput implements Runnable
 				// update list of users
 				String[] users = getUsers();
 				ChatFrame.jl_online.setListData(users);
-
+				System.out.println(tasks);
 				// execute tasks
 				if (!tasks.isEmpty()) {
 					Message todo = tasks.poll();

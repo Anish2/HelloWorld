@@ -33,6 +33,9 @@ public class Server implements Runnable
 					Client client = new Client(soc,manager);
 					manager.addClient(client);
 				}
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			finally
 			{
