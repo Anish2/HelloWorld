@@ -160,7 +160,7 @@ public class ClientManager implements Runnable
 //				list_lock.unlock();
 //
 //			}
-		}
+		} 
 
 	}
 
