@@ -48,12 +48,10 @@ public class InputOutput implements Runnable
 		tasks.add(task);
 	}
 
-	public void sendChat(String chat) throws InvalidResponseException
+	public void sendChat(String chat) throws IOException
 	{
-		System.out.println("This was sent form IO");
-		print.println("SEND " + chat);
-		print.flush();
-		//checkGoodResponse();
+		Thread t = new Thread(new SendCommand(chat, sock));
+		t.start();
 	}
 
 	private void checkGoodResponse() throws InvalidResponseException
@@ -67,34 +65,10 @@ public class InputOutput implements Runnable
 			throw new InvalidResponseException(response);
 	}
 
-	public String getNextChat() throws InvalidResponseException
+	public void getNextChat() throws UnknownHostException, IOException
 	{
-		print.println("FETCH");
-		print.flush();
-		System.out.println("Got fetch");
-		while (!read.hasNextLine());
-		System.out.println("Got res");
-		String response = read.nextLine();
-		//System.out.println(response);
-		StringTokenizer tokenizer = new StringTokenizer(response);
-
-		String num = tokenizer.nextToken();
-		tokenizer.nextToken();
-
-		String message = tokenizer.nextToken();
-
-		if(num.equals("200"))
-		{
-			return message;
-		}
-		else if (num.equals("201"))
-		{
-			return null;
-		}
-		else 
-		{
-			throw new InvalidResponseException(response);
-		}
+		Thread t = new Thread(new FetchCommand(sock));
+		t.start();
 	}
 
 	public void whisper(String message, String user) throws InvalidResponseException
@@ -105,28 +79,10 @@ public class InputOutput implements Runnable
 	}
 
 
-	public String[] getUsers() throws InvalidResponseException
+	public void getUsers() throws IOException
 	{
-		print.println("LIST");
-		print.flush();
-		String response = read.nextLine();
-
-		StringTokenizer t = new StringTokenizer(response);
-
-		if (!t.nextToken().equals("200"))
-			throw new InvalidResponseException(response);
-		t.nextToken();
-
-		String[] ppl = new String[t.countTokens()];
-		int c = 0;
-
-		while (t.hasMoreTokens())
-		{
-			ppl[c] = t.nextToken();
-			c++;
-		}
-
-		return ppl;
+		Thread t = new Thread(new ListCommand(sock));
+		t.start();
 
 	}
 
@@ -141,10 +97,11 @@ public class InputOutput implements Runnable
 		
 		while (true) 
 		{
-			System.out.println("Loop ran");
+			//System.out.println("Loop ran");
 
 			try {
-
+				
+				// execute tasks
 				if (!tasks.isEmpty()) 
 				{
 					System.out.println("Tasks was not empty");
@@ -154,24 +111,16 @@ public class InputOutput implements Runnable
 					else if (todo.getType() == WHISPER)
 						whisper(todo.getData()[0], todo.getData()[1]);
 				}
+				
 				// get next chat
-				String chat = getNextChat();
-				System.out.println(chat);
-				if (chat != null) {
-					// append chat to list of messages
-					ChatFrame.ta_conversation.append(chat + "\n");
-					
-				}
+				getNextChat();
+				
 				// check for whispers
 
-				// update list of users
-				/*String[] users = getUsers();
-				ChatFrame.jl_online.setListData(users);
-				System.out.println(tasks);
-				// execute tasks
-*/
+				
+				
 
-			} catch (InvalidResponseException e) {
+			} catch (IOException e) {
 				e.printStackTrace();
 			}						
 		}

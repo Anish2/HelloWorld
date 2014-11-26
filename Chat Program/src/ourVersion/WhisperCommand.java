@@ -1,11 +1,8 @@
-package badClasses;
+package ourVersion;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-
-import ourVersion.InputOutput;
-import ourVersion.InvalidResponseException;
 
 public class WhisperCommand extends InputOutput implements Runnable {
 	
