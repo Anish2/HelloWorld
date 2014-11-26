@@ -75,78 +75,80 @@ public class ClientManager implements Runnable
 	public void run() {
 		while (true) {
 
-				for (Client c: clients) {
+			for (Client c: clients) {
 
-					try {
-						Scanner in = new Scanner(c.getSocket().getInputStream());
-						PrintStream out = new PrintStream(c.getSocket().getOutputStream());
+				try {
+					Scanner in = new Scanner(c.getSocket().getInputStream());
+					PrintStream out = new PrintStream(c.getSocket().getOutputStream());
 
-						if (!pm.isEmpty() && pm.peek().getData()[0].equals(c.getUsername())) {
-							Message m = pm.poll();
-							out.println("200 ok WHISP "+m.getData()[1]);
-						}
-						StringTokenizer t = new StringTokenizer(in.nextLine());
-						String cmd = t.nextToken();
-						//System.out.println(cmd);
+					if (!pm.isEmpty() && pm.peek().getData()[0].equals(c.getUsername())) {
+						Message m = pm.poll();
+						out.println("200 ok WHISP "+m.getData()[1]);
+					}
+					StringTokenizer t = new StringTokenizer(in.nextLine());
+					if (!t.hasMoreTokens())
+						continue;
+					String cmd = t.nextToken();
+					//System.out.println(cmd);
 
-						if (cmd.equals("JOIN")) {
-							String username = t.nextToken();
-							c.setUsername(username);
-							if (!usernames.contains(username)) {
-								usernames.add(username);
-								//out.println("200 ok");
-							}
-							else {
-								out.println("409 username in use");
-							}
-						}
-						else if (cmd.equals("SEND")) {
-							System.out.println("SEND");
-							String message = "";
-							while (t.hasMoreTokens())
-								message += t.nextToken();
-							
-							public_messages.add(message);
-							System.out.println(public_messages);
-							System.out.println("Message: "+message);
+					if (cmd.equals("JOIN")) {
+						String username = t.nextToken();
+						c.setUsername(username);
+						if (!usernames.contains(username)) {
+							usernames.add(username);
 							//out.println("200 ok");
 						}
-						else if (cmd.equals("FETCH")) {
-							if (c.getMessageLoc() == public_messages.size())
-								out.println("201 ok but no messages");
-							else {
-								out.println("200 ok "+public_messages.get(c.getMessageLoc()));
-								c.setMessageLoc(c.getMessageLoc()+1);
-							}
+						else {
+							out.println("409 username in use");
 						}
-						else if (cmd.equals("WHISP")) {
-							String username = t.nextToken();
-							
-							String message = "";
-							while (t.hasMoreTokens())
-								message += t.nextToken();
-							if (!usernames.contains(username))
-								out.println("404 no such user");
-							else {
-								Message m = new Message(InputOutput.WHISPER, new String[] {username, message});
-								pm.offer(m);
-								out.println("200 ok");
-							}
-						}
-						else if (cmd.equals("LIST")) {
-							String users = "";
-							for (String str: usernames)
-								users += str;
-							out.println("200 ok "+users);
-						}
-
-
-					} catch (IOException e) {
-
-						e.printStackTrace();
 					}
+					else if (cmd.equals("SEND")) {
+						System.out.println("SEND");
+						String message = "";
+						while (t.hasMoreTokens())
+							message += t.nextToken();
+
+						public_messages.add(message);
+						System.out.println(public_messages);
+						System.out.println("Message: "+message);
+						//out.println("200 ok");
+					}
+					else if (cmd.equals("FETCH")) {
+						if (c.getMessageLoc() == public_messages.size())
+							out.println("201 ok but no messages");
+						else {
+							out.println("200 ok "+public_messages.get(c.getMessageLoc()));
+							c.setMessageLoc(c.getMessageLoc()+1);
+						}
+					}
+					else if (cmd.equals("WHISP")) {
+						String username = t.nextToken();
+
+						String message = "";
+						while (t.hasMoreTokens())
+							message += t.nextToken();
+						if (!usernames.contains(username))
+							out.println("404 no such user");
+						else {
+							Message m = new Message(InputOutput.WHISPER, new String[] {username, message});
+							pm.offer(m);
+							out.println("200 ok");
+						}
+					}
+					else if (cmd.equals("LIST")) {
+						String users = "";
+						for (String str: usernames)
+							users += str;
+						out.println("200 ok "+users);
+					}
+
+
+				} catch (IOException e) {
+
+					e.printStackTrace();
 				}
-				
+			}
+
 
 		} 
 

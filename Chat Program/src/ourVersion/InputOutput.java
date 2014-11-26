@@ -11,6 +11,9 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import chatProgram.ChatFrame;
 
@@ -21,6 +24,8 @@ public class InputOutput implements Runnable
 	private Scanner read;
 	private Socket sock;
 	private Queue<Message> tasks = new ConcurrentLinkedQueue<Message>();
+	private Lock printingLock = new ReentrantLock();
+	private Condition printing = printingLock.newCondition();
 
 	public static final int SEND = 1;
 	public static final int WHISPER = 2;
@@ -94,31 +99,34 @@ public class InputOutput implements Runnable
 	@SuppressWarnings("unchecked")
 	public void run() 
 	{
-		
+
+		// get next chat
+		try {
+			getNextChat();
+		} catch (UnknownHostException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 		while (true) 
 		{
 			//System.out.println("Loop ran");
 
 			try {
-				
+
 				// execute tasks
 				if (!tasks.isEmpty()) 
 				{
-					System.out.println("Tasks was not empty");
 					Message todo = tasks.poll();
 					if (todo.getType() == SEND) 
 						sendChat(todo.getData()[0]);
 					else if (todo.getType() == WHISPER)
 						whisper(todo.getData()[0], todo.getData()[1]);
 				}
-				
-				// get next chat
-				getNextChat();
-				
-				// check for whispers
 
-				
-				
 
 			} catch (IOException e) {
 				e.printStackTrace();

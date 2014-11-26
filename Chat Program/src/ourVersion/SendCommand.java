@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
+import java.util.concurrent.locks.Condition;
 
 import chatProgram.ChatFrame;
 
