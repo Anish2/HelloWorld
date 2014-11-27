@@ -29,23 +29,12 @@ public class ChatMain {
 
 
 	public static void main(String[] args) throws IOException{
-
-	
 			
-			ClientManager manager = new ClientManager();
-			Thread m = new Thread(manager);
-			m.start();
-			
-			Server chat = new Server(manager, 8888);
+			Server chat = new Server(8888);
 			Thread t = new Thread(chat);
 			t.start();
-			
-			
-			makeWindow();
-			//ChatFrame frame = new ChatFrame("Username", "localhost", 8888);
-
 		
-		
+			makeWindow();		
 	}
 
 	private static void makeWindow(){

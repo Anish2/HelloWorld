@@ -31,14 +31,14 @@ public class ChatFrame {
 	private JButton b_disconnect = new JButton("Disconnect");
 
 	private JLabel l_message = new JLabel("Message: ");
-	public static JTextField tf_message = new JTextField(25);
+	public static final JTextField tf_message = new JTextField(25);
 
 	private JLabel l_conversation = new JLabel();
-	public static JTextArea ta_conversation = new JTextArea();
+	public static final JTextArea ta_conversation = new JTextArea();
 	private JScrollPane sp_conversation = new JScrollPane();
 
 	private JLabel l_online = new JLabel();
-	public static JList jl_online = new JList();
+	public static final JList jl_online = new JList();
 	private JScrollPane sp_online = new JScrollPane();
 
 	private JLabel l_loggedInAs = new JLabel();
@@ -50,7 +50,7 @@ public class ChatFrame {
 		mainWindow();
 		mainWindowAction();
 		try {
-			client = new InputOutput(hostName, port, userName);
+			client = new InputOutput(hostName, port, userName, this);
 			Thread t = new Thread(client);
 			t.start();
 		} catch (IOException e) {
@@ -74,6 +74,7 @@ public class ChatFrame {
 						}
 					}
 				});
+		
 		b_disconnect.addActionListener(
 				new ActionListener()
 				{
@@ -86,15 +87,20 @@ public class ChatFrame {
 	
 	private void action_TF_Send() throws UnknownHostException, IOException
 	{
+		System.out.println("Action function ran");
 		String message = tf_message.getText();
 		
 		if(!message.equals(""))
 		{
-			System.out.println(message);
+			//System.out.println(message);
 			Message m = new Message(InputOutput.SEND, new String[] {message});
 			client.addTask(m);
 			tf_message.requestFocus();
 		}
+	}
+	
+	public void edit_text(String m) {
+		ta_conversation.append(m+"\n");
 	}
 
 
@@ -138,7 +144,7 @@ public class ChatFrame {
 		tf_message.setForeground(new Color(0, 0, 255));
 		tf_message.requestFocus();
 		mainWindow.getContentPane().add(tf_message);
-		tf_message.setBounds(82, 590, 512, 30);
+		tf_message.setBounds(82, 615, 512, 30);
 
 		// right
 		l_online.setHorizontalAlignment(SwingConstants.CENTER);

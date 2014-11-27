@@ -15,7 +15,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import chatProgram.ChatFrame;
+import ourVersion.ChatFrame;
 
 public class InputOutput implements Runnable
 {
@@ -24,15 +24,18 @@ public class InputOutput implements Runnable
 	private Scanner read;
 	private Socket sock;
 	private Queue<Message> tasks = new ConcurrentLinkedQueue<Message>();
-	private Lock printingLock = new ReentrantLock();
-	private Condition printing = printingLock.newCondition();
+	private Lock cmd_lock = new ReentrantLock();
+	private Condition cmd_access = cmd_lock.newCondition();
+	private boolean can_print = true;
+	private ChatFrame frame;
 
 	public static final int SEND = 1;
 	public static final int WHISPER = 2;
 
 
-	public InputOutput(String host, int port, String username) throws UnknownHostException, IOException
+	public InputOutput(String host, int port, String username, ChatFrame chatFrame) throws UnknownHostException, IOException
 	{
+		this.frame = chatFrame;
 		sock = new Socket(host, port);
 
 		InputStream in;
@@ -44,9 +47,45 @@ public class InputOutput implements Runnable
 
 		print = new PrintWriter(out);
 
-		print.println("JOIN " + username);
-		print.flush();
+		cmd_lock.lock();
+		try {
+			while (!can_print)
+				cmd_access.await();
+			toggle_print();
+			print.println("JOIN " + username);
+			print.flush();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		toggle_print();
+		cmd_access.signalAll();
+		cmd_lock.unlock();
+	}
 
+	public boolean can_print() {
+		return can_print;
+	}
+
+	public void toggle_print() {
+		try {
+			Thread.sleep(15);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		can_print = !can_print;
+	}
+
+	public Lock getLock() {
+		return cmd_lock;
+	}
+
+	public ChatFrame getFrame() {
+		return frame;
+	}
+
+	public Condition getCondition() {
+		return cmd_access;
 	}
 
 	public void addTask(Message task) {
@@ -55,24 +94,13 @@ public class InputOutput implements Runnable
 
 	public void sendChat(String chat) throws IOException
 	{
-		Thread t = new Thread(new SendCommand(chat, sock));
+		Thread t = new Thread(new SendCommand(chat, sock, this));
 		t.start();
-	}
-
-	private void checkGoodResponse() throws InvalidResponseException
-	{
-		String response = read.nextLine();
-		//System.out.println(response);
-		StringTokenizer t = new StringTokenizer(response);
-		String code = t.nextToken();
-
-		if(!code.equals("200"))
-			throw new InvalidResponseException(response);
 	}
 
 	public void getNextChat() throws UnknownHostException, IOException
 	{
-		Thread t = new Thread(new FetchCommand(sock));
+		Thread t = new Thread(new FetchCommand(sock, this));
 		t.start();
 	}
 
@@ -80,13 +108,12 @@ public class InputOutput implements Runnable
 	{
 		print.println("WHISP " + message + " " + user);
 		print.flush();
-		checkGoodResponse();
 	}
 
 
 	public void getUsers() throws IOException
 	{
-		Thread t = new Thread(new ListCommand(sock));
+		Thread t = new Thread(new ListCommand(sock, this));
 		t.start();
 
 	}
@@ -113,7 +140,6 @@ public class InputOutput implements Runnable
 
 		while (true) 
 		{
-			//System.out.println("Loop ran");
 
 			try {
 
