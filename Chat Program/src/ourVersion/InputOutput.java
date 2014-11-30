@@ -130,6 +130,7 @@ public class InputOutput implements Runnable
 		// get next chat
 		try {
 			getNextChat();
+			getUsers();
 		} catch (UnknownHostException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

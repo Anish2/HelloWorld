@@ -95,6 +95,7 @@ public class ChatFrame {
 			//System.out.println(message);
 			Message m = new Message(InputOutput.SEND, new String[] {message});
 			client.addTask(m);
+			tf_message.setText("");
 			tf_message.requestFocus();
 		}
 	}
@@ -103,6 +104,9 @@ public class ChatFrame {
 		ta_conversation.append(m+"\n");
 	}
 
+	public void edit_userlist(String[] users) {
+		jl_online.setListData(users);
+	}
 
 	/****************************************** GRAPHICS ***************************************************/
 	private void mainWindow() {

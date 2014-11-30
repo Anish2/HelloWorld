@@ -28,13 +28,9 @@ public class ChatMain {
 	private static final JButton b_joinServer = new JButton("Join Chat Room");
 
 
-	public static void main(String[] args) throws IOException{
-			
-			Server chat = new Server(8888);
-			Thread t = new Thread(chat);
-			t.start();
-		
-			makeWindow();		
+	public static void main(String[] args) throws IOException {
+
+		makeWindow();		
 	}
 
 	private static void makeWindow(){
@@ -44,7 +40,7 @@ public class ChatMain {
 
 			addWindowStuff();
 
-			
+
 			introWindow.setLocationByPlatform(true);
 			introWindow.setLocation(1000, 300);
 			introWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -93,6 +89,7 @@ public class ChatMain {
 
 							ChatFrame frame = new ChatFrame(tf_userName.getText(), "localhost",
 									Integer.parseInt(tf_portNum.getText()));
+							introWindow.setVisible(false);
 
 						}
 

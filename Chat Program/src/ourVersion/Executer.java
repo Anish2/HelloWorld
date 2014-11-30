@@ -6,12 +6,12 @@ import java.net.ServerSocket;
 public class Executer
 {
 	private static int port =  8888;
-	
-	public static void main(String[] args) 
+
+	public static void main(String[] args) throws IOException 
 	{
-		ClientManager manager = new ClientManager();
-		Thread m = new Thread(manager);
-		m.start();
+		Server chat = new Server(8888);
+		Thread t = new Thread(chat);
+		t.start();
 	}
 
 }
