@@ -41,7 +41,7 @@ public class ClientHandler implements Runnable
 					Message m = server.getWhispers().poll();
 					out.println("200 ok WHISP "+m.getData()[1]);
 				}
-				while (!in.hasNextLine());
+				while (!in.hasNextLine()); // Anish, doesn't this mean that if you don't send a message, then you can never recieve your whispers?
 				
 				String p = in.nextLine();
 				StringTokenizer t = new StringTokenizer(p);
@@ -62,7 +62,7 @@ public class ClientHandler implements Runnable
 					}
 				}
 				else if (cmd.equals("SEND")) {
-					System.out.println("SEND");
+				//	System.out.println("SEND");
 					String message = "";
 					while (t.hasMoreTokens())
 						message += t.nextToken();
@@ -71,11 +71,11 @@ public class ClientHandler implements Runnable
 					//out.println("200 ok");
 				}
 				else if (cmd.equals("FETCH")) {
-					System.out.println("FETCH");
+					//System.out.println("FETCH");
 					if (message_loc == server.getMessages().size())
 						out.println("201 ok but no messages");
 					else {
-						System.out.println("Public Messages: "+server.getMessages());
+					//	System.out.println("Public Messages: "+server.getMessages());
 						if (server.getMessages().size() > 0) {
 							out.println("200 ok "+server.getMessages().get(message_loc));
 						}
