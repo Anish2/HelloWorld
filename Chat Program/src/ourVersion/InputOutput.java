@@ -68,7 +68,7 @@ public class InputOutput implements Runnable
 
 	public void toggle_print() {
 		try {
-			Thread.sleep(15);
+			Thread.sleep(30);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -104,10 +104,12 @@ public class InputOutput implements Runnable
 		t.start();
 	}
 
-	public void whisper(String message, String user) throws InvalidResponseException
+	public void whisper(String message, String user) throws IOException
 	{
-		print.println("WHISP " + message + " " + user);
-		print.flush();
+		//print.println("WHISP " + message + " " + user);
+	//	print.flush();
+		Thread t = new Thread(new WhisperCommand(message, user ,sock, this));
+		t.start();
 	}
 
 
@@ -146,7 +148,8 @@ public class InputOutput implements Runnable
 
 				// execute tasks
 				if (!tasks.isEmpty()) 
-				{
+				{	
+					System.out.println(tasks);
 					Message todo = tasks.poll();
 					if (todo.getType() == SEND) 
 						sendChat(todo.getData()[0]);

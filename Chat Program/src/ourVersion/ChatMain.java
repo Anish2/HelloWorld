@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 public class ChatMain {
-	private static String hostName = "173.61.73.225";
+	private static String hostName = "localhost";
 	private static JFrame introWindow = new JFrame("Chat Program");
 	private static final JLabel l_username = new JLabel("Username: ");
 	private static final JLabel l_portNum = new JLabel("Port Number: ");

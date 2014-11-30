@@ -38,23 +38,25 @@ public class ListCommand implements Runnable {
 
 
 			String response = in.nextLine();
-
+			//System.out.println(response);
 			StringTokenizer t = new StringTokenizer(response);
+			if(t.hasMoreTokens())
+			{
+				if (t.nextToken().equals("200")) {
+					t.nextToken();
 
-			if (t.nextToken().equals("200")) {
-				t.nextToken();
+					String[] ppl = new String[t.countTokens()];
+					int c = 0;
 
-				String[] ppl = new String[t.countTokens()];
-				int c = 0;
+					while (t.hasMoreTokens())
+					{
+						ppl[c] = t.nextToken()+"\n";
+						c++;
+					}
 
-				while (t.hasMoreTokens())
-				{
-					ppl[c] = t.nextToken()+"\n";
-					c++;
+					// update list of users
+					io.getFrame().edit_userlist(ppl);
 				}
-
-				// update list of users
-				io.getFrame().edit_userlist(ppl);
 			}
 		}
 

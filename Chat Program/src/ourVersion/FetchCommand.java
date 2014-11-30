@@ -47,17 +47,19 @@ public class FetchCommand implements Runnable {
 			String response = in.nextLine();
 
 			StringTokenizer tokenizer = new StringTokenizer(response);
+			
+				String num = tokenizer.nextToken();
+				tokenizer.nextToken();
 
-			String num = tokenizer.nextToken();
-			tokenizer.nextToken();
-
-			String message = tokenizer.nextToken();
-			//System.out.println(response);
-			if(num.equals("200"))
-			{
-				io.getFrame().edit_text(message);
-				System.out.println("Chat Frame: "+ChatFrame.ta_conversation.getText());
-			}
+				String message = tokenizer.nextToken();
+				//System.out.println(response);
+				if(num.equals("200"))
+				{
+					io.getFrame().edit_text(message);
+					System.out.println("Chat Frame: "+ChatFrame.ta_conversation.getText());
+				}
+			
+	
 		}
 
 	}

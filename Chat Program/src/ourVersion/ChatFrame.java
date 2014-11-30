@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.StringTokenizer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -92,11 +93,25 @@ public class ChatFrame {
 		System.out.println("Action function ran");
 		String message = tf_message.getText();
 		
+		
+		
 		if(!message.equals(""))
 		{
-			//System.out.println(message);
-			Message m = new Message(InputOutput.SEND, new String[] {message});
-			client.addTask(m);
+			StringTokenizer token = new StringTokenizer(message);
+			String cmd = token.nextToken();
+			if(token.countTokens() == 2 && cmd.equals("WHISP"))
+			{
+				String text = token.nextToken();
+				String user = token.nextToken();
+				Message m = new Message(InputOutput.WHISPER, new String[]{text,user});
+				client.addTask(m);
+			}
+			else
+			{
+				//System.out.println(message);
+				Message m = new Message(InputOutput.SEND, new String[] {message});
+				client.addTask(m);
+			}
 			tf_message.setText("");
 			tf_message.requestFocus();
 		}
