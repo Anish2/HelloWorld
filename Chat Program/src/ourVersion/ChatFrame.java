@@ -53,8 +53,10 @@ public class ChatFrame {
 			client = new InputOutput(hostName, port, userName, this);
 			Thread t = new Thread(client);
 			t.start();
-		} catch (IOException e) {
-			System.out.println("Can't connect.");
+		} catch (IOException e) 
+		{
+			e.printStackTrace();
+		//	System.out.println("Can't connect.");
 		}
 		
 	}

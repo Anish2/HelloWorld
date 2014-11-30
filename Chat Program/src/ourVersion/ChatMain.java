@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 public class ChatMain {
-
+	private static String hostName = "173.61.73.225";
 	private static JFrame introWindow = new JFrame("Chat Program");
 	private static final JLabel l_username = new JLabel("Username: ");
 	private static final JLabel l_portNum = new JLabel("Port Number: ");
@@ -87,7 +87,7 @@ public class ChatMain {
 					public void actionPerformed(ActionEvent e) {
 						if(check()) {							
 
-							ChatFrame frame = new ChatFrame(tf_userName.getText(), "localhost",
+							ChatFrame frame = new ChatFrame(tf_userName.getText(), hostName,
 									Integer.parseInt(tf_portNum.getText()));
 							introWindow.setVisible(false);
 
