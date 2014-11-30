@@ -3,7 +3,7 @@ package ourVersion;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-public class Executer
+public class ServerRunner
 {
 	private static int port =  8888;
 
