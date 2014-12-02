@@ -50,7 +50,6 @@ public class InputOutput implements Runnable
 		toggle_print();
 		cmd_access.signalAll();
 		cmd_lock.unlock();
-		out.close();
 	}
 
 	public boolean can_print() {
