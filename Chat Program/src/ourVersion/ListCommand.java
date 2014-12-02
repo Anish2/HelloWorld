@@ -38,7 +38,7 @@ public class ListCommand implements Runnable {
 
 
 			String response = in.nextLine();
-			//System.out.println(response);
+
 			StringTokenizer t = new StringTokenizer(response);
 			if(t.hasMoreTokens())
 			{

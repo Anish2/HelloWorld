@@ -1,15 +1,14 @@
 package ourVersion;
 
 import java.io.IOException;
-import java.net.ServerSocket;
 
 public class ServerRunner
 {
-	private static int port =  8888;
+	private static final int PORT =  8888;
 
 	public static void main(String[] args) throws IOException 
 	{
-		Server chat = new Server(8888);
+		Server chat = new Server(PORT);
 		Thread t = new Thread(chat);
 		t.start();
 	}

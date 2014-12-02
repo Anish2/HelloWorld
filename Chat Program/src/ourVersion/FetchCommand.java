@@ -6,10 +6,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-
-import chatProgram.ChatFrame;
 
 public class FetchCommand implements Runnable {
 
@@ -46,30 +42,27 @@ public class FetchCommand implements Runnable {
 
 			String response = in.nextLine();
 
-			StringTokenizer tokenizer = new StringTokenizer(response);
-			
-				String num = tokenizer.nextToken();
-				tokenizer.nextToken();
+			StringTokenizer t = new StringTokenizer(response);
 
-				String message = tokenizer.nextToken();
-				//System.out.println(response);
-				if(num.equals("200"))
-				{
-					io.getFrame().edit_text(message);
-					System.out.println("Chat Frame: "+ChatFrame.ta_conversation.getText());
-				}
+			String num = t.nextToken();
+			t.nextToken();
+
+			String message = "";
+			while (t.hasMoreTokens()) {
+				message += t.nextToken()+" ";
+			}
 			
-	
+			
+
+			if(num.equals("200"))
+			{
+				//System.out.println(response);
+				io.getFrame().edit_text(message);
+				//System.out.println("Chat Frame: "+ChatFrame.ta_conversation.getText());
+			}
+
+
 		}
 
 	}
-
-	/*public void appendNewText(String txt) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				outputText.setText(outputText.getText + txt);
-				//outputText.setText(outputText.getText + "\n"+ txt); Windows LineSeparator
-			}
-		});
-	}*/
 }

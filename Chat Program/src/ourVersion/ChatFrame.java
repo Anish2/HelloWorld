@@ -39,6 +39,7 @@ public class ChatFrame {
 	private JScrollPane sp_conversation = new JScrollPane();
 
 	private JLabel l_online = new JLabel();
+	@SuppressWarnings("rawtypes")
 	public static final JList jl_online = new JList();
 	private JScrollPane sp_online = new JScrollPane();
 
@@ -91,24 +92,25 @@ public class ChatFrame {
 	private void action_TF_Send() throws UnknownHostException, IOException
 	{
 		System.out.println("Action function ran");
-		String message = tf_message.getText();
-		
-		
+		String message = tf_message.getText();				
 		
 		if(!message.equals(""))
 		{
 			StringTokenizer token = new StringTokenizer(message);
 			String cmd = token.nextToken();
-			if(token.countTokens() == 2 && cmd.equals("WHISP"))
+			if(cmd.equals("WHISP"))
 			{
-				String text = token.nextToken();
 				String user = token.nextToken();
+				String text = "";
+				while (token.hasMoreTokens()) {
+					text += token.nextToken()+" ";
+				}							
 				Message m = new Message(InputOutput.WHISPER, new String[]{text,user});
 				client.addTask(m);
 			}
 			else
 			{
-				//System.out.println(message);
+				System.out.println(message);
 				Message m = new Message(InputOutput.SEND, new String[] {message});
 				client.addTask(m);
 			}
@@ -121,6 +123,7 @@ public class ChatFrame {
 		ta_conversation.append(m+"\n");
 	}
 
+	@SuppressWarnings("unchecked")
 	public void edit_userlist(String[] users) {
 		jl_online.setListData(users);
 	}

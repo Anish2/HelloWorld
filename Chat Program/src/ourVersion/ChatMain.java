@@ -1,12 +1,9 @@
 package ourVersion;
 
-
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -87,6 +84,7 @@ public class ChatMain {
 					public void actionPerformed(ActionEvent e) {
 						if(check()) {							
 
+							@SuppressWarnings("unused")
 							ChatFrame frame = new ChatFrame(tf_userName.getText(), hostName,
 									Integer.parseInt(tf_portNum.getText()));
 							introWindow.setVisible(false);
@@ -99,6 +97,7 @@ public class ChatMain {
 
 
 
+	@SuppressWarnings("unused")
 	public static boolean check(){
 		String name = tf_userName.getText();
 		String port = tf_portNum.getText();

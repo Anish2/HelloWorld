@@ -1,15 +1,11 @@
 package ourVersion;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Queue;
-import java.util.Scanner;
-import java.util.StringTokenizer;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -21,7 +17,6 @@ public class InputOutput implements Runnable
 {
 
 	private PrintWriter print;
-	private Scanner read;
 	private Socket sock;
 	private Queue<Message> tasks = new ConcurrentLinkedQueue<Message>();
 	private Lock cmd_lock = new ReentrantLock();
@@ -37,13 +32,8 @@ public class InputOutput implements Runnable
 	{
 		this.frame = chatFrame;
 		sock = new Socket(host, port);
-
-		InputStream in;
-		OutputStream out;
-
-		in = sock.getInputStream();
-		out = sock.getOutputStream();
-		read = new Scanner(in);
+		
+		OutputStream out = sock.getOutputStream();
 
 		print = new PrintWriter(out);
 
@@ -60,6 +50,7 @@ public class InputOutput implements Runnable
 		toggle_print();
 		cmd_access.signalAll();
 		cmd_lock.unlock();
+		out.close();
 	}
 
 	public boolean can_print() {
@@ -70,7 +61,6 @@ public class InputOutput implements Runnable
 		try {
 			Thread.sleep(30);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		can_print = !can_print;
@@ -106,8 +96,6 @@ public class InputOutput implements Runnable
 
 	public void whisper(String message, String user) throws IOException
 	{
-		//print.println("WHISP " + message + " " + user);
-	//	print.flush();
 		Thread t = new Thread(new WhisperCommand(message, user ,sock, this));
 		t.start();
 	}
@@ -125,7 +113,6 @@ public class InputOutput implements Runnable
 		sock.close();
 	}
 
-	@SuppressWarnings("unchecked")
 	public void run() 
 	{
 
@@ -149,7 +136,6 @@ public class InputOutput implements Runnable
 				// execute tasks
 				if (!tasks.isEmpty()) 
 				{	
-					System.out.println(tasks);
 					Message todo = tasks.poll();
 					if (todo.getType() == SEND) 
 						sendChat(todo.getData()[0]);
