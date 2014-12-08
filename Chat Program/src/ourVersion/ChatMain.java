@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 public class ChatMain {
-	private static String hostName = "localhost";
+	private static String hostName = "10.5.100.185";
 	private static JFrame introWindow = new JFrame("Chat Program");
 	private static final JLabel l_username = new JLabel("Username: ");
 	private static final JLabel l_portNum = new JLabel("Port Number: ");
@@ -30,7 +30,8 @@ public class ChatMain {
 		makeWindow();		
 	}
 
-	private static void makeWindow(){
+	private static void makeWindow()
+	{
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
