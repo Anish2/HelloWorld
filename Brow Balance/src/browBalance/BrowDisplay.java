@@ -20,18 +20,80 @@ public class BrowDisplay extends PApplet
 	private int lives = 100;
 	private int score = 0;
 	private int framesPerBall = 150;
-	private int level;
+	private int level = 1;
 	private boolean left = false;
 	private boolean right = false;
 	private boolean up = false;
 	private boolean down = false;
+	private int numBalls = 0;
+	private int maxBalls = 1;
+	private ArrayList<FBox> obstacles = new ArrayList<FBox>();
+	//private boolean levelingUp = false;
 	private int speed = 5;
 
-	public BrowDisplay(int level, int lives, int score)
+	/*public BrowDisplay(int level, int lives, int score)
 	{
 		this.lives = lives;
 		this.score = score;
 		this.level = level;
+	}*/
+	
+/*	private void levelUpDraw()
+	{
+		background(0);
+		PFont font = createFont("Arial",40);
+		textFont(font);
+		
+		
+		
+		brow = null;
+		goals = new ArrayList<FBox>();
+		level++;
+		setup();
+	}*/
+	
+	public void drawNormal()
+	{
+		background(255);
+		fill(0);
+		text("Lives : " + (lives), 15, 30);
+		text("Score : " + score, width - 100, 30);
+		text("Level : " + level, width - 200,30);
+		
+		
+		if (frameCount % framesPerBall == 0 && numBalls < maxBalls) 
+		{
+			FCircle b = new FCircle(20);
+			b.setPosition(random(width/2 - 70, width/2 + 70), 50);
+			b.setVelocity(0, 200);
+			b.setRestitution(0);
+			b.setNoStroke();
+			switch((int)random(1,4))
+			{
+			case 1:
+				b.setFill(255,0,0);
+				break;
+			case 2:
+				b.setFill(0,255,0);
+				break;
+			case 3:
+				b.setFill(0,0,255);
+				break;
+			}
+
+			numBalls++;
+			world.add(b);
+		}
+
+		handleBrowMovement();
+		updateScore();
+		updateLives();
+
+		world.draw();
+		world.step();
+
+		strokeWeight(1);
+		stroke(255);
 	}
 	
 	public void setup() 
@@ -43,7 +105,7 @@ public class BrowDisplay extends PApplet
 
 		world = new FWorld();
 
-		brow = new FBox(150,10);
+		brow = new FBox(150,5);
 		brow.setRotation(0);
 		brow.setPosition(width/2, 6f * height/8);
 		brow.setStatic(true);
@@ -70,7 +132,8 @@ public class BrowDisplay extends PApplet
 			{
 				posNums.remove(new Integer(y));
 			}
-			goal.setPosition(pos, height - 30); 
+			/*goal.setPosition(pos, height - 30); */
+			goal.setPosition(pos,height - 30); 
 			goal.setStatic(true);
 			goal.setRestitution(1.0f);
 			goal.setGrabbable(false);
@@ -89,46 +152,12 @@ public class BrowDisplay extends PApplet
 
 	public void draw()
 	{
-		background(255);
-		fill(0);
-		text("Lives : " + (lives), 15, 30);
-		text("Score : " + score, width - 100, 30);
-		text("Level : " + level, width - 200,30);
-		
-		
-		if (frameCount % framesPerBall == 0) 
+		/*if(levelingUp)
 		{
-			FCircle b = new FCircle(20);
-			b.setPosition(random(width/2 - 70, width/2 + 70), 50);
-			b.setVelocity(0, 200);
-			b.setRestitution(0);
-			b.setNoStroke();
-			switch((int)random(1,4))
-			{
-			case 1:
-				b.setFill(255,0,0);
-				break;
-			case 2:
-				b.setFill(0,255,0);
-				break;
-			case 3:
-				b.setFill(0,0,255);
-				break;
-			}
-
-
-			world.add(b);
-		}
-
-		handleBrowMovement();
-		updateScore();
-		updateLives();
-
-		world.draw();
-		world.step();
-
-		strokeWeight(1);
-		stroke(255);
+			levelUpDraw();
+		}*/
+		maxBalls = score/20 + 1;
+		drawNormal();
 	}
 
 	public void handleBrowMovement()
@@ -193,6 +222,7 @@ public class BrowDisplay extends PApplet
 			world.add(particle);
 		}
 		world.remove(ball);
+		numBalls--;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -211,6 +241,7 @@ public class BrowDisplay extends PApplet
 				if((a.getX() < -20 || a.getX() > width + 20 || a.getY() < -20 || a.getY() > height + 20))
 				{
 					world.remove(a);
+					numBalls--;
 					lives--;
 				}
 			}
@@ -263,5 +294,6 @@ public class BrowDisplay extends PApplet
 		}
 	}
 
+	
 
 }
