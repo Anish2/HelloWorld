@@ -28,7 +28,7 @@ public class BrowDisplay extends PApplet
 	private int numBalls = 0;
 	private int maxBalls = 1;
 	private ArrayList<FBox> obstacles = new ArrayList<FBox>();
-	//private boolean levelingUp = false;
+	//private boolean levelingUp = false; 
 	private int speed = 5;
 
 	/*public BrowDisplay(int level, int lives, int score)
