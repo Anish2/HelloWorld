@@ -1,4 +1,4 @@
-package browBalance;
+package samples;
 
 import java.util.ArrayList;
 
@@ -11,7 +11,7 @@ import fisica.FContact;
 import fisica.FWorld;
 import fisica.Fisica;
 
-public class BrowDisplay extends PApplet
+public class EitanTesting extends PApplet
 {
 	private FWorld world;
 	private FBox brow;
