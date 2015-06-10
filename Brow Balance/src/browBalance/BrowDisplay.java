@@ -17,7 +17,7 @@ public class BrowDisplay extends PApplet
 	private FBox brow;
 	private int boxHeightGoal = 4;
 	private int boxWidthGoal = 10;
-	private ArrayList<FBox[][]> goals = new ArrayList<FBox[][]>();
+	private ArrayList<FBox> goals = new ArrayList<FBox>();
 	private ArrayList<FBody> balls = new ArrayList<FBody>();
 	private int numGoals = 3;
 	private int lives = 100;
@@ -52,7 +52,7 @@ public class BrowDisplay extends PApplet
 			// Calculate a y value according to noise, map to 
 			float y = map(noise(xoff, yoff), 0, 1, water_level-40,water_level); // Option #1: 2D Noise
 			// float y = map(noise(xoff), 0, 1, 200,300);    // Option #2: 1D Noise
-			
+
 			// Set the vertex
 			vertex(x, y-10); 
 			// Increment x dimension for noise
@@ -65,7 +65,7 @@ public class BrowDisplay extends PApplet
 		endShape(CLOSE);
 
 		//background(255);
-		
+
 		fill(0);
 		//water_level -= 0.01;
 		text("Lives : " + (lives), 15, 30);
@@ -116,10 +116,7 @@ public class BrowDisplay extends PApplet
 		smooth();
 		water_level = height-10;
 		Fisica.init(this);
-		
-		// setup font
-		String[] fontList = PFont.list();
-		println(fontList);
+
 
 		world = new FWorld();
 
@@ -140,59 +137,32 @@ public class BrowDisplay extends PApplet
 		{
 			posNums.add(x);
 		}
-		
+
 		for(int x = 0; x < numGoals; x++)
 		{
-			goals.add(new FBox[boxWidthGoal][boxHeightGoal]);
-			//FBox goal = new FBox(50,20);
-			//goal.setRotation(0);
+			FBox goal = new FBox(50,20);
+			goal.setRotation(0);
 			int pos = posNums.get((int) random(0,posNums.size()));
 			for(int y = pos - 50; y < pos + 50; y++)
 			{
 				posNums.remove(new Integer(y));
 			}
-			for(int a = 0; a < boxWidthGoal; a++)
-			{
-				for(int b = 0; b < boxHeightGoal; b++)
-				{
-					FBox box = new FBox(5,5);
-					box.setRotation(0);
-					box.setPosition(pos + a * 5, height - 60 + a * 5);
-					box.setStatic(true);
-					box.setRestitution(1.0f);
-					box.setGrabbable(false);
-					if(x == 0)
-					{
-						box.setFill(0,0,255);
-					}
-					if(x == 1)
-					{
-						box.setFill(0,255,0);
-					}
-					if(x==2)
-					{
-						box.setFill(255,0,0);
-					}
-					goals.get(x)[a][b] = box;
-					world.add(box);
-				}
-			}
 			/*goal.setPosition(pos, height - 30); */
-			/*goal.setPosition(pos,height - 60); 
+			goal.setPosition(pos,height - 60); 
 			goal.setStatic(true);
 			goal.setRestitution(1.0f);
 			goal.setGrabbable(false);
-			goals.add(goal);*/
+			goals.add(goal);
 		}
 
-		/*goals.get(0).setFill(0,0,255);;
+		goals.get(0).setFill(0,0,255);;
 		goals.get(1).setFill(255,0,0);;
 		goals.get(2).setFill(0,255,0);;
-*//*
+
 		for(int x = 0; x < numGoals; x++)
 		{
 			world.add(goals.get(x));
-		}*/
+		}
 	}
 
 	public void draw()
@@ -200,7 +170,7 @@ public class BrowDisplay extends PApplet
 		maxBalls = score/20 + 1;
 		drawNormal();
 	}
-	
+
 	public void handleTsunamiEffect() {
 		for (int i = 0; i < balls.size(); i++) {
 			if (balls.get(i).getY() >= water_level-20) {
@@ -238,24 +208,17 @@ public class BrowDisplay extends PApplet
 	{
 		for(int x = 0; x < numGoals; x++)
 		{
-			for(int z = 0; z < boxWidthGoal; z++)
+			for(FContact a : (ArrayList<FContact>)goals.get(x).getContacts())
 			{
-				for(int b = 0; b < boxHeightGoal; b++)
+				if(goals.get(x).equals(a.getBody2()) && a.getBody1().getFillColor() == goals.get(x).getFillColor())
 				{
-					for(FContact a : (ArrayList<FContact>)goals.get(x)[z][b].getContacts())
-					{
-						if(goals.get(x).equals(a.getBody2()) && a.getBody1().getFillColor() == goals.get(x)[z][b].getFillColor())
-						{
-							popBall(a.getBody1());
-//							a.getBody2()
-							score++;
-						}
-						if(goals.get(x).equals(a.getBody1()) && a.getBody2().getFillColor() == goals.get(x)[z][b].getFillColor())
-						{
-							popBall(a.getBody2());
-							score++;
-						}
-					}
+					popBall(a.getBody1());
+					score++;
+				}
+				if(goals.get(x).equals(a.getBody1()) && a.getBody2().getFillColor() == goals.get(x).getFillColor())
+				{
+					popBall(a.getBody2());
+					score++;
 				}
 			}
 		}
