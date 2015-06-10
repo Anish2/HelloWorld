@@ -1,5 +1,6 @@
 package browBalance;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
@@ -20,19 +21,34 @@ public class BrowDisplay extends PApplet
 	private int lives = 100;
 	private int score = 0;
 	private int framesPerBall = 150;
-	private int level;
+	private int level = 1;
 	private boolean left = false;
 	private boolean right = false;
 	private boolean up = false;
 	private boolean down = false;
 	private int speed = 5;
 
-	public BrowDisplay(int level, int lives, int score)
+	/*public BrowDisplay(int level, int lives, int score)
 	{
 		this.lives = lives;
 		this.score = score;
 		this.level = level;
+	}*/
+	private ArrayList<Color> posColors = new ArrayList<Color>();
+	private Color[] currentColors = new Color[6]; // First 2 integers are first big and then small triangle, etc.
+	
+	public void displayBackground()
+	{
+		if(posColors.size() == 0)
+		{
+			//Fill with more colors
+		}
+		
+		//Draw Triangles 1 and 2
+		
+		triangle(0,0,width,0,0,height);
 	}
+	
 	
 	public void setup() 
 	{
@@ -93,7 +109,7 @@ public class BrowDisplay extends PApplet
 		fill(0);
 		text("Lives : " + (lives), 15, 30);
 		text("Score : " + score, width - 100, 30);
-		text("Level : " + level, width - 200,30);
+		text("Level : " + score/5, width - 200,30);
 		
 		
 		if (frameCount % framesPerBall == 0) 
