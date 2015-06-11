@@ -18,7 +18,7 @@ public class BrowDisplayAttemptToStopBallSpawningOnceGoalDoneFailure extends PAp
 	private FBox brow;
 	private int boxHeightGoal = 4;
 	private int boxWidthGoal = 4;
-	private ArrayList<FBox[][]> goals = new ArrayList<FBox[][]>();
+	private ArrayList<BetterBox[][]> goals = new ArrayList<BetterBox[][]>();
 	private ArrayList<FBody> balls = new ArrayList<FBody>();
 	private ArrayList<DisBall> disBalls = new ArrayList<DisBall>();
 	private int numGoals = 3;
@@ -107,25 +107,29 @@ public class BrowDisplayAttemptToStopBallSpawningOnceGoalDoneFailure extends PAp
 					switch((int)(Math.random() * numGoals) + 1)
 					{
 					case 1:
-						for(FBox[] x : goals.get(0))
+						for(BetterBox[] x : goals.get(0))
 						{
-							for(FBox z : x)
+							for(BetterBox z : x)
 							{
-								if(z!= null)
+								if(z.inWorld)
 								{
 									good = true;
 									b.setFill(255,0,0);
+								}
+								else
+								{
+									System.out.println("Box not in wrld");
 								}
 							
 							}
 						}
 						break;
 					case 2:
-						for(FBox[] x : goals.get(1))
+						for(BetterBox[] x : goals.get(0))
 						{
-							for(FBox z : x)
+							for(BetterBox z : x)
 							{
-								if(z!= null)
+								if(z.inWorld)
 								{
 									good = true;
 									b.setFill(0,255,0);
@@ -135,11 +139,11 @@ public class BrowDisplayAttemptToStopBallSpawningOnceGoalDoneFailure extends PAp
 						}
 						break;
 					case 3:
-						for(FBox[] x : goals.get(2))
+						for(BetterBox[] x : goals.get(0))
 						{
-							for(FBox z : x)
+							for(BetterBox z : x)
 							{
-								if(z!= null)
+								if(z.inWorld)
 								{
 									good = true;
 									b.setFill(0,0,255);
@@ -212,7 +216,7 @@ public class BrowDisplayAttemptToStopBallSpawningOnceGoalDoneFailure extends PAp
 
 		for(int x = 0; x < numGoals; x++)
 		{
-			goals.add(new FBox[boxWidthGoal][boxHeightGoal]);
+			goals.add(new BetterBox[boxWidthGoal][boxHeightGoal]);
 			//FBox goal = new FBox(50,20);
 			//goal.setRotation(0);
 			int pos = posNums.get((int) random(0,posNums.size()));
@@ -245,7 +249,8 @@ public class BrowDisplayAttemptToStopBallSpawningOnceGoalDoneFailure extends PAp
 						box.setStroke(255,0,0);
 						box.setFill(255,0,0);
 					}
-					goals.get(x)[a][b] = box;
+					BetterBox bx = new BetterBox(box,true);
+					goals.get(x)[a][b] = bx;
 					world.add(box);
 					box_counter++;
 				}
@@ -319,25 +324,24 @@ public class BrowDisplayAttemptToStopBallSpawningOnceGoalDoneFailure extends PAp
 			{
 				for(int b = 0; b < boxHeightGoal; b++)
 				{
-					for(FContact a : (ArrayList<FContact>)goals.get(x)[z][b].getContacts())
+					for(FContact a : (ArrayList<FContact>)goals.get(x)[z][b].b.getContacts())
 					{
 						//System.out.println("Contact detected");
-						if(goals.get(x)[z][b].equals(a.getBody2()) && a.getBody1().getFillColor() == goals.get(x)[z][b].getFillColor())
+						if(goals.get(x)[z][b].equals(a.getBody2()) && a.getBody1().getFillColor() == goals.get(x)[z][b].b.getFillColor())
 						{
 							//System.out.println("Popping ball");
 							popBall(a.getBody1());
 							
-							FBox[] arr = getAdjacentBoxes(goals.get(x),z,b);
+							BetterBox[] arr = getAdjacentBoxes(goals.get(x),z,b);
 
 							for(int q = 0; q < arr.length; q++)
 							{
-								FBox p = arr[q];
-								if(p !=null)
-									world.remove(p);
-								p = null;
+								BetterBox p = arr[q];
+								world.remove(p.b);
+								p.inWorld = false;
 								counter++;
 							}
-							world.remove(goals.get(x)[z][b]);
+							world.remove(goals.get(x)[z][b].b);
 							//goals.get(x)[z][b] = null;
 							//counter++;
 
@@ -345,22 +349,22 @@ public class BrowDisplayAttemptToStopBallSpawningOnceGoalDoneFailure extends PAp
 							//goals.get(x)[goals.get(x).length - 1][collumn].setStatic(false);
 							score++;
 						}
-						if(goals.get(x)[z][b].equals(a.getBody1()) && a.getBody2().getFillColor() == goals.get(x)[z][b].getFillColor())
+						if(goals.get(x)[z][b].equals(a.getBody1()) && a.getBody2().getFillColor() == goals.get(x)[z][b].b.getFillColor())
 						{
 							//System.out.println("Popping ball");
 							popBall(a.getBody2());
 
-							FBox[] arr = getAdjacentBoxes(goals.get(x),z,b);
+							BetterBox[] arr = getAdjacentBoxes(goals.get(x),z,b);
 
 							for(int q = 0; q < arr.length; q++)
 							{
-								FBox p = arr[q];
-								if(p !=null)
-									world.remove(p);
-								p = null;
+								BetterBox p = arr[q];
+								world.remove(p.b);
+								p.inWorld = false;
 								counter++;
 							}
-							world.remove(goals.get(x)[z][b]);
+							world.remove(goals.get(x)[z][b].b);
+							goals.get(x)[z][b].inWorld = false;
 							//goals.get(x)[z][b] = null;
 							//counter++;
 
@@ -374,9 +378,9 @@ public class BrowDisplayAttemptToStopBallSpawningOnceGoalDoneFailure extends PAp
 		}
 	}
 
-	public FBox[] getAdjacentBoxes(FBox[][] a, int row , int col)
+	public BetterBox[] getAdjacentBoxes(BetterBox[][] a, int row , int col)
 	{
-		ArrayList<FBox> arr = new ArrayList<FBox>();
+		ArrayList<BetterBox> arr = new ArrayList<BetterBox>();
 		if (row+1 < a.length) {
 			arr.add(a[row+1][col]);
 		}
@@ -390,7 +394,7 @@ public class BrowDisplayAttemptToStopBallSpawningOnceGoalDoneFailure extends PAp
 			arr.add(a[row][col+1]);
 		}
 
-		FBox[] stockArr = new FBox[arr.size()];
+		BetterBox[] stockArr = new BetterBox[arr.size()];
 		stockArr = arr.toArray(stockArr);
 		return stockArr;
 	}
