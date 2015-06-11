@@ -20,6 +20,7 @@ public class EitanBoxAttempt extends PApplet
 	private int boxWidthGoal = 4;
 	private ArrayList<FBox[][]> goals = new ArrayList<FBox[][]>();
 	private ArrayList<FBody> balls = new ArrayList<FBody>();
+	private ArrayList<DisBall> particles = new ArrayList<DisBall>();
 	private int numGoals = 3;
 	private int lives = 100;
 	private int score = 0;
@@ -81,7 +82,8 @@ public class EitanBoxAttempt extends PApplet
 		if (hasWon()) {
 			textAlign(CENTER);
 			stroke(color(240,0,0));
-			textFont(createFont("C:\\Users\\Anish\\git\\HelloWorld\\Brow Balance\\src\\samples\\data\\COCOGOOSELETTERPRESS TRIAL.ttf", 75));			
+			textFont(createFont("H:\\git\\HelloWorld\\Brow Balance\\src\\samples\\data\\COCOGOOSELETTERPRESS TRIAL.ttf", 75));
+			//textFont(createFont("C:\\Users\\Anish\\git\\HelloWorld\\Brow Balance\\src\\samples\\data\\COCOGOOSELETTERPRESS TRIAL.ttf", 75));			
 			text("You Won!",width/2,height/2);
 		}
 		else {
@@ -97,7 +99,7 @@ public class EitanBoxAttempt extends PApplet
 				b.setVelocity(0, 100);
 				b.setRestitution(0);
 				b.setNoStroke();
-				switch((int)random(1,4))
+				switch((int)(Math.random() * 3) + 1)
 				{
 				case 1:
 					b.setFill(255,0,0);
@@ -350,14 +352,14 @@ public class EitanBoxAttempt extends PApplet
 		int particles = (int)random(10,30);
 		for(int x = 0; x < particles; x++)
 		{
-			FCircle particle = new FCircle(2);
-			particle.setPosition(ball.getX() + random(-10,10), ball.getY() + random(0,10));
-			particle.setGrabbable(false);
-			//particle.setAngularVelocity(ball.getAngularVelocity() * 2);
-			particle.setVelocity((float) (Math.pow(-1,(int)random(-1,2)) *random(100,300)), random(100,300));
-			particle.setFillColor(ball.getFillColor() - 1);
-			particle.setStroke(red(ball.getFillColor()), green(ball.getFillColor()), blue(ball.getFillColor())); 
-			world.add(particle);
+			DisBall particle = new DisBall(new FCircle(2),3000);
+			particle.circ.setPosition(ball.getX() + random(-10,10), ball.getY() + random(0,10));
+			particle.circ.setGrabbable(false);
+			//particle.circ.setAngularVelocity(ball.getAngularVelocity() * 2);
+			particle.circ.setVelocity((float) (Math.pow(-1,(int)random(-1,2)) *random(100,300)), random(100,300));
+			particle.circ.setFillColor(ball.getFillColor() - 1);
+			particle.circ.setStroke(red(ball.getFillColor()), green(ball.getFillColor()), blue(ball.getFillColor())); 
+			world.add(particle.circ);
 		}
 		world.remove(ball);
 		balls.remove(ball);
