@@ -278,6 +278,7 @@ public class EitanBoxAttempt extends PApplet
 						{
 							//System.out.println("Popping ball");
 							popBall(a.getBody1());
+							
 							float depth = a.getBody1().getVelocityX() + a.getBody1().getVelocityY();
 							depth /=2;
 							depth /= velocityPerBox;
