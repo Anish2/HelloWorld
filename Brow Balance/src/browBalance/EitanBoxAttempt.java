@@ -362,6 +362,7 @@ public class EitanBoxAttempt extends PApplet
 			world.add(particle.circ);
 		}
 		world.remove(ball);
+		
 		balls.remove(ball);
 
 	}
