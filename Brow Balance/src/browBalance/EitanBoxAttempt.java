@@ -322,7 +322,7 @@ public class EitanBoxAttempt extends PApplet
 									world.remove(p);
 								p = null;
 								counter++;
-							}
+							} 
 							world.remove(goals.get(x)[z][b]);
 							//goals.get(x)[z][b] = null;
 							//counter++;
