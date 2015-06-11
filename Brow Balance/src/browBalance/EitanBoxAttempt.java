@@ -2,6 +2,7 @@
 package browBalance;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -17,8 +18,8 @@ public class EitanBoxAttempt extends PApplet
 	private FWorld world;
 	private FBox brow;
 	private int boxHeightGoal = 4;
-	private int boxWidthGoal = 10;
-	private ArrayList<FBox[][]> goals = new ArrayList<FBox[][]>();
+	private int boxWidthGoal = 4;
+	private ArrayList<BoxWrapper[][]> goals = new ArrayList<BoxWrapper[][]>();
 	private ArrayList<FBody> balls = new ArrayList<FBody>();
 	private int numGoals = 3;
 	private int lives = 100;
@@ -41,7 +42,7 @@ public class EitanBoxAttempt extends PApplet
 	public void drawNormal()
 	{
 		background(0);
-		
+
 		fill(color(0, 200, 255));
 		//fill(0);
 		// We are going to draw a polygon out of the wave points
@@ -105,6 +106,8 @@ public class EitanBoxAttempt extends PApplet
 		handleBrowMovement();
 		updateScore();
 		handleTsunamiEffect();
+		if (hasWon())
+			System.exit(0);
 		//updateLives();
 		world.draw();
 		world.step();
@@ -115,21 +118,21 @@ public class EitanBoxAttempt extends PApplet
 
 	public void setup() 
 	{
-	
+
 		startTime = System.currentTimeMillis()/1000.0;
 		frameRate(75);
 		size(640, 360);
 		smooth();
 		water_level = height-10;
 		Fisica.init(this);
-		
+
 		// setup font
 		//String[] fontList = PFont.list();
 		//println(fontList);
 
 		world = new FWorld();
 		//world.setGravity(5f,5f);
-		
+
 		brow = new FBox(135,5);
 		brow.setRotation(0);
 		brow.setPosition(width/2, 5f * height/8);
@@ -147,10 +150,11 @@ public class EitanBoxAttempt extends PApplet
 		{
 			posNums.add(x);
 		}
-		
+
+		BoxWrapper temp = null;
 		for(int x = 0; x < numGoals; x++)
 		{
-			goals.add(new FBox[boxWidthGoal][boxHeightGoal]);
+			goals.add(new BoxWrapper[boxWidthGoal][boxHeightGoal]);
 			//FBox goal = new FBox(50,20);
 			//goal.setRotation(0);
 			int pos = posNums.get((int) random(0,posNums.size()));
@@ -162,7 +166,7 @@ public class EitanBoxAttempt extends PApplet
 			{
 				for(int b = 0; b < boxHeightGoal; b++)
 				{
-					FBox box = new FBox(5f,5f);
+					BoxWrapper box = new BoxWrapper(5f,5f);
 					box.setRotation(0);
 					box.setPosition(pos + a * 5f, height - 60 + b * 5f);
 					box.setStatic(true);
@@ -185,8 +189,10 @@ public class EitanBoxAttempt extends PApplet
 					}
 					goals.get(x)[a][b] = box;
 					world.add(box);
+					temp = box;
 				}
 			}
+						
 			/*goal.setPosition(pos, height - 30); */
 			/*goal.setPosition(pos,height - 60); 
 			goal.setStatic(true);
@@ -194,11 +200,17 @@ public class EitanBoxAttempt extends PApplet
 			goal.setGrabbable(false);
 			goals.add(goal);*/
 		}
+		
+		System.out.println(((ArrayList<FBody>)world.getBodies()).contains(temp));
+		for (FBody f : (ArrayList<FBody>)world.getBodies()) {
+			if (Math.abs(f.getX() - temp.getX()) < 20)
+				System.out.println(true);
+		}
 
 		/*goals.get(0).setFill(0,0,255);;
 		goals.get(1).setFill(255,0,0);;
 		goals.get(2).setFill(0,255,0);;
-*//*
+		 *//*
 		for(int x = 0; x < numGoals; x++)
 		{
 			world.add(goals.get(x));
@@ -260,20 +272,20 @@ public class EitanBoxAttempt extends PApplet
 						{
 							//System.out.println("Popping ball");
 							popBall(a.getBody1());
-//							a.getBody2()
-						
-							
+							//							a.getBody2()
+
+
 							float depth = a.getBody1().getVelocityX() + a.getBody1().getVelocityY();
 							depth /=2;
 							depth /= velocityPerBox;
 							FBox[] arr = getAdjacentBoxes(goals.get(x),z,b);
-							
-								for(FBox p : arr)
-								{
-									world.remove(p);
-								}
-								world.remove(goals.get(x)[z][b]);
-							
+
+							for(FBox p : arr)
+							{
+								world.remove(p);
+							}
+							world.remove(goals.get(x)[z][b]);
+
 							world.remove(a.getBody2());
 							//goals.get(x)[goals.get(x).length - 1][collumn].setStatic(false);
 							score++;
@@ -282,18 +294,18 @@ public class EitanBoxAttempt extends PApplet
 						{
 							//System.out.println("Popping ball");
 							popBall(a.getBody2());
-							
+
 							float depth = a.getBody2().getVelocityX() + a.getBody2().getVelocityY();
 							depth /=2;
 							depth /= velocityPerBox;
 							FBox[] arr = getAdjacentBoxes(goals.get(x),z,b);
-							
-								for(FBox p : arr)
-								{
-									world.remove(p);
-								}
-								world.remove(goals.get(x)[z][b]);
-							
+
+							for(FBox p : arr)
+							{
+								world.remove(p);
+							}
+							world.remove(goals.get(x)[z][b]);
+
 							//int collumn = (int) (Math.random() * boxHeightGoal);
 							//goals.get(x)[goals.get(x).length - 1][collumn].setStatic(false);
 							score++;
@@ -303,7 +315,7 @@ public class EitanBoxAttempt extends PApplet
 			}
 		}
 	}
-	
+
 	public FBox[] getAdjacentBoxes(FBox[][] a, int row , int col)
 	{
 		ArrayList<FBox> arr = new ArrayList<FBox>();
@@ -319,10 +331,36 @@ public class EitanBoxAttempt extends PApplet
 		if (col+1 < a[0].length) {
 			arr.add(a[row][col+1]);
 		}
-		
+
 		FBox[] stockArr = new FBox[arr.size()];
 		stockArr = arr.toArray(stockArr);
 		return stockArr;
+	}
+
+	@SuppressWarnings("unchecked")
+	public boolean hasWon() {
+
+		ArrayList<FBody> arr = world.getBodies();
+		HashSet<FBox> set = new HashSet<FBox>();
+		for (FBody f: arr) {
+			if (f instanceof FBox)
+				set.add((FBox) f);
+		}
+
+		if (set.contains(goals.get(0)[0][0]))
+			return false;
+
+		for (int i = 0; i < goals.size(); i++) {
+			FBox[][] temp = goals.get(i);
+			for (int r = 0; r < temp.length; r++) {
+				for (int c = 0; c < temp[0].length; c++) {
+					if (set.contains(temp[r][c]))
+						return false;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	public void popBall(FBody ball)
@@ -341,7 +379,7 @@ public class EitanBoxAttempt extends PApplet
 		}
 		world.remove(ball);
 		balls.remove(ball);
-	//	numBalls--;
+		//	numBalls--;
 	}
 
 	/*@SuppressWarnings("unchecked")
