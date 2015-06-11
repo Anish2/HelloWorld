@@ -12,7 +12,7 @@ import fisica.FContact;
 import fisica.FWorld;
 import fisica.Fisica;
 
-public class EitanBoxAttempt extends PApplet
+public class BrowDisplayAttemptToStopBallSpawningOnceGoalDoneFailure extends PApplet
 {
 	private FWorld world;
 	private FBox brow;
@@ -100,19 +100,56 @@ public class EitanBoxAttempt extends PApplet
 				b.setRestitution(0);
 				b.setNoStroke();
 				
+				//Fix in better way later
+				boolean good = false;
+				while(!good)
+				{
 					switch((int)(Math.random() * numGoals) + 1)
 					{
 					case 1:
+						for(FBox[] x : goals.get(0))
+						{
+							for(FBox z : x)
+							{
+								if(z!= null)
+								{
+									good = true;
 									b.setFill(255,0,0);
+								}
+							
+							}
+						}
 						break;
 					case 2:
+						for(FBox[] x : goals.get(1))
+						{
+							for(FBox z : x)
+							{
+								if(z!= null)
+								{
+									good = true;
 									b.setFill(0,255,0);
+								}
+								
+							}
+						}
 						break;
 					case 3:
+						for(FBox[] x : goals.get(2))
+						{
+							for(FBox z : x)
+							{
+								if(z!= null)
+								{
+									good = true;
 									b.setFill(0,0,255);
+								}
+								
+							}
+						}
 						break;
 					}	
-				
+				}
 					
 
 				//numBalls++;
