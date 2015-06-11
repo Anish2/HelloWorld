@@ -2,7 +2,6 @@
 package browBalance;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -19,12 +18,14 @@ public class EitanBoxAttempt extends PApplet
 	private FBox brow;
 	private int boxHeightGoal = 4;
 	private int boxWidthGoal = 4;
-	private ArrayList<BoxWrapper[][]> goals = new ArrayList<BoxWrapper[][]>();
+	private ArrayList<FBox[][]> goals = new ArrayList<FBox[][]>();
 	private ArrayList<FBody> balls = new ArrayList<FBody>();
 	private int numGoals = 3;
 	private int lives = 100;
 	private int score = 0;
 	private int framesPerBall = 250;
+	private int counter = 0;
+	private int box_counter = boxHeightGoal*boxWidthGoal;
 	private int level = 1;
 	private boolean left = false;
 	private boolean right = false;
@@ -41,6 +42,8 @@ public class EitanBoxAttempt extends PApplet
 
 	public void drawNormal()
 	{
+
+
 		background(0);
 
 		fill(color(0, 200, 255));
@@ -73,47 +76,56 @@ public class EitanBoxAttempt extends PApplet
 		fill(255);
 		//water_level -= 0.01;
 		//text("Lives : " + (lives), 15, 30);
-		text("Time : " + (int)(System.currentTimeMillis()/1000.0 - startTime),15,30);
-		text("Score : " + score, width - 100, 30);
-		text("Level : " + level, width - 200,30);
+		
 
+		if (hasWon()) {
+			textAlign(CENTER);
+			stroke(color(240,0,0));
+			textFont(createFont("C:\\Users\\Anish\\git\\HelloWorld\\Brow Balance\\src\\samples\\data\\COCOGOOSELETTERPRESS TRIAL.ttf", 75));			
+			text("You Won!",width/2,height/2);
+		}
+		else {
+			
+			text("Time : " + (int)(System.currentTimeMillis()/1000.0 - startTime),15,30);
+			text("Score : " + score, width - 100, 30);
+			text("Level : " + level, width - 200,30);
 
-		if (frameCount % framesPerBall == 0) //&& numBalls < maxBalls) 
-		{
-			FCircle b = new FCircle(20);
-			b.setPosition(random(width/2 - 70, width/2 + 70), 50);
-			b.setVelocity(0, 100);
-			b.setRestitution(0);
-			b.setNoStroke();
-			switch((int)random(1,4))
+			if (frameCount % framesPerBall == 0) //&& numBalls < maxBalls) 
 			{
-			case 1:
-				b.setFill(255,0,0);
-				break;
-			case 2:
-				b.setFill(0,255,0);
-				break;
-			case 3:
-				b.setFill(0,0,255);
-				break;
+				FCircle b = new FCircle(20);
+				b.setPosition(random(width/2 - 70, width/2 + 70), 50);
+				b.setVelocity(0, 100);
+				b.setRestitution(0);
+				b.setNoStroke();
+				switch((int)random(1,4))
+				{
+				case 1:
+					b.setFill(255,0,0);
+					break;
+				case 2:
+					b.setFill(0,255,0);
+					break;
+				case 3:
+					b.setFill(0,0,255);
+					break;
+				}
+
+				//numBalls++;
+				world.add(b);
+				balls.add(b);
 			}
 
-			//numBalls++;
-			world.add(b);
-			balls.add(b);
+			handleBrowMovement();
+			updateScore();
+			handleTsunamiEffect();
+
+			//updateLives();
+			world.draw();
+			world.step();
+
+			strokeWeight(1);
+			stroke(255);
 		}
-
-		handleBrowMovement();
-		updateScore();
-		handleTsunamiEffect();
-		if (hasWon())
-			System.exit(0);
-		//updateLives();
-		world.draw();
-		world.step();
-
-		strokeWeight(1);
-		stroke(255);
 	}
 
 	public void setup() 
@@ -125,10 +137,6 @@ public class EitanBoxAttempt extends PApplet
 		smooth();
 		water_level = height-10;
 		Fisica.init(this);
-
-		// setup font
-		//String[] fontList = PFont.list();
-		//println(fontList);
 
 		world = new FWorld();
 		//world.setGravity(5f,5f);
@@ -151,10 +159,9 @@ public class EitanBoxAttempt extends PApplet
 			posNums.add(x);
 		}
 
-		BoxWrapper temp = null;
 		for(int x = 0; x < numGoals; x++)
 		{
-			goals.add(new BoxWrapper[boxWidthGoal][boxHeightGoal]);
+			goals.add(new FBox[boxWidthGoal][boxHeightGoal]);
 			//FBox goal = new FBox(50,20);
 			//goal.setRotation(0);
 			int pos = posNums.get((int) random(0,posNums.size()));
@@ -166,7 +173,7 @@ public class EitanBoxAttempt extends PApplet
 			{
 				for(int b = 0; b < boxHeightGoal; b++)
 				{
-					BoxWrapper box = new BoxWrapper(5f,5f);
+					FBox box = new FBox(5f,5f);
 					box.setRotation(0);
 					box.setPosition(pos + a * 5f, height - 60 + b * 5f);
 					box.setStatic(true);
@@ -189,22 +196,15 @@ public class EitanBoxAttempt extends PApplet
 					}
 					goals.get(x)[a][b] = box;
 					world.add(box);
-					temp = box;
+					box_counter++;
 				}
 			}
-						
 			/*goal.setPosition(pos, height - 30); */
 			/*goal.setPosition(pos,height - 60); 
 			goal.setStatic(true);
 			goal.setRestitution(1.0f);
 			goal.setGrabbable(false);
 			goals.add(goal);*/
-		}
-		
-		System.out.println(((ArrayList<FBody>)world.getBodies()).contains(temp));
-		for (FBody f : (ArrayList<FBody>)world.getBodies()) {
-			if (Math.abs(f.getX() - temp.getX()) < 20)
-				System.out.println(true);
 		}
 
 		/*goals.get(0).setFill(0,0,255);;
@@ -255,6 +255,10 @@ public class EitanBoxAttempt extends PApplet
 		}
 	}
 
+	public boolean hasWon() {
+		return (counter >= box_counter);		
+	}
+
 	@SuppressWarnings("unchecked")
 	public void updateScore()
 	{
@@ -283,8 +287,10 @@ public class EitanBoxAttempt extends PApplet
 							for(FBox p : arr)
 							{
 								world.remove(p);
+								counter++;
 							}
 							world.remove(goals.get(x)[z][b]);
+							//counter++;
 
 							world.remove(a.getBody2());
 							//goals.get(x)[goals.get(x).length - 1][collumn].setStatic(false);
@@ -303,8 +309,10 @@ public class EitanBoxAttempt extends PApplet
 							for(FBox p : arr)
 							{
 								world.remove(p);
+								counter++;
 							}
 							world.remove(goals.get(x)[z][b]);
+							//counter++;
 
 							//int collumn = (int) (Math.random() * boxHeightGoal);
 							//goals.get(x)[goals.get(x).length - 1][collumn].setStatic(false);
@@ -337,32 +345,6 @@ public class EitanBoxAttempt extends PApplet
 		return stockArr;
 	}
 
-	@SuppressWarnings("unchecked")
-	public boolean hasWon() {
-
-		ArrayList<FBody> arr = world.getBodies();
-		HashSet<FBox> set = new HashSet<FBox>();
-		for (FBody f: arr) {
-			if (f instanceof FBox)
-				set.add((FBox) f);
-		}
-
-		if (set.contains(goals.get(0)[0][0]))
-			return false;
-
-		for (int i = 0; i < goals.size(); i++) {
-			FBox[][] temp = goals.get(i);
-			for (int r = 0; r < temp.length; r++) {
-				for (int c = 0; c < temp[0].length; c++) {
-					if (set.contains(temp[r][c]))
-						return false;
-				}
-			}
-		}
-
-		return false;
-	}
-
 	public void popBall(FBody ball)
 	{
 		int particles = (int)random(10,30);
@@ -374,37 +356,14 @@ public class EitanBoxAttempt extends PApplet
 			//particle.setAngularVelocity(ball.getAngularVelocity() * 2);
 			particle.setVelocity((float) (Math.pow(-1,(int)random(-1,2)) *random(100,300)), random(100,300));
 			particle.setFillColor(ball.getFillColor() - 1);
-			particle.setStroke(red(ball.getFillColor()), green(ball.getFillColor()), blue(ball.getFillColor())); // Fix this, using wrong color need to extract RGB
+			particle.setStroke(red(ball.getFillColor()), green(ball.getFillColor()), blue(ball.getFillColor())); 
 			world.add(particle);
 		}
 		world.remove(ball);
 		balls.remove(ball);
-		//	numBalls--;
+
 	}
 
-	/*@SuppressWarnings("unchecked")
-	public void updateLives()
-	{
-		if(lives == 0)
-		{
-			System.exit(0);
-		}
-		ArrayList<FBody> body = (ArrayList<FBody>)world.getBodies();
-		for(int x = 0 ; x < body.size(); x++)
-		{
-			FBody a = body.get(x);
-			if(a instanceof FCircle && ((FCircle) a).getSize() == 20) // Regular size
-			{
-				if((a.getX() < -20 || a.getX() > width + 20 || a.getY() < -20 || a.getY() > height + 20))
-				{
-					world.remove(a);
-					balls.remove(a);
-					numBalls--;
-					lives--;
-				}
-			}
-		}
-	}*/
 
 	public void keyReleased()
 	{
