@@ -34,117 +34,14 @@ public class EitanBoxAttempt extends PApplet
 	private boolean up = false;
 	private boolean down = false;
 	private double startTime;
-	//private int numBalls = 0;
-	//private int maxBalls = 1;
 	private ArrayList<FBox> obstacles = new ArrayList<FBox>();
 	private int speed = 5;
 	private float yoff = (float) 0.0; 
 	private float water_level;
 
 
-	public void drawNormal()
-	{
-		background(0);
-
-		fill(color(0, 200, 255));
-		//fill(0);
-		// We are going to draw a polygon out of the wave points
-		beginShape(); 
-
-		float xoff = 0;       // Option #1: 2D Noise
-		// float xoff = yoff; // Option #2: 1D Noise
-
-		// Iterate over horizontal pixels
-		for (float x = 0; x <= width; x += 10) {
-			// Calculate a y value according to noise, map to 
-			float y = map(noise(xoff, yoff), 0, 1, water_level-40,water_level); // Option #1: 2D Noise
-			// float y = map(noise(xoff), 0, 1, 200,300);    // Option #2: 1D Noise
-
-			// Set the vertex
-			vertex(x, y-10); 
-			// Increment x dimension for noise
-			xoff += 0.08;
-		}
-		// increment y dimension for noise
-		yoff += 0.01;
-		vertex(width, height);
-		vertex(0, height);
-		endShape(CLOSE);
-
-		//background(255);
-
-		fill(255);
-		//water_level -= 0.01;
-		//text("Lives : " + (lives), 15, 30);
-		
-
-		if (hasWon()) {
-			textAlign(CENTER);
-			stroke(color(240,0,0));
-			textFont(createFont("H:\\git\\HelloWorld\\Brow Balance\\src\\samples\\data\\COCOGOOSELETTERPRESS TRIAL.ttf", 75));
-			//textFont(createFont("C:\\Users\\Anish\\git\\HelloWorld\\Brow Balance\\src\\samples\\data\\COCOGOOSELETTERPRESS TRIAL.ttf", 75));			
-			text("You Won!",width/2,height/2);
-		}
-		else {
-			
-			text("Time : " + (int)(System.currentTimeMillis()/1000.0 - startTime),15,30);
-			text("Score : " + score, width - 100, 30);
-			text("Level : " + level, width - 200,30);
-			
-			
-			if (frameCount % framesPerBall == 0) //&& numBalls < maxBalls) 
-			{
-				FCircle b = new FCircle(20);
-				b.setPosition(random(width/2 - 70, width/2 + 70), 50);
-				b.setVelocity(0, 100);
-				b.setRestitution(0);
-				b.setNoStroke();
-				
-					switch((int)(Math.random() * numGoals) + 1)
-					{
-					case 1:
-									b.setFill(255,0,0);
-						break;
-					case 2:
-									b.setFill(0,255,0);
-						break;
-					case 3:
-									b.setFill(0,0,255);
-						break;
-					}	
-				
-					
-
-				//numBalls++;
-				world.add(b);
-				balls.add(b);
-			}
-
-			handleBrowMovement();
-			updateScore();
-			handleTsunamiEffect();
-			
-			for(int x = 0; x < disBalls.size(); x++)
-			{
-				DisBall b = disBalls.get(x);
-				if(b.checkGone())
-				{
-					world.remove(b.circ);
-				}
-			}
-
-			//updateLives();
-			world.draw();
-			world.step();
-
-			strokeWeight(1);
-			stroke(255);
-		}
-	}
-
 	public void setup() 
 	{
-
 		startTime = System.currentTimeMillis()/1000.0;
 		frameRate(75);
 		size(640, 360);
@@ -213,40 +110,118 @@ public class EitanBoxAttempt extends PApplet
 					box_counter++;
 				}
 			}
-			/*goal.setPosition(pos, height - 30); */
-			/*goal.setPosition(pos,height - 60); 
-			goal.setStatic(true);
-			goal.setRestitution(1.0f);
-			goal.setGrabbable(false);
-			goals.add(goal);*/
+
 		}
 
-		/*goals.get(0).setFill(0,0,255);;
-		goals.get(1).setFill(255,0,0);;
-		goals.get(2).setFill(0,255,0);;
-		 *//*
-		for(int x = 0; x < numGoals; x++)
-		{
-			world.add(goals.get(x));
-		}*/
+
 	}
 
 	public void draw()
 	{
-		//maxBalls = score/20 + 1;
-		drawNormal();
+		background(0);
+
+		fill(color(0, 200, 255));
+		//fill(0);
+		// We are going to draw a polygon out of the wave points
+		beginShape(); 
+
+		float xoff = 0;       // Option #1: 2D Noise
+		// float xoff = yoff; // Option #2: 1D Noise
+
+		// Iterate over horizontal pixels
+		for (float x = 0; x <= width; x += 10) {
+			// Calculate a y value according to noise, map to 
+			float y = map(noise(xoff, yoff), 0, 1, water_level-40,water_level); // Option #1: 2D Noise
+			// float y = map(noise(xoff), 0, 1, 200,300);    // Option #2: 1D Noise
+
+			// Set the vertex
+			vertex(x, y-10); 
+			// Increment x dimension for noise
+			xoff += 0.08;
+		}
+		// increment y dimension for noise
+		yoff += 0.01;
+		vertex(width, height);
+		vertex(0, height);
+		endShape(CLOSE);
+
+		//background(255);
+
+		fill(255);
+		//water_level -= 0.01;
+		//text("Lives : " + (lives), 15, 30);
+
+
+		if (hasWon()) {
+			textAlign(CENTER);
+			stroke(color(240,0,0));
+			textFont(createFont("H:\\git\\HelloWorld\\Brow Balance\\src\\samples\\data\\COCOGOOSELETTERPRESS TRIAL.ttf", 75));
+			//textFont(createFont("C:\\Users\\Anish\\git\\HelloWorld\\Brow Balance\\src\\samples\\data\\COCOGOOSELETTERPRESS TRIAL.ttf", 75));			
+			text("You Won!",width/2,height/2);
+		}
+		else {
+
+			text("Time : " + (int)(System.currentTimeMillis()/1000.0 - startTime),15,30);
+			text("Score : " + score, width - 100, 30);
+			text("Level : " + level, width - 200,30);
+
+
+			if (frameCount % framesPerBall == 0) 
+			{
+				FCircle b = new FCircle(20);
+				b.setPosition(random(width/2 - 70, width/2 + 70), 50);
+				b.setVelocity(0, 100);
+				b.setRestitution(0);
+				b.setNoStroke();
+
+				switch((int)(Math.random() * numGoals) + 1)
+				{
+				case 1:
+					b.setFill(255,0,0);
+					break;
+				case 2:
+					b.setFill(0,255,0);
+					break;
+				case 3:
+					b.setFill(0,0,255);
+					break;
+				}	
+
+
+				world.add(b);
+				balls.add(b);
+			}
+
+			handleBrowMovement();
+			updateScore();
+			//handleTsunamiEffect();
+
+			for(int x = 0; x < disBalls.size(); x++)
+			{
+				DisBall b = disBalls.get(x);
+				if(b.checkGone())
+				{
+					world.remove(b.circ);
+				}
+			}
+
+			world.draw();
+			world.step();
+
+			strokeWeight(1);
+			stroke(255);
+		}
 	}
 
 	public void handleTsunamiEffect() {
-		/*for (int i = 0; i < balls.size(); i++) {
+		for (int i = 0; i < balls.size(); i++) {
 			if (balls.get(i).getY() >= water_level-20) {
-				//System.out.println("in here");
 				if (Math.random() > 0.5)
 					balls.get(i).addForce(random(850,1000), random(-1000,-575));
 				else
 					balls.get(i).addForce(random(-850,-1000), random(-1000,-575));
 			}
-		}*/
+		}
 	}
 
 	public void handleBrowMovement()
@@ -289,7 +264,7 @@ public class EitanBoxAttempt extends PApplet
 						{
 							//System.out.println("Popping ball");
 							popBall(a.getBody1());
-							
+
 							FBox[] arr = getAdjacentBoxes(goals.get(x),z,b);
 
 							for(int q = 0; q < arr.length; q++)
@@ -374,7 +349,7 @@ public class EitanBoxAttempt extends PApplet
 			world.add(particle.circ);
 		}
 		world.remove(ball);
-		
+
 		balls.remove(ball);
 
 	}
