@@ -2,6 +2,7 @@
 package browBalance;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -12,32 +13,30 @@ import fisica.FContact;
 import fisica.FWorld;
 import fisica.Fisica;
 
-public class EitanBoxAttempt extends PApplet
+@SuppressWarnings("serial")
+public class TsunoxDisplay extends PApplet
 {
 	private FWorld world;
 	private FBox brow;
 	private int boxHeightGoal = 4;
-	private int boxWidthGoal = 4;
-	private ArrayList<FBox[][]> goals = new ArrayList<FBox[][]>();
+	private int boxWidthGoal = 10;
+	private ArrayList<BoxWrapper[][]> goals = new ArrayList<BoxWrapper[][]>();
 	private ArrayList<FBody> balls = new ArrayList<FBody>();
 	private ArrayList<DisBall> disBalls = new ArrayList<DisBall>();
 	private int numGoals = 3;
 	private int lives = 100;
 	private int score = 0;
 	private int framesPerBall = 250;
-	private int counter = 0;
-	private int box_counter = boxHeightGoal*boxWidthGoal;
-	private ArrayList<Integer> goalCounters = new ArrayList<Integer>();
 	private int level = 1;
 	private boolean left = false;
 	private boolean right = false;
 	private boolean up = false;
 	private boolean down = false;
 	private double startTime;
-	private ArrayList<FBox> obstacles = new ArrayList<FBox>();
 	private int speed = 5;
 	private float yoff = (float) 0.0; 
 	private float water_level;
+	private boolean red, green, blue;
 
 
 	public void setup() 
@@ -50,7 +49,6 @@ public class EitanBoxAttempt extends PApplet
 		Fisica.init(this);
 
 		world = new FWorld();
-		//world.setGravity(5f,5f);
 
 		brow = new FBox(135,5);
 		brow.setRotation(0);
@@ -72,7 +70,7 @@ public class EitanBoxAttempt extends PApplet
 
 		for(int x = 0; x < numGoals; x++)
 		{
-			goals.add(new FBox[boxWidthGoal][boxHeightGoal]);
+			goals.add(new BoxWrapper[boxWidthGoal][boxHeightGoal]);
 			//FBox goal = new FBox(50,20);
 			//goal.setRotation(0);
 			int pos = posNums.get((int) random(0,posNums.size()));
@@ -84,7 +82,8 @@ public class EitanBoxAttempt extends PApplet
 			{
 				for(int b = 0; b < boxHeightGoal; b++)
 				{
-					FBox box = new FBox(5f,5f);
+					BoxWrapper box = new BoxWrapper(5f,5f,x+" "+a+" "+b);
+					//System.out.println(box.equals(new BoxWrapper(2f,5f,x+" "+a+" "+b)));
 					box.setRotation(0);
 					box.setPosition(pos + a * 5f, height - 60 + b * 5f);
 					box.setStatic(true);
@@ -106,13 +105,13 @@ public class EitanBoxAttempt extends PApplet
 						box.setFill(255,0,0);
 					}
 					goals.get(x)[a][b] = box;
+
 					world.add(box);
-					box_counter++;
+					//System.out.println(goals.get(x)[a][b].hashCode() == (new BoxWrapper(2f,5f,x+" "+a+" "+b)).hashCode());
 				}
 			}
 
 		}
-
 
 	}
 
@@ -151,12 +150,18 @@ public class EitanBoxAttempt extends PApplet
 		//water_level -= 0.01;
 		//text("Lives : " + (lives), 15, 30);
 
+		world.draw();
+		world.step();
+
+
+
 
 		if (hasWon()) {
 			textAlign(CENTER);
 			stroke(color(240,0,0));
-			textFont(createFont("H:\\git\\HelloWorld\\Brow Balance\\src\\samples\\data\\COCOGOOSELETTERPRESS TRIAL.ttf", 75));
-			//textFont(createFont("C:\\Users\\Anish\\git\\HelloWorld\\Brow Balance\\src\\samples\\data\\COCOGOOSELETTERPRESS TRIAL.ttf", 75));			
+			world.remove(brow);
+			//textFont(createFont("H:\\git\\HelloWorld\\Brow Balance\\src\\samples\\data\\COCOGOOSELETTERPRESS TRIAL.ttf", 75));
+			textFont(createFont("C:\\Users\\Anish\\git\\HelloWorld\\Brow Balance\\src\\samples\\data\\COCOGOOSELETTERPRESS TRIAL.ttf", 75));			
 			text("You Won!",width/2,height/2);
 		}
 		else {
@@ -164,6 +169,17 @@ public class EitanBoxAttempt extends PApplet
 			text("Time : " + (int)(System.currentTimeMillis()/1000.0 - startTime),15,30);
 			text("Score : " + score, width - 100, 30);
 			text("Level : " + level, width - 200,30);
+
+			ArrayList<Integer> colors = new ArrayList<Integer>();
+			if (!blue) {
+				colors.add(color(0,0,255));
+			}
+			if (!red) {
+				colors.add(color(255,0,0));
+			}
+			if (!green) {
+				colors.add(color(0,255,0));
+			}
 
 
 			if (frameCount % framesPerBall == 0) 
@@ -173,28 +189,15 @@ public class EitanBoxAttempt extends PApplet
 				b.setVelocity(0, 100);
 				b.setRestitution(0);
 				b.setNoStroke();
-
-				switch((int)(Math.random() * numGoals) + 1)
-				{
-				case 1:
-					b.setFill(255,0,0);
-					break;
-				case 2:
-					b.setFill(0,255,0);
-					break;
-				case 3:
-					b.setFill(0,0,255);
-					break;
-				}	
-
-
+				int c = colors.get((int)(Math.random() * colors.size()));
+				b.setFill(red(c), green(c), blue(c));
 				world.add(b);
 				balls.add(b);
 			}
 
 			handleBrowMovement();
 			updateScore();
-			//handleTsunamiEffect();
+			handleTsunamiEffect();
 
 			for(int x = 0; x < disBalls.size(); x++)
 			{
@@ -205,12 +208,11 @@ public class EitanBoxAttempt extends PApplet
 				}
 			}
 
-			world.draw();
-			world.step();
 
-			strokeWeight(1);
-			stroke(255);
 		}
+
+		strokeWeight(1);
+		stroke(255);
 	}
 
 	public void handleTsunamiEffect() {
@@ -244,8 +246,49 @@ public class EitanBoxAttempt extends PApplet
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public boolean hasWon() {
-		return (counter >= box_counter);		
+		HashSet<BoxWrapper> set = new HashSet<BoxWrapper>();
+		for (FBody f: (ArrayList<FBody>)world.getBodies()) {
+			if (f instanceof BoxWrapper) {
+				set.add((BoxWrapper) f);
+			}
+		}
+
+		// blue checking
+		blue = true;
+		for (int r = 0; r < goals.get(0).length; r++) {
+			for (int c = 0; c < goals.get(0)[0].length; c++) {
+				if (set.contains(goals.get(0)[r][c])) {
+					blue = false;
+					break;
+				}
+			}
+		}
+
+		// green checking
+		green = true;
+		for (int r = 0; r < goals.get(1).length; r++) {
+			for (int c = 0; c < goals.get(1)[0].length; c++) {
+				if (set.contains(goals.get(1)[r][c])) {
+					green = false;
+					break;
+				}
+			}
+		}
+
+		// red checking
+		red = true;
+		for (int r = 0; r < goals.get(2).length; r++) {
+			for (int c = 0; c < goals.get(2)[0].length; c++) {
+				if (set.contains(goals.get(2)[r][c])) {
+					red = false;
+					break;
+				}
+			}
+		}
+
+		return blue && green && red;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -259,51 +302,39 @@ public class EitanBoxAttempt extends PApplet
 				{
 					for(FContact a : (ArrayList<FContact>)goals.get(x)[z][b].getContacts())
 					{
-						//System.out.println("Contact detected");
 						if(goals.get(x)[z][b].equals(a.getBody2()) && a.getBody1().getFillColor() == goals.get(x)[z][b].getFillColor())
 						{
-							//System.out.println("Popping ball");
+
 							popBall(a.getBody1());
 
-							FBox[] arr = getAdjacentBoxes(goals.get(x),z,b);
+							BoxWrapper[] arr = getAdjacentBoxes(goals.get(x),z,b);
 
 							for(int q = 0; q < arr.length; q++)
 							{
-								FBox p = arr[q];
+								BoxWrapper p = arr[q];
 								if(p !=null)
 									world.remove(p);
-								p = null;
-								counter++;
+								p = null;								
 							}
 							world.remove(goals.get(x)[z][b]);
-							//goals.get(x)[z][b] = null;
-							//counter++;
 
 							world.remove(a.getBody2());
-							//goals.get(x)[goals.get(x).length - 1][collumn].setStatic(false);
 							score++;
 						}
 						if(goals.get(x)[z][b].equals(a.getBody1()) && a.getBody2().getFillColor() == goals.get(x)[z][b].getFillColor())
 						{
-							//System.out.println("Popping ball");
 							popBall(a.getBody2());
 
-							FBox[] arr = getAdjacentBoxes(goals.get(x),z,b);
+							BoxWrapper[] arr = getAdjacentBoxes(goals.get(x),z,b);
 
 							for(int q = 0; q < arr.length; q++)
 							{
-								FBox p = arr[q];
+								BoxWrapper p = arr[q];
 								if(p !=null)
 									world.remove(p);
 								p = null;
-								counter++;
 							} 
 							world.remove(goals.get(x)[z][b]);
-							//goals.get(x)[z][b] = null;
-							//counter++;
-
-							//int collumn = (int) (Math.random() * boxHeightGoal);
-							//goals.get(x)[goals.get(x).length - 1][collumn].setStatic(false);
 							score++;
 						}
 					}
@@ -312,9 +343,9 @@ public class EitanBoxAttempt extends PApplet
 		}
 	}
 
-	public FBox[] getAdjacentBoxes(FBox[][] a, int row , int col)
+	public BoxWrapper[] getAdjacentBoxes(BoxWrapper[][] a, int row , int col)
 	{
-		ArrayList<FBox> arr = new ArrayList<FBox>();
+		ArrayList<BoxWrapper> arr = new ArrayList<BoxWrapper>();
 		if (row+1 < a.length) {
 			arr.add(a[row+1][col]);
 		}
@@ -328,7 +359,7 @@ public class EitanBoxAttempt extends PApplet
 			arr.add(a[row][col+1]);
 		}
 
-		FBox[] stockArr = new FBox[arr.size()];
+		BoxWrapper[] stockArr = new BoxWrapper[arr.size()];
 		stockArr = arr.toArray(stockArr);
 		return stockArr;
 	}
