@@ -18,6 +18,7 @@ import fisica.Fisica;
  * @author Anish Visaria and Eitan Zlatin
  *
  */
+@SuppressWarnings("serial")
 public class TsunoxDisplay extends PApplet
 {
 	private FWorld world;
