@@ -398,14 +398,14 @@ public class TsunoxDisplay extends PApplet
 			{
 				right = false;
 			}
-		}
-		if(key == 'a' || key == 'A')
-		{
-			down = false;
-		}
-		if(key == 'd' || key == 'D')
-		{
-			up = false;
+			if(keyCode == UP)
+			{
+				up = false;
+			}
+			if(keyCode == DOWN)
+			{
+				down = false;
+			}
 		}
 	}
 
@@ -421,14 +421,14 @@ public class TsunoxDisplay extends PApplet
 			{
 				right = true;
 			}
-		}
-		if(key == 'a' || key == 'A')
-		{
-			down = true;
-		}
-		if(key == 'd' || key == 'D')
-		{
-			up = true;
+			if(keyCode == UP)
+			{
+				up = true;
+			}
+			if(keyCode == DOWN)
+			{
+				down = true;
+			}
 		}
 	}
 
