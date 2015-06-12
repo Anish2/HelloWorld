@@ -218,10 +218,14 @@ public class TsunoxDisplay extends PApplet
 	public void handleTsunamiEffect() {
 		for (int i = 0; i < balls.size(); i++) {
 			if (balls.get(i).getY() >= water_level-20) {
-				if (Math.random() > 0.5)
+				if (Math.random() > 0.5) {
 					balls.get(i).addForce(random(850,1000), random(-1000,-575));
-				else
+					balls.get(i).addImpulse(random(50.0f,65.0f), random(-65.0f,-50.0f));
+				}
+				else {
 					balls.get(i).addForce(random(-850,-1000), random(-1000,-575));
+					balls.get(i).addImpulse(random(-65.0f,-50.0f), random(-65.0f,-50.0f));
+				}
 			}
 		}
 	}
