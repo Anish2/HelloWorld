@@ -1,5 +1,5 @@
 
-package browBalance;
+package paddleBalance;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,20 +16,17 @@ import fisica.Fisica;
 /**
  * Tsunox - named after tsunami and blocks
  * @author Anish Visaria and Eitan Zlatin
- *
  */
 @SuppressWarnings("serial")
-public class TsunoxDisplay extends PApplet
-{
+public class TsunoxDisplay extends PApplet {
 	private FWorld world;
-	private FBox brow;
+	private FBox paddle;
 	private int boxHeightGoal = 4;
 	private int boxWidthGoal = 4;
 	private ArrayList<BoxWrapper[][]> goals = new ArrayList<BoxWrapper[][]>();
 	private ArrayList<FBody> balls = new ArrayList<FBody>();
 	private ArrayList<DisBall> disBalls = new ArrayList<DisBall>();
 	private int numGoals = 3;
-	private int lives = 100;
 	private int framesPerBall = 250;
 	private boolean left = false;
 	private boolean right = false;
@@ -41,9 +38,7 @@ public class TsunoxDisplay extends PApplet
 	private float water_level;
 	private boolean red, green, blue;
 
-
-	public void setup() 
-	{
+	public void setup() {
 		startTime = System.currentTimeMillis()/1000.0;
 		frameRate(75);
 		size(640, 360);
@@ -53,54 +48,45 @@ public class TsunoxDisplay extends PApplet
 
 		world = new FWorld();
 
-		brow = new FBox(135,5);
-		brow.setRotation(0);
-		brow.setPosition(width/2, 5f * height/8);
-		brow.setStatic(true);
-		brow.setFill(255);
-		brow.setRestitution(1.3f); // How much stuff bounces
-		brow.setGrabbable(false);
-		world.add(brow);
+		paddle = new FBox(135,5);
+		paddle.setRotation(0);
+		paddle.setPosition(width/2, 5f * height/8);
+		paddle.setStatic(true);
+		paddle.setFill(255);
+		paddle.setRestitution(1.3f); // How much stuff bounces
+		paddle.setGrabbable(false);
+		world.add(paddle);
 
 		PFont font = createFont("Arial",14);
 		textFont(font);
-		text("Live : " + lives, 15, 30);
 		ArrayList<Integer> posNums = new ArrayList<Integer>();
 		for(int x = 50; x <= width - 50; x++)
-		{
 			posNums.add(x);
-		}
 
-		for(int x = 0; x < numGoals; x++)
-		{
+		for(int x = 0; x < numGoals; x++) {
 			goals.add(new BoxWrapper[boxWidthGoal][boxHeightGoal]);
 			int pos = posNums.get((int) random(0,posNums.size()));
+			
 			for(int y = pos - 50; y < pos + 50; y++)
-			{
 				posNums.remove(new Integer(y));
-			}
-			for(int a = 0; a < boxWidthGoal; a++)
-			{
-				for(int b = 0; b < boxHeightGoal; b++)
-				{
+			
+			for(int a = 0; a < boxWidthGoal; a++) {
+				for(int b = 0; b < boxHeightGoal; b++) {
 					BoxWrapper box = new BoxWrapper(5f,5f,x+" "+a+" "+b);
 					box.setRotation(0);
 					box.setPosition(pos + a * 5f, height - 60 + b * 5f);
 					box.setStatic(true);
 					box.setRestitution(1.0f);
 					box.setGrabbable(false);
-					if(x == 0)
-					{
+					if(x == 0) {
 						box.setStroke(0,0,255);
 						box.setFill(0,0,255);
 					}
-					if(x == 1)
-					{
+					if(x == 1) {
 						box.setStroke(0,255,0);
 						box.setFill(0,255,0);
 					}
-					if(x==2)
-					{
+					if(x==2) {
 						box.setStroke(255,0,0);
 						box.setFill(255,0,0);
 					}
@@ -109,13 +95,12 @@ public class TsunoxDisplay extends PApplet
 					world.add(box);
 				}
 			}
-
 		}
-
+		world.draw();
+		world.step();
 	}
 
-	public void draw()
-	{
+	public void draw() {
 		background(0);
 
 		fill(color(0, 200, 255));
@@ -127,7 +112,7 @@ public class TsunoxDisplay extends PApplet
 		// float xoff = yoff; // Option #2: 1D Noise
 
 		// Iterate over horizontal pixels
-		for (float x = 0; x <= width; x += 10) {
+		for(float x = 0; x <= width; x += 10) {
 			// Calculate a y value according to noise, map to 
 			float y = map(noise(xoff, yoff), 0, 1, water_level-40,water_level); // Option #1: 2D Noise
 			// float y = map(noise(xoff), 0, 1, 200,300);    // Option #2: 1D Noise
@@ -148,41 +133,30 @@ public class TsunoxDisplay extends PApplet
 		fill(255);
 		//water_level -= 0.01;
 		//text("Lives : " + (lives), 15, 30);
-
-		world.draw();
-		world.step();
-
-
-
-
+		
 		if (hasWon()) {
 			textAlign(CENTER);
 			stroke(color(240,0,0));
-			world.remove(brow);
-			textFont(createFont("H:\\git\\HelloWorld\\Brow Balance\\src\\samples\\data\\COCOGOOSELETTERPRESS TRIAL.ttf", 75));
-			//textFont(createFont("C:\\Users\\Anish\\git\\HelloWorld\\Brow Balance\\src\\samples\\data\\COCOGOOSELETTERPRESS TRIAL.ttf", 75));			
+			world.remove(paddle);
+			textFont(createFont("H:\\git\\HelloWorld\\brow Balance\\src\\samples\\data\\COCOGOOSELETTERPRESS TRIAL.ttf", 75));
+			//textFont(createFont("C:\\Users\\Anish\\git\\HelloWorld\\paddle Balance\\src\\samples\\data\\COCOGOOSELETTERPRESS TRIAL.ttf", 75));			
 			text("You Win!",width/2,height/2);
 		}
 		else {
-			textFont(createFont("H:\\git\\HelloWorld\\Brow Balance\\src\\samples\\data\\YanoneKaffeesatz-Regular.otf", 20));
+			textFont(createFont("H:\\git\\HelloWorld\\brow Balance\\src\\samples\\data\\YanoneKaffeesatz-Regular.otf", 20));
 			text("Time : " + (int)(System.currentTimeMillis()/1000.0 - startTime),15,30);
 			//text("Score : " + score, width - 100, 30);
 			//text("Level : " + level, width - 200,30);
 
 			ArrayList<Integer> colors = new ArrayList<Integer>();
-			if (!blue) {
+			if (!blue)
 				colors.add(color(0,0,255));
-			}
-			if (!red) {
+			if (!red)
 				colors.add(color(255,0,0));
-			}
-			if (!green) {
+			if (!green)
 				colors.add(color(0,255,0));
-			}
 
-
-			if (frameCount % framesPerBall == 0) 
-			{
+			if (frameCount % framesPerBall == 0) {
 				FCircle b = new FCircle(20);
 				b.setPosition(random(width/2 - 70, width/2 + 70), 50);
 				b.setVelocity(0, 100);
@@ -194,69 +168,56 @@ public class TsunoxDisplay extends PApplet
 				balls.add(b);
 			}
 
-			handleBrowMovement();
+			handlepaddleMovement();
 			updateScore();
 			handleTsunamiEffect();
 
-			for(int x = 0; x < disBalls.size(); x++)
-			{
+			for(int x = 0; x < disBalls.size(); x++) {
 				DisBall b = disBalls.get(x);
 				if(b.checkGone())
-				{
 					world.remove(b.circ);
-				}
 			}
-
-
 		}
 
 		strokeWeight(1);
 		stroke(255);
+		
+		world.draw();
+		world.step();
 	}
 
 	public void handleTsunamiEffect() {
 		for (int i = 0; i < balls.size(); i++) {
 			if (balls.get(i).getY() >= water_level-20) {
 				if (Math.random() > 0.5) {
-					balls.get(i).addForce(random(850,1000), random(-1000,-575));
-					balls.get(i).addImpulse(random(50.0f,65.0f), random(-65.0f,-50.0f));
+					balls.get(i).addForce(random(850, 1000), random(-1000, -575));
+					//balls.get(i).addImpulse(random(50.0f, 65.0f), random(-65.0f, -50.0f));
 				}
 				else {
 					balls.get(i).addForce(random(-850,-1000), random(-1000,-575));
-					balls.get(i).addImpulse(random(-65.0f,-50.0f), random(-65.0f,-50.0f));
+					//balls.get(i).addImpulse(random(-65.0f,-50.0f), random(-65.0f,-50.0f));
 				}
 			}
 		}
 	}
 
-	public void handleBrowMovement()
-	{
-		if(left & !right && !(brow.getX() < 0))
-		{
-			brow.setPosition(brow.getX() - speed, brow.getY());
-		}
-		if(right && ! left && !(brow.getX() > width))
-		{
-			brow.setPosition(brow.getX() + speed, brow.getY());
-		}
+	public void handlepaddleMovement() {
+		if(left & !right && !(paddle.getX() < 0))
+			paddle.setPosition(paddle.getX() - speed, paddle.getY());
+		if(right && ! left && !(paddle.getX() > width))
+			paddle.setPosition(paddle.getX() + speed, paddle.getY());
 		if(up && !down)
-		{
-			brow.setRotation(brow.getRotation() + PI/32);
-		}
+			paddle.setRotation(paddle.getRotation() + PI/32);
 		if(down && !up)
-		{
-			brow.setRotation(brow.getRotation() - PI/32);
-		}
+			paddle.setRotation(paddle.getRotation() - PI/32);
 	}
 
 	@SuppressWarnings("unchecked")
 	public boolean hasWon() {
 		HashSet<BoxWrapper> set = new HashSet<BoxWrapper>();
-		for (FBody f: (ArrayList<FBody>)world.getBodies()) {
-			if (f instanceof BoxWrapper) {
+		for (FBody f: (ArrayList<FBody>)world.getBodies())
+			if (f instanceof BoxWrapper)
 				set.add((BoxWrapper) f);
-			}
-		}
 
 		// blue checking
 		blue = true;
@@ -295,25 +256,17 @@ public class TsunoxDisplay extends PApplet
 	}
 
 	@SuppressWarnings("unchecked")
-	public void updateScore()
-	{
-		for(int x = 0; x < numGoals; x++)
-		{
-			for(int z = 0; z < boxWidthGoal; z++)
-			{
-				for(int b = 0; b < boxHeightGoal; b++)
-				{
-					for(FContact a : (ArrayList<FContact>)goals.get(x)[z][b].getContacts())
-					{
-						if(goals.get(x)[z][b].equals(a.getBody2()) && a.getBody1().getFillColor() == goals.get(x)[z][b].getFillColor())
-						{
-
+	public void updateScore() {
+		for(int x = 0; x < numGoals; x++) {
+			for(int z = 0; z < boxWidthGoal; z++) {
+				for(int b = 0; b < boxHeightGoal; b++) {
+					for(FContact a : (ArrayList<FContact>)goals.get(x)[z][b].getContacts()) {
+						if(goals.get(x)[z][b].equals(a.getBody2()) && a.getBody1().getFillColor() == goals.get(x)[z][b].getFillColor()) {
 							popBall(a.getBody1());
 
 							BoxWrapper[] arr = getAdjacentBoxes(goals.get(x),z,b);
 
-							for(int q = 0; q < arr.length; q++)
-							{
+							for(int q = 0; q < arr.length; q++)	{
 								BoxWrapper p = arr[q];
 								if(p !=null)
 									world.remove(p);
@@ -323,14 +276,12 @@ public class TsunoxDisplay extends PApplet
 
 							world.remove(a.getBody2());
 						}
-						if(goals.get(x)[z][b].equals(a.getBody1()) && a.getBody2().getFillColor() == goals.get(x)[z][b].getFillColor())
-						{
+						if(goals.get(x)[z][b].equals(a.getBody1()) && a.getBody2().getFillColor() == goals.get(x)[z][b].getFillColor())	{
 							popBall(a.getBody2());
 
 							BoxWrapper[] arr = getAdjacentBoxes(goals.get(x),z,b);
 
-							for(int q = 0; q < arr.length; q++)
-							{
+							for(int q = 0; q < arr.length; q++)	{
 								BoxWrapper p = arr[q];
 								if(p !=null)
 									world.remove(p);
@@ -344,32 +295,25 @@ public class TsunoxDisplay extends PApplet
 		}
 	}
 
-	public BoxWrapper[] getAdjacentBoxes(BoxWrapper[][] a, int row , int col)
-	{
+	public BoxWrapper[] getAdjacentBoxes(BoxWrapper[][] a, int row , int col) {
 		ArrayList<BoxWrapper> arr = new ArrayList<BoxWrapper>();
-		if (row+1 < a.length) {
+		if (row+1 < a.length) 
 			arr.add(a[row+1][col]);
-		}
-		if (row-1 >= 0) {
+		if (row-1 >= 0)
 			arr.add(a[row-1][col]);
-		}
-		if (col-1 >= 0) {
+		if (col-1 >= 0) 
 			arr.add(a[row][col-1]);
-		}
-		if (col+1 < a[0].length) {
+		if (col+1 < a[0].length)
 			arr.add(a[row][col+1]);
-		}
 
 		BoxWrapper[] stockArr = new BoxWrapper[arr.size()];
 		stockArr = arr.toArray(stockArr);
 		return stockArr;
 	}
 
-	public void popBall(FBody ball)
-	{
+	public void popBall(FBody ball)	{
 		int particles = (int)random(10,30);
-		for(int x = 0; x < particles; x++)
-		{
+		for(int x = 0; x < particles; x++) {
 			DisBall particle = new DisBall(new FCircle(2),3000);
 			particle.circ.setPosition(ball.getX() + random(-10,10), ball.getY() + random(0,10));
 			particle.circ.setGrabbable(false);
@@ -383,56 +327,31 @@ public class TsunoxDisplay extends PApplet
 		world.remove(ball);
 
 		balls.remove(ball);
-
 	}
 
-
-	public void keyReleased()
-	{
-		if (key == CODED)
-		{
+	public void keyReleased() {
+		if (key == CODED) {
 			if (keyCode == LEFT)
-			{
 				left = false;
-			}
 			if (keyCode == RIGHT)
-			{
 				right = false;
-			}
 			if(keyCode == UP)
-			{
 				up = false;
-			}
 			if(keyCode == DOWN)
-			{
 				down = false;
-			}
 		}
 	}
 
-	public void keyPressed()
-	{
-		if (key == CODED)
-		{
+	public void keyPressed() {
+		if (key == CODED) {
 			if (keyCode == LEFT)
-			{
 				left = true;
-			}
 			if (keyCode == RIGHT)
-			{
 				right = true;
-			}
 			if(keyCode == UP)
-			{
 				up = true;
-			}
 			if(keyCode == DOWN)
-			{
 				down = true;
-			}
 		}
 	}
-
-
-
 }

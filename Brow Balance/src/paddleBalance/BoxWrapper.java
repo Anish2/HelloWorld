@@ -1,4 +1,4 @@
-package browBalance;
+package paddleBalance;
 
 import fisica.FBox;
 
@@ -21,7 +21,4 @@ public class BoxWrapper extends FBox {
 	public int hashCode() {
 		return this.getName().hashCode();	
 	}
-
-
-
 }
