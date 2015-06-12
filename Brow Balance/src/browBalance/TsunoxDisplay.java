@@ -13,21 +13,23 @@ import fisica.FContact;
 import fisica.FWorld;
 import fisica.Fisica;
 
-@SuppressWarnings("serial")
+/**
+ * Tsunox - named after tsunami and blocks
+ * @author Anish Visaria and Eitan Zlatin
+ *
+ */
 public class TsunoxDisplay extends PApplet
 {
 	private FWorld world;
 	private FBox brow;
 	private int boxHeightGoal = 4;
-	private int boxWidthGoal = 10;
+	private int boxWidthGoal = 4;
 	private ArrayList<BoxWrapper[][]> goals = new ArrayList<BoxWrapper[][]>();
 	private ArrayList<FBody> balls = new ArrayList<FBody>();
 	private ArrayList<DisBall> disBalls = new ArrayList<DisBall>();
 	private int numGoals = 3;
 	private int lives = 100;
-	private int score = 0;
 	private int framesPerBall = 250;
-	private int level = 1;
 	private boolean left = false;
 	private boolean right = false;
 	private boolean up = false;
@@ -71,8 +73,6 @@ public class TsunoxDisplay extends PApplet
 		for(int x = 0; x < numGoals; x++)
 		{
 			goals.add(new BoxWrapper[boxWidthGoal][boxHeightGoal]);
-			//FBox goal = new FBox(50,20);
-			//goal.setRotation(0);
 			int pos = posNums.get((int) random(0,posNums.size()));
 			for(int y = pos - 50; y < pos + 50; y++)
 			{
@@ -83,7 +83,6 @@ public class TsunoxDisplay extends PApplet
 				for(int b = 0; b < boxHeightGoal; b++)
 				{
 					BoxWrapper box = new BoxWrapper(5f,5f,x+" "+a+" "+b);
-					//System.out.println(box.equals(new BoxWrapper(2f,5f,x+" "+a+" "+b)));
 					box.setRotation(0);
 					box.setPosition(pos + a * 5f, height - 60 + b * 5f);
 					box.setStatic(true);
@@ -107,7 +106,6 @@ public class TsunoxDisplay extends PApplet
 					goals.get(x)[a][b] = box;
 
 					world.add(box);
-					//System.out.println(goals.get(x)[a][b].hashCode() == (new BoxWrapper(2f,5f,x+" "+a+" "+b)).hashCode());
 				}
 			}
 
@@ -160,15 +158,15 @@ public class TsunoxDisplay extends PApplet
 			textAlign(CENTER);
 			stroke(color(240,0,0));
 			world.remove(brow);
-			//textFont(createFont("H:\\git\\HelloWorld\\Brow Balance\\src\\samples\\data\\COCOGOOSELETTERPRESS TRIAL.ttf", 75));
-			textFont(createFont("C:\\Users\\Anish\\git\\HelloWorld\\Brow Balance\\src\\samples\\data\\COCOGOOSELETTERPRESS TRIAL.ttf", 75));			
-			text("You Won!",width/2,height/2);
+			textFont(createFont("H:\\git\\HelloWorld\\Brow Balance\\src\\samples\\data\\COCOGOOSELETTERPRESS TRIAL.ttf", 75));
+			//textFont(createFont("C:\\Users\\Anish\\git\\HelloWorld\\Brow Balance\\src\\samples\\data\\COCOGOOSELETTERPRESS TRIAL.ttf", 75));			
+			text("You Win!",width/2,height/2);
 		}
 		else {
-
+			textFont(createFont("H:\\git\\HelloWorld\\Brow Balance\\src\\samples\\data\\YanoneKaffeesatz-Regular.otf", 20));
 			text("Time : " + (int)(System.currentTimeMillis()/1000.0 - startTime),15,30);
-			text("Score : " + score, width - 100, 30);
-			text("Level : " + level, width - 200,30);
+			//text("Score : " + score, width - 100, 30);
+			//text("Level : " + level, width - 200,30);
 
 			ArrayList<Integer> colors = new ArrayList<Integer>();
 			if (!blue) {
@@ -323,7 +321,6 @@ public class TsunoxDisplay extends PApplet
 							world.remove(goals.get(x)[z][b]);
 
 							world.remove(a.getBody2());
-							score++;
 						}
 						if(goals.get(x)[z][b].equals(a.getBody1()) && a.getBody2().getFillColor() == goals.get(x)[z][b].getFillColor())
 						{
@@ -339,7 +336,6 @@ public class TsunoxDisplay extends PApplet
 								p = null;
 							} 
 							world.remove(goals.get(x)[z][b]);
-							score++;
 						}
 					}
 				}
@@ -402,14 +398,14 @@ public class TsunoxDisplay extends PApplet
 			{
 				right = false;
 			}
-			if(keyCode == UP)
-			{
-				up = false;
-			}
-			if(keyCode == DOWN)
-			{
-				down = false;
-			}
+		}
+		if(key == 'a' || key == 'A')
+		{
+			down = false;
+		}
+		if(key == 'd' || key == 'D')
+		{
+			up = false;
 		}
 	}
 
@@ -425,14 +421,14 @@ public class TsunoxDisplay extends PApplet
 			{
 				right = true;
 			}
-			if(keyCode == UP)
-			{
-				up = true;
-			}
-			if(keyCode == DOWN)
-			{
-				down = true;
-			}
+		}
+		if(key == 'a' || key == 'A')
+		{
+			down = true;
+		}
+		if(key == 'd' || key == 'D')
+		{
+			up = true;
 		}
 	}
 
